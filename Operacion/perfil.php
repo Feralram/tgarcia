@@ -127,7 +127,7 @@ session_start();
     <div class="container-fluid px-2 px-md-4">
       <!-- End Navbar -->
       <div class="page-header min-height-300 border-radius-xl mt-4"
-        style="background-image: url('../assets/img/students-profile.jpg'); background-position: center 75%;">
+        style="background-image: url('../assets/img/logo.jpeg'); ">
         <span class="mask  bg-gradient-info  opacity-6"></span>
       </div>
       <div class="h-100">
