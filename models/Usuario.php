@@ -102,7 +102,9 @@ class Usuario extends Connect {
             ];
         } else {
             // Usuario inválido
-            return false;
+            return [
+                'success' => false               
+            ];
         }
     }
 
