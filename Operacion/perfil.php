@@ -1,7 +1,6 @@
 <?php
 
-include('../controllers/Alumno/middleware.php');
-
+session_start();
 ?>
 <!--
 =========================================================
@@ -60,24 +59,12 @@ include('../controllers/Alumno/middleware.php');
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <?php
-          if ($_SESSION['ComentarioAlumno'] == 'None') {?>
-            <a class="nav-link text-muted" href="javascript:void(0)" style="pointer-events: none">
-              <div class="text-muted text-center me-2 d-flex align-items-center justify-content-center">
-                  <span class="material-icons opacity-10">badge</span>
-              </div>
-              <span class="nav-link-text ms-1">Mi perfil</span>
-            </a>
-            <?php
-          }else {?>
             <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
-            </a><?php
-          }
-          ?>
+            </a>
         </li>
         </li>
         <li class="nav-item">
@@ -143,6 +130,11 @@ include('../controllers/Alumno/middleware.php');
         style="background-image: url('../assets/img/students-profile.jpg'); background-position: center 75%;">
         <span class="mask  bg-gradient-info  opacity-6"></span>
       </div>
+      <div class="h-100">
+        <br><br><h1>Bienvenid@ </h1>
+        <h2>Nombre: <?= $_SESSION['NombreUsu'] ?></h2>
+        <h2>Puesto: <?= $_SESSION['PuestoUsu'] ?></h2>
+      </div>
       <!--<div class="card card-body mx-3 mx-md-4 mt-n6">
 
         <form id="update-profile">
@@ -151,10 +143,10 @@ include('../controllers/Alumno/middleware.php');
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-              <?= $_SESSION['NombreAlumno'] ?>
+
               </h5>
               <p class="mb-0 font-weight-normal text-sm">
-              <?= $_SESSION['GradoAlumno'] ?>
+     
               </p>
             </div>
           </div>
