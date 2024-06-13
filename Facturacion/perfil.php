@@ -1,7 +1,6 @@
 <?php
 
-include('../controllers/Alumno/middleware.php');
-
+session_start();
 ?>
 <!--
 =========================================================
@@ -26,7 +25,7 @@ include('../controllers/Alumno/middleware.php');
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    SIGE | Mi perfil
+   Trasportes Garcia
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
@@ -53,42 +52,47 @@ include('../controllers/Alumno/middleware.php');
         aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0 " href="#">
         <span class="material-symbols-rounded navbar-brand-img h-100 text-white">upload_file</span>
-        <span class="ms-1 font-weight-bold text-white">SIGE</span>
+        <span class="ms-1 font-weight-bold text-white">Transportes Garcia</span>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <?php
-          if ($_SESSION['ComentarioAlumno'] == 'None') {?>
-            <a class="nav-link text-muted" href="javascript:void(0)" style="pointer-events: none">
-              <div class="text-muted text-center me-2 d-flex align-items-center justify-content-center">
-                  <span class="material-icons opacity-10">badge</span>
-              </div>
-              <span class="nav-link-text ms-1">Mi perfil</span>
-            </a>
-            <?php
-          }else {?>
             <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
-              <span class="nav-link-text ms-1">Mi perfil</span>
-            </a><?php
-          }
-          ?>
+              <span class="nav-link-text ms-1">Inicio</span>
+            </a>
+        </li>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="./documentos.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Mis documentos</span>
+            <span class="nav-link-text ms-1">Registro Factura</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./documentos.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista de facturas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./documentos.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista de cotizaciones</span>
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Alumno/controllerAlumnos.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>
@@ -106,9 +110,9 @@ include('../controllers/Alumno/middleware.php');
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Alumnos</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Operaciones</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Perfil del alumno</h6>
+          <h6 class="font-weight-bolder mb-0">Bienvenido</h6>
         </nav>
       </div>
     </nav>
@@ -118,7 +122,12 @@ include('../controllers/Alumno/middleware.php');
         style="background-image: url('../assets/img/students-profile.jpg'); background-position: center 75%;">
         <span class="mask  bg-gradient-info  opacity-6"></span>
       </div>
-      <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <div class="h-100">
+        <br><br><h1>Bienvenid@ </h1>
+        <h2>Nombre: <?= $_SESSION['NombreUsu'] ?></h2>
+        <h2>Puesto: <?= $_SESSION['PuestoUsu'] ?></h2>
+      </div>
+      <!--<div class="card card-body mx-3 mx-md-4 mt-n6">
 
         <form id="update-profile">
           <input type="hidden" name="accion" id="accion" value="2">
@@ -126,10 +135,10 @@ include('../controllers/Alumno/middleware.php');
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-              <?= $_SESSION['NombreAlumno'] ?>
+
               </h5>
               <p class="mb-0 font-weight-normal text-sm">
-              <?= $_SESSION['GradoAlumno'] ?>
+     
               </p>
             </div>
           </div>
@@ -562,7 +571,7 @@ include('../controllers/Alumno/middleware.php');
             </div>
           </div>
         </div>
-        </form>
+        </form>-->
       </div>
     </div>
     </div>
@@ -578,8 +587,8 @@ include('../controllers/Alumno/middleware.php');
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../validations/validators.js"></script>
-  <script src="../ajax/notifications.js"></script>
-  <script src="../ajax/alumnos/update-profile.js"></script>
+  <script src="../admin/ajax/notifications.js"></script>
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
