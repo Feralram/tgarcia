@@ -356,9 +356,9 @@ class Usuario extends Connect {
         $consulta->execute();
 
         // Obtiene los resultados y los formatea en formato JSON
-        $alumnos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        $users = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
-        echo json_encode($alumnos);
+        echo json_encode($users);
 
 
     }
@@ -443,5 +443,3 @@ class Usuario extends Connect {
 
 }
 
-
-?>
