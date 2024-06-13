@@ -131,9 +131,9 @@ include('../controllers/Alumno/middleware.php');
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Alumnos</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Operaciones</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Perfil del alumno</h6>
+          <h6 class="font-weight-bolder mb-0">Bienvenido</h6>
         </nav>
       </div>
     </nav>
@@ -143,7 +143,7 @@ include('../controllers/Alumno/middleware.php');
         style="background-image: url('../assets/img/students-profile.jpg'); background-position: center 75%;">
         <span class="mask  bg-gradient-info  opacity-6"></span>
       </div>
-      <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <!--<div class="card card-body mx-3 mx-md-4 mt-n6">
 
         <form id="update-profile">
           <input type="hidden" name="accion" id="accion" value="2">
@@ -587,7 +587,7 @@ include('../controllers/Alumno/middleware.php');
             </div>
           </div>
         </div>
-        </form>
+        </form>-->
       </div>
     </div>
     </div>
