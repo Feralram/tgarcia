@@ -1,7 +1,6 @@
 <?php
 
-include('../controllers/Alumno/middleware.php');
-
+session_start();
 ?>
 <!--
 =========================================================
@@ -60,24 +59,12 @@ include('../controllers/Alumno/middleware.php');
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <?php
-          if ($_SESSION['ComentarioAlumno'] == 'None') {?>
-            <a class="nav-link text-muted" href="javascript:void(0)" style="pointer-events: none">
-              <div class="text-muted text-center me-2 d-flex align-items-center justify-content-center">
-                  <span class="material-icons opacity-10">badge</span>
-              </div>
-              <span class="nav-link-text ms-1">Mi perfil</span>
-            </a>
-            <?php
-          }else {?>
             <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
-            </a><?php
-          }
-          ?>
+            </a>
         </li>
         </li>
         <li class="nav-item">
@@ -113,7 +100,7 @@ include('../controllers/Alumno/middleware.php');
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Alumno/controllerAlumnos.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>
@@ -139,10 +126,77 @@ include('../controllers/Alumno/middleware.php');
     </nav>
     <div class="container-fluid px-2 px-md-4">
       <!-- End Navbar -->
-      <div class="page-header min-height-300 border-radius-xl mt-4"
-        style="background-image: url('../assets/img/students-profile.jpg'); background-position: center 75%;">
-        <span class="mask  bg-gradient-info  opacity-6"></span>
-      </div>
+       <!--Lista Operadores-->
+       <div class="operadores-header">
+        <h2 class="operadores-title">Operadores</h2>
+        <div class="operadores-table-container">
+            <table class="operadores-table">
+                <thead>
+                    <tr>
+                        <th>Num Trab</th>
+                        <th>Nombre Completo</th>
+                        <th>Nacionalidad</th>
+                        <th>Edad</th>
+                        <th>Sexo</th>
+                        <th>Estado Civil</th>
+                        <th>Licencia</th>
+                        <th>Vigencia</th>
+                        <th>Tipo</th>
+                        <th>Celular</th>
+                        <th>CURP</th>
+                        <th>RFC</th>
+                        <th>Domicilio</th>
+                        <th>Domicilio de Constancia</th>
+                        <th>Delegación</th>
+                        <th>CP</th>
+                        <th>Tipo de Trabajador</th>
+                        <th>Puesto</th>
+                        <th>Lugar de Trabajo</th>
+                        <th>Duración de la Jornada</th>
+                        <th>Forma de Pago</th>
+                        <th>Días de Pago</th>
+                        <th>Días de Descanso</th>
+                        <th>Beneficiarios</th>
+                        <th>NSS</th>
+                        <th>Fecha de Nacimiento</th>
+                    </tr>
+                </thead>
+                <tbody id="operadores-body">
+                    <!-- Aquí se llenarán las filas con los datos de la base de datos -->
+                    <!-- Ejemplo de fila estática -->
+                    <tr>
+                        <td>001</td>
+                        <td>Juan Pérez</td>
+                        <td>Mexicana</td>
+                        <td>35</td>
+                        <td>Masculino</td>
+                        <td>Casado</td>
+                        <td>A1234567</td>
+                        <td>2025-01-01</td>
+                        <td>Automovilista</td>
+                        <td>5551234567</td>
+                        <td>PEPJ850101HDFNRR07</td>
+                        <td>PEPJ850101RT5</td>
+                        <td>Calle Falsa 123</td>
+                        <td>Calle Real 456</td>
+                        <td>Benito Juárez</td>
+                        <td>03100</td>
+                        <td>Fijo</td>
+                        <td>Conductor</td>
+                        <td>Ciudad de México</td>
+                        <td>8 horas</td>
+                        <td>Mensual</td>
+                        <td>Último día del mes</td>
+                        <td>Sábado y Domingo</td>
+                        <td>María Pérez</td>
+                        <td>12345678901</td>
+                        <td>1985-01-01</td>
+                    </tr>
+                    <!-- Agrega más filas aquí según los datos -->
+                </tbody>
+            </table>
+        </div>
+    </div>
       <!--<div class="card card-body mx-3 mx-md-4 mt-n6">
 
         <form id="update-profile">
@@ -151,10 +205,10 @@ include('../controllers/Alumno/middleware.php');
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-              <?= $_SESSION['NombreAlumno'] ?>
+
               </h5>
               <p class="mb-0 font-weight-normal text-sm">
-              <?= $_SESSION['GradoAlumno'] ?>
+     
               </p>
             </div>
           </div>
@@ -603,8 +657,8 @@ include('../controllers/Alumno/middleware.php');
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../validations/validators.js"></script>
-  <script src="../ajax/notifications.js"></script>
-  <script src="../ajax/alumnos/update-profile.js"></script>
+  <script src="../admin/ajax/notifications.js"></script>
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
