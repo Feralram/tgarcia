@@ -1,11 +1,17 @@
 <?php
 class Connect
 {
-    //Colocar datos correctos del servidor.
-    private static $db_host = 'sql308.infinityfree.com';
-    private static $db_user = 'if0_36674979';
-    private static $db_pass = '00BhXW8U1BS';
-    private static $db_name = 'if0_36674979_secundar_sige';
+    // //Colocar datos correctos del servidor.
+    // private static $db_host = 'sql308.infinityfree.com';
+    // private static $db_user = 'if0_36674979';
+    // private static $db_pass = '00BhXW8U1BS';
+    // private static $db_name = 'if0_36674979_secundar_sige';
+    
+    private static $db_host = 'localhost';
+    private static $db_user = 'root';
+    private static $db_pass = '';
+    private static $db_name = 'tgarcia';
+
 
     private static $db_charset = 'utf8';
     private $conn;
