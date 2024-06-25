@@ -1,10 +1,24 @@
 <?php
 
-session_start();
-?>
+include('../controllers/Alumno/middleware.php');
 
+?>
+<!--
+=========================================================
+* Material Dashboard 2 - v3.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8" />
@@ -12,7 +26,7 @@ session_start();
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-   Trasportes Garcia
+    SIGE | Mi perfil
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
@@ -28,10 +42,12 @@ session_start();
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside
+  
+    <aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
     <div class="sidenav-header">
@@ -98,113 +114,69 @@ session_start();
     </div>
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-    <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
-      data-scroll="true">
-      <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Operaciones</li>
-          </ol>
-          <h6 class="font-weight-bolder mb-0">Bienvenido</h6>
-        </nav>
-      </div>
-    </nav>
-    <div class="container-fluid px-2 px-md-4">
-      <!-- End Navbar -->
-       <!--Lista Operadores-->
-       <div class="operadores-header">
-        <h2 class="operadores-title">Operadores</h2>
-        <div class="operadores-table-container">
-            <table class="operadores-table">
-                <thead>
-                    <tr>
-                        <th>Num Trab</th>
-                        <th>Nombre Completo</th>
-                        <th>Nacionalidad</th>
-                        <th>Edad</th>
-                        <th>Sexo</th>
-                        <th>Estado Civil</th>
-                        <th>Licencia</th>
-                        <th>Vigencia</th>
-                        <th>Tipo</th>
-                        <th>Celular</th>
-                        <th>CURP</th>
-                        <th>RFC</th>
-                        <th>Domicilio</th>
-                        <th>Domicilio de Constancia</th>
-                        <th>Delegación</th>
-                        <th>CP</th>
-                        <th>Tipo de Trabajador</th>
-                        <th>Puesto</th>
-                        <th>Lugar de Trabajo</th>
-                        <th>Duración de la Jornada</th>
-                        <th>Forma de Pago</th>
-                        <th>Días de Pago</th>
-                        <th>Días de Descanso</th>
-                        <th>Beneficiarios</th>
-                        <th>NSS</th>
-                        <th>Fecha de Nacimiento</th>
-                    </tr>
-                </thead>
-                <tbody id="operadores-body">
-                    <!-- Aquí se llenarán las filas con los datos de la base de datos -->
-                    <!-- Ejemplo de fila estática -->
-                    <tr>
-                        <td>001</td>
-                        <td>Juan Pérez</td>
-                        <td>Mexicana</td>
-                        <td>35</td>
-                        <td>Masculino</td>
-                        <td>Casado</td>
-                        <td>A1234567</td>
-                        <td>2025-01-01</td>
-                        <td>Automovilista</td>
-                        <td>5551234567</td>
-                        <td>PEPJ850101HDFNRR07</td>
-                        <td>PEPJ850101RT5</td>
-                        <td>Calle Falsa 123</td>
-                        <td>Calle Real 456</td>
-                        <td>Benito Juárez</td>
-                        <td>03100</td>
-                        <td>Fijo</td>
-                        <td>Conductor</td>
-                        <td>Ciudad de México</td>
-                        <td>8 horas</td>
-                        <td>Mensual</td>
-                        <td>Último día del mes</td>
-                        <td>Sábado y Domingo</td>
-                        <td>María Pérez</td>
-                        <td>12345678901</td>
-                        <td>1985-01-01</td>
-                    </tr>
-                    <!-- Agrega más filas aquí según los datos -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-      <div class="card card-body mx-3 mx-md-4 mt-n6">
-
-        
+    <div class="container mt-5">
+      <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
+        <h3 class="text-center mb-4">Levantar cotización</h3>
+        <form>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label for="tarifario" class="form-label">Tarifario</label>
+              <select id="tarifario" class="form-select form-select-sm">
+                <option selected>Elige...</option>
+                <option>Tarifario 1</option>
+                <option>Tarifario 2</option>
+                <option>Tarifario 3</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="origen" class="form-label">Origen</label>
+              <select id="origen" class="form-select form-select-sm">
+                <option selected>Elige...</option>
+                <option>Origen 1</option>
+                <option>Origen 2</option>
+                <option>Origen 3</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="destino" class="form-label">Destino</label>
+              <select id="destino" class="form-select form-select-sm">
+                <option selected>Elige...</option>
+                <option>Destino 1</option>
+                <option>Destino 2</option>
+                <option>Destino 3</option>
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="codigo_postal" class="form-label">Código Postal</label>
+              <input type="text" class="form-control form-control-sm" id="codigo_postal">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="peso" class="form-label">Peso</label>
+              <input type="text" class="form-control form-control-sm" id="peso">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="dimension" class="form-label">Dimensión</label>
+              <input type="text" class="form-control form-control-sm" id="dimension">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="num_bultos" class="form-label">Número de Bultos</label>
+              <input type="text" class="form-control form-control-sm" id="num_bultos">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="km_adicionales" class="form-label">Km Adicionales (Opcional)</label>
+              <input type="text" class="form-control form-control-sm" id="km_adicionales">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger btn-sm w-100">Generar cotización</button>
+        </form>
       </div>
     </div>
-    </div>
-    <div id="notifications" class="alert container text-white fade show" role="alert"><strong></strong></div>
-    <footer class="footer py-4  ">
-      <div class="container-fluid">
-      </div>
-    </footer>
   </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="../validations/validators.js"></script>
-  <script src="../admin/ajax/notifications.js"></script>
-
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

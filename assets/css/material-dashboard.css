@@ -28405,3 +28405,38 @@ pre[class*="language-"] {
   color: var(--bs-info)
 }
 /*# sourceMappingURL=dashboard-free.css.map */
+.operadores-header {
+  border-radius: 1rem;
+  margin: 2rem;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.operadores-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+.operadores-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+.operadores-table th, .operadores-table td {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem;
+  text-align: left;
+}
+.operadores-table th {
+  background-color: #e9ecef;
+}
+.operadores-title {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+@media (max-width: 600px) {
+  .operadores-title {
+      font-size: 1.2rem;
+      text-align: center;
+  }
+}
