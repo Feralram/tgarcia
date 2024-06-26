@@ -1,6 +1,5 @@
 <?php
 
-include('../controllers/Alumno/middleware.php');
 
 ?>
 <!DOCTYPE html>
@@ -194,7 +193,7 @@ include('../controllers/Alumno/middleware.php');
               <input type="text" class="form-control form-control-sm" id="costo">
             </div>
           </div>
-          <button type="submit" class="btn btn-danger btn-sm w-100">Generar cotización</button>
+          <button type="submit" class="btn btn-danger btn-sm w-100">Registrar</button>
         </form>
       </div>
     </div>
