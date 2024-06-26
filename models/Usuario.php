@@ -116,6 +116,39 @@ class Usuario extends Connect {
 
     }
 
+    public function obtenerUnidades() {
+        $query = "SELECT Eco, Placas, Marca, Unidad, Largo, Ancho, Alto, Peso, Tipo, Modelo, No_Serie, Color, Placas_Anteriores, Poliza, Vigencia_Poliza, Verificacion FROM unidades ORDER BY Uni_id ASC";
+        $resultado = $this->conexion->query($query);
+
+        $unidades = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $unidades[] = $fila;
+        }
+
+        return $unidades;
+    }
+
+    public function obtenerOperadores() {
+        $query = "SELECT Id, Nombre_completo, Nacionalidad, Edad, Sexo, EstadoCivil, Licencia,
+        Vigencia, Tipo, Celular, Curp, Rfc, Domicilio_actual, Domicilio_constancia, Delegacion, CP,
+        TipoTrabajador, Fecha_ingreso, Puesto, Descripcion, LugardeTrabajo, DuraciondelaJornada,
+        Forma_pago, DiasPago, DiasDescanso, Beneficiarios, NSS, FechaNacimiento,
+        CASE
+        WHEN Activo = 1 THEN 'Activo' ELSE 'Inactivo'
+        END AS Eactivo
+        FROM operadores
+        WHERE Activo = 1 
+        ORDER BY Id ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+
     private function validarAccesoDocumentos($estudianteId) {
         $documents = "SELECT COUNT(*) AS numDocumentos, SUM(CASE WHEN ISNULL(Aprobado) THEN 1 ELSE 0 END) AS numDocumentosNoAprobados FROM documentosaspirantes WHERE EstudianteId = '$estudianteId'";
         // $documents = "SELECT
