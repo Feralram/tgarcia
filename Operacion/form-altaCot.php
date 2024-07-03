@@ -109,28 +109,19 @@
             <div class="col-md-4 mb-3">
               <label for="tarifario" class="form-label">Tarifario</label>
               <select id="tarifario" class="form-select form-select-sm">
-                <option selected>Elige...</option>
+                <option selected>Selecciona...</option>
                 <option>Tarifario 1</option>
                 <option>Tarifario 2</option>
                 <option>Tarifario 3</option>
               </select>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="origen" class="form-label">Origen</label>
+              <label for="origen" class="form-label">Origen Y Destino</label>
               <select id="origen" class="form-select form-select-sm">
-                <option selected>Elige...</option>
+                <option selected>Selecciona...</option>
                 <option>Origen 1</option>
                 <option>Origen 2</option>
                 <option>Origen 3</option>
-              </select>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="destino" class="form-label">Destino</label>
-              <select id="destino" class="form-select form-select-sm">
-                <option selected>Elige...</option>
-                <option>Destino 1</option>
-                <option>Destino 2</option>
-                <option>Destino 3</option>
               </select>
             </div>
             <div class="col-md-4 mb-3">
@@ -142,15 +133,20 @@
               <input type="text" class="form-control form-control-sm" id="peso">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="dimension" class="form-label">Dimensión</label>
-              <input type="text" class="form-control form-control-sm" id="dimension">
+              <label for="destino" class="form-label">Dimensión</label>
+              <select id="destino" class="form-select form-select-sm">
+                <option selected>Selecciona...</option>
+                <option>Opcion 1</option>
+                <option>Opcion 2</option>
+                <option>Opcion 3</option>
+              </select>
             </div>
             <div class="col-md-4 mb-3">
               <label for="num_bultos" class="form-label">Número de Bultos</label>
               <input type="text" class="form-control form-control-sm" id="num_bultos">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="km_adicionales" class="form-label">Km Adicionales (Opcional)</label>
+              <label for="km_adicionales" class="form-label">Costo por km extra</label>
               <input type="text" class="form-control form-control-sm" id="km_adicionales">
             </div>
           </div>
