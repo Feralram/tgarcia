@@ -122,7 +122,7 @@ $operadores = $usuario->obtenerOperadores();
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Cotizaciones en proceso</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Generales</h6>
                 </div>
                     <div class="card-header">
                     <div class="card-body">
@@ -130,36 +130,125 @@ $operadores = $usuario->obtenerOperadores();
                           <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
-                                      <th scope="col">Id cotizacion</th>
+                                      <th scope="col">Fecha recoleccion</th>
                                       <th scope="col">cliente</th>
+                                      <th scope="col">Unidad</th>
+                                      <th scope="col">Placas</th>
+                                      <th scope="col">Econ</th>
+                                      <th scope="col">Unid-Factura</th>
                                       <th scope="col">Origen y Destino</th>
-                                      <th scope="col">Peso</th>
-                                      <th scope="col">Dimension</th>
-                                      <th scope="col">Costo unidad</th>
-                                      <th scope="col">Costo km</th>
-                                      <th scope="col">Ver</th>
-                                      <th scope="col">Editar</th>
+                                      <th scope="col">Local o Foranea</th>
+                                      <th scope="col">Sello</th>
+                                      <th scope="col">Operador</th>
+                                      <th scope="col">Cliente que solicita</th>
+                                      <th scope="col">Referencia</th>
+                                      <th scope="col">Bultos</th>
+                                      <th scope="col">Doc-Fiscal</th>
+                                      <th scope="col">Precio</th>
+                                      <th scope="col">Factura</th>
+                                      <th scope="col">Costo</th>
+                                      <th scope="col">Observaciones</th>
+                                      <th scope="col">Ver ficha</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <!-- Ejemplo de una fila de datos -->
                                   <tr>
-                                      <td>123</td>
-                                      <td>Nippon</td>
-                                      <td>AICM - Puebla</td>
-                                      <td>10 kg</td>
-                                      <td>100x50x30 cm</td>
-                                      <td>$100</td>
-                                      <td>$1/km</td>
+                                  <tr>
+                                    <td>2024-07-04</td>
+                                    <td>Cliente ABC</td>
+                                    <td>Unidad 1</td>
+                                    <td>ABC-123</td>
+                                    <td>Econ 456</td>
+                                    <td>Unid-001</td>
+                                    <td>Origen: Ciudad A / Destino: Ciudad B</td>
+                                    <td>Foranea</td>
+                                    <td>Sello-001</td>
+                                    <td>Operador 2</td>
+                                    <td>Juan Pérez</td>
+                                    <td>Ref-001</td>
+                                    <td>5</td>
+                                    <td>Doc-001</td>
+                                    <td>1500</td>
+                                    <td>Factura-001</td>
+                                    <td>200</td>
+                                    <td>Detalles adicionales...</td>
                                       <td class="text-center">
                                         
                                       <button type="button" class="btn btn-success btn-icon btn-transparent">
                                           <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
                                       </button>
                                       </td>
+                                  </tr>
+                                  
+                                  <!-- Más filas de datos aquí -->
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Nippon</h6>
+                </div>
+                    <div class="card-header">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                          <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
+                              <thead class="thead-dark">
+                                  <tr>
+                                      <th scope="col">Fecha recoleccion</th>
+                                      <th scope="col">cliente</th>
+                                      <th scope="col">Unidad</th>
+                                      <th scope="col">Placas</th>
+                                      <th scope="col">Econ</th>
+                                      <th scope="col">Unid-Factura</th>
+                                      <th scope="col">Origen y Destino</th>
+                                      <th scope="col">Local o Foranea</th>
+                                      <th scope="col">Sello</th>
+                                      <th scope="col">Operador</th>
+                                      <th scope="col">Cliente que solicita</th>
+                                      <th scope="col">Referencia</th>
+                                      <th scope="col">Bultos</th>
+                                      <th scope="col">Doc-Fiscal</th>
+                                      <th scope="col">Precio</th>
+                                      <th scope="col">Factura</th>
+                                      <th scope="col">Costo</th>
+                                      <th scope="col">Observaciones</th>
+                                      <th scope="col">Ver ficha</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <!-- Ejemplo de una fila de datos -->
+                                  <tr>
+                                  <tr>
+                                    <td>2024-07-04</td>
+                                    <td>Cliente ABC</td>
+                                    <td>Unidad 1</td>
+                                    <td>ABC-123</td>
+                                    <td>Econ 456</td>
+                                    <td>Unid-001</td>
+                                    <td>Origen: Ciudad A / Destino: Ciudad B</td>
+                                    <td>Foranea</td>
+                                    <td>Sello-001</td>
+                                    <td>Operador 2</td>
+                                    <td>Juan Pérez</td>
+                                    <td>Ref-001</td>
+                                    <td>5</td>
+                                    <td>Doc-001</td>
+                                    <td>1500</td>
+                                    <td>Factura-001</td>
+                                    <td>200</td>
+                                    <td>Detalles adicionales...</td>
                                       <td class="text-center">
-                                      <button type="button" class="btn btn-primary btn-icon btn-transparent">
-                                              <i class="fas fa-edit fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+                                        
+                                      <button type="button" class="btn btn-success btn-icon btn-transparent">
+                                          <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
                                       </button>
                                       </td>
                                   </tr>

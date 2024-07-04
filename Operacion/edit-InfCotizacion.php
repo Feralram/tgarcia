@@ -119,60 +119,46 @@ $operadores = $usuario->obtenerOperadores();
       <!-- End Navbar -->
        <!--Lista Operadores-->
         <div class="row">
-            <div class="col">
+            <div class="col" id="datos">
                 <div class="card">
-                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Cotizaciones en proceso</h6>
-                </div>
                     <div class="card-header">
-                    <div class="card-body">
-                      <div class="table-responsive">
-                          <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
-                              <thead class="thead-dark">
-                                  <tr>
-                                      <th scope="col">Id cotizacion</th>
-                                      <th scope="col">cliente</th>
-                                      <th scope="col">Origen y Destino</th>
-                                      <th scope="col">Peso</th>
-                                      <th scope="col">Dimension</th>
-                                      <th scope="col">Costo unidad</th>
-                                      <th scope="col">Costo km</th>
-                                      <th scope="col">Ver</th>
-                                      <th scope="col">Editar</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <!-- Ejemplo de una fila de datos -->
-                                  <tr>
-                                      <td>123</td>
-                                      <td>Nippon</td>
-                                      <td>AICM - Puebla</td>
-                                      <td>10 kg</td>
-                                      <td>100x50x30 cm</td>
-                                      <td>$100</td>
-                                      <td>$1/km</td>
-                                      <td class="text-center">
-                                        
-                                      <button type="button" class="btn btn-success btn-icon btn-transparent">
-                                          <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
-                                      </button>
-                                      </td>
-                                      <td class="text-center">
-                                      <button type="button" class="btn btn-primary btn-icon btn-transparent">
-                                              <i class="fas fa-edit fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
-                                      </button>
-                                      </td>
-                                  </tr>
-                                  
-                                  <!-- Más filas de datos aquí -->
-                              </tbody>
-                          </table>
+                    <div class="container mt-4">
+                      <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la cotización</h6>
                       </div>
-                    </div>
-                    </div>
-                </div>
+                        <div class="border p-4">
+                        <p class="text-center">
+                            <p><strong>Origen y Destino:</strong></p>
+                            <!--<p><strong>Código Postal:</strong></p>-->
+                            <p><strong>Peso:</strong></p>
+                            <p><strong>Dimensión:</strong></p>
+                            <!--<p><strong>Número de Bultos:</strong></p>-->
+                            <p><strong>Costo por unidad asignada:</strong></p>
+                            <p><strong>Costo por km extras:</strong></p>
+                            <p><strong>Costo final:</strong></p>
+                            <!-- Añade este botón donde desees -->
             </div>
         </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="text-center mt-3">
+        <button type="button" class="btn btn-secondary me-2" onclick="editar()">
+                <i class="fas fa-edit"></i> Editar
+                </button>
+                <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="mostrarAlerta()">Guardar</button>
+                <!--<button type="button" class="btn btn-secondary me-2">Editar</button>-->
+                <button type="button" class="btn btn-secondary me-2" onclick="copiarAlPortapapeles()">
+                <i class="fas fa-copy"></i> Copiar inf
+                </button>
+                <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="registrar()">
+    Registrar
+</button>
+
+                
+        </div>
+    </div>
  </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
@@ -196,6 +182,70 @@ $operadores = $usuario->obtenerOperadores();
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <!-- Agrega el script al final del body o en el head -->
+<script>
+    // Función para copiar al portapapeles
+    function copiarAlPortapapeles() {
+        // Selecciona el contenido del div
+        var contenido = document.getElementById('datos').innerText;
+
+        // Crea un elemento textarea temporal para copiar el texto
+        var textarea = document.createElement('textarea');
+        textarea.value = contenido;
+        document.body.appendChild(textarea);
+
+        // Selecciona el texto del textarea y copia al portapapeles
+        textarea.select();
+        document.execCommand('copy');
+
+        // Remueve el textarea temporal
+        document.body.removeChild(textarea);
+
+        // Alerta o mensaje de confirmación (opcional)
+        alert('¡La información se ha copiado al portapapeles!');
+    }
+</script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+    // Función para mostrar alerta al guardar
+    function mostrarAlerta() {
+      alert('La cotización se ha guardado correctamente. Puede visualizarla en el apartado de "Cotizaciones en proceso".');
+    }
+    function registrar() {
+        // Mostrar alerta de confirmación
+        if (confirm("¿Estás seguro de querer registrar? No podrás editar después.")) {
+            // Aquí puedes agregar la lógica para registrar
+            // Por ejemplo, enviar datos al servidor, etc.
+            alert("Registro exitoso"); // Ejemplo de alerta de éxito
+        }
+        // No hay necesidad de un else aquí, ya que no se hace nada si el usuario cancela
+    }
+    // Función para copiar al portapapeles
+    function copiarAlPortapapeles() {
+      // Selecciona el contenido del div
+      var contenido = document.getElementById('datos').innerText;
+
+      // Crea un elemento textarea temporal para copiar el texto
+      var textarea = document.createElement('textarea');
+      textarea.value = contenido;
+      document.body.appendChild(textarea);
+
+      // Selecciona el texto del textarea y copia al portapapeles
+      textarea.select();
+      document.execCommand('copy');
+
+      // Remueve el textarea temporal
+      document.body.removeChild(textarea);
+    }
+  </script>
+
 </body>
 
 </html>
