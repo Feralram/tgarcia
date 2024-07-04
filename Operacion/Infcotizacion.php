@@ -123,15 +123,19 @@ $operadores = $usuario->obtenerOperadores();
                 <div class="card">
                     <div class="card-header">
                     <div class="container mt-4">
+                      <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la cotización</h6>
+                      </div>
                         <div class="border p-4">
-                        <h2 class="text-center">Información de la cotizacion</h2>
                         <p class="text-center">
                             <p><strong>Origen y Destino:</strong></p>
-                            <p><strong>Código Postal:</strong></p>
+                            <!--<p><strong>Código Postal:</strong></p>-->
                             <p><strong>Peso:</strong></p>
                             <p><strong>Dimensión:</strong></p>
-                            <p><strong>Número de Bultos:</strong></p>
+                            <!--<p><strong>Número de Bultos:</strong></p>-->
+                            <p><strong>Costo por unidad asignada:</strong></p>
                             <p><strong>Costo por km extras:</strong></p>
+                            <p><strong>Costo final:</strong></p>
                             <!-- Añade este botón donde desees -->
             </div>
         </div>
@@ -140,10 +144,10 @@ $operadores = $usuario->obtenerOperadores();
         </div>
         </div>
         <div class="text-center mt-3">
-                <button type="button" class="btn btn-primary me-2">Guardar</button>
-                <button type="button" class="btn btn-secondary me-2">Editar</button>
-                <button type="button" class="btn btn-primary me-2" onclick="copiarAlPortapapeles()">
-                <i class="fas fa-copy"></i> Copiar
+        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="mostrarAlerta()">Guardar</button>
+                <!--<button type="button" class="btn btn-secondary me-2">Editar</button>-->
+                <button type="button" class="btn btn-secondary me-2" onclick="copiarAlPortapapeles()">
+                <i class="fas fa-copy"></i> Copiar inf
                 </button>
         </div>
     </div>
@@ -193,6 +197,41 @@ $operadores = $usuario->obtenerOperadores();
         alert('¡La información se ha copiado al portapapeles!');
     }
 </script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+    // Función para mostrar alerta al guardar
+    function mostrarAlerta() {
+      alert('La cotización se ha guardado correctamente. Puede visualizarla en el apartado de "Cotizaciones en proceso".');
+    }
+
+    // Función para copiar al portapapeles
+    function copiarAlPortapapeles() {
+      // Selecciona el contenido del div
+      var contenido = document.getElementById('datos').innerText;
+
+      // Crea un elemento textarea temporal para copiar el texto
+      var textarea = document.createElement('textarea');
+      textarea.value = contenido;
+      document.body.appendChild(textarea);
+
+      // Selecciona el texto del textarea y copia al portapapeles
+      textarea.select();
+      document.execCommand('copy');
+
+      // Remueve el textarea temporal
+      document.body.removeChild(textarea);
+
+      // Alerta o mensaje de confirmación (opcional)
+      alert('¡La información se ha copiado al portapapeles!');
+    }
+  </script>
 
 </body>
 
