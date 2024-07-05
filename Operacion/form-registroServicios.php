@@ -1,9 +1,7 @@
 <?php
 
 
-
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,8 +11,8 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    SIGE | Mi perfil
-  </title>
+    Trasportes Garcia
+   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -49,7 +47,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white" href="./perfil.php">
+            <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
@@ -58,7 +56,7 @@
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./documentos.php">
+          <a class="nav-link text-white" href="./documentos.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -102,57 +100,109 @@
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <div class="container mt-5">
-     <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-        <h6 class="text-white text-capitalize ps-3 text-center h5">Iniciar cotización</h6>
-      </div>
       <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
+        <h3 class="text-center mb-4">Registro de Servicio</h3>
         <form>
+
           <div class="row">
-            <div class="col-md-4 mb-3">
-              <label for="tarifario" class="form-label">Tarifario</label>
-              <select id="tarifario" class="form-select form-select-sm">
+          <div class="col-md-4 mb-3">
+              <label for="unidad" class="form-label">Lista de registro</label>
+              <select id="unidad" class="form-select form-select-sm">
                 <option selected>Selecciona...</option>
-                <option>Tarifario 1</option>
-                <option>Tarifario 2</option>
-                <option>Tarifario 3</option>
+                <option>Lista general</option>
+                <option>Lista Nippon</option>
               </select>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="origen" class="form-label">Origen Y Destino</label>
-              <select id="origen" class="form-select form-select-sm">
-                <option selected>Selecciona...</option>
-                <option>Origen 1</option>
-                <option>Origen 2</option>
-                <option>Origen 3</option>
+              <label for="fecha_recoleccion" class="form-label">Fecha de recolección</label>
+              <input type="date" class="form-control form-control-sm" id="fecha_recoleccion" required>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="cliente" class="form-label">Cliente</label>
+              <input type="text" class="form-control form-control-sm" id="cliente" required>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="unidad" class="form-label">Unidad</label>
+              <select id="unidad" class="form-select form-select-sm">
+                <option selected>Elige...</option>
+                <option>Unidad 1</option>
+                <option>Unidad 2</option>
+                <option>Unidad 3</option>
+                <!-- Agrega más opciones según sea necesario -->
               </select>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="codigo_postal" class="form-label">Código Postal</label>
-              <input type="text" class="form-control form-control-sm" id="codigo_postal">
+              <label for="placas" class="form-label">Placas</label>
+              <input type="text" class="form-control form-control-sm" id="placas" required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="peso" class="form-label">Peso</label>
-              <input type="text" class="form-control form-control-sm" id="peso">
+              <label for="econ" class="form-label">Econ</label>
+              <input type="text" class="form-control form-control-sm" id="econ">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="destino" class="form-label">Dimensión</label>
-              <select id="destino" class="form-select form-select-sm">
-                <option selected>Selecciona...</option>
-                <option>Opcion 1</option>
-                <option>Opcion 2</option>
-                <option>Opcion 3</option>
+              <label for="unid_factura" class="form-label">Unid-factura</label>
+              <input type="text" class="form-control form-control-sm" id="unid_factura">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="origen_destino" class="form-label">Origen y destino</label>
+              <input type="text" class="form-control form-control-sm" id="origen_destino">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="local_foranea" class="form-label">Local o foránea</label>
+              <select id="local_foranea" class="form-select form-select-sm">
+                <option selected>Elige...</option>
+                <option>Local</option>
+                <option>Foránea</option>
               </select>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="num_bultos" class="form-label">Número de Bultos</label>
-              <input type="text" class="form-control form-control-sm" id="num_bultos">
+              <label for="sello" class="form-label">Sello</label>
+              <input type="text" class="form-control form-control-sm" id="sello">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="km_adicionales" class="form-label">Costo por km extra</label>
-              <input type="text" class="form-control form-control-sm" id="km_adicionales">
+              <label for="operador" class="form-label">Operador</label>
+              <select id="operador" class="form-select form-select-sm">
+                <option selected>Elige...</option>
+                <option>Operador 1</option>
+                <option>Operador 2</option>
+                <option>Operador 3</option>
+                <!-- Agrega más opciones según sea necesario -->
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="cliente_solicita" class="form-label">Cliente que solicita</label>
+              <input type="text" class="form-control form-control-sm" id="cliente_solicita">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="referencia" class="form-label">Referencia</label>
+              <input type="text" class="form-control form-control-sm" id="referencia">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="bultos" class="form-label">Bultos</label>
+              <input type="text" class="form-control form-control-sm" id="bultos">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="doc_fiscal" class="form-label">Doc. fiscal</label>
+              <input type="text" class="form-control form-control-sm" id="doc_fiscal">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="precio" class="form-label">Precio</label>
+              <input type="text" class="form-control form-control-sm" id="precio">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="factura" class="form-label">Factura</label>
+              <input type="text" class="form-control form-control-sm" id="factura">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="costo" class="form-label">Costo</label>
+              <input type="text" class="form-control form-control-sm" id="costo">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="observaciones" class="form-label">Observaciones</label>
+              <textarea class="form-control form-control-sm" id="observaciones" rows="3"></textarea>
             </div>
           </div>
-          <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Generar cotización</button>
+          <button type="submit" class="btn btn-danger btn-sm w-100">Registrar</button>
         </form>
       </div>
     </div>

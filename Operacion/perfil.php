@@ -131,9 +131,9 @@ $operadores = $usuario->obtenerOperadores();
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Unidades</h2>
-                    </div>
+                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Lista Unidades</h6>
+                </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
@@ -190,9 +190,9 @@ $operadores = $usuario->obtenerOperadores();
       <div class="row">
           <div class="col">
               <div class="card">
-                  <div class="card-header">
-                      <h2 class="card-title">Operadores</h2>
-                  </div>
+              <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Lista Operadores</h6>
+                </div>
                   <div class="card-body">
                       <div class="table-responsive">
                       <table id="tablaOperadores" class="table table-bordered table-striped table-hover">
