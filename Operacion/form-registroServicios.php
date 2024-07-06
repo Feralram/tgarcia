@@ -106,8 +106,8 @@
 
           <div class="row">
           <div class="col-md-4 mb-3">
-              <label for="unidad" class="form-label">Lista de registro</label>
-              <select id="unidad" class="form-select form-select-sm">
+              <label for="lista-reco" class="form-label">Lista de registro</label>
+              <select id="lista-reco" class="form-select form-select-sm">
                 <option selected>Selecciona...</option>
                 <option>Lista general</option>
                 <option>Lista Nippon</option>
@@ -140,19 +140,20 @@
               <input type="text" class="form-control form-control-sm" id="econ">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="unid_factura" class="form-label">Unid-factura</label>
-              <input type="text" class="form-control form-control-sm" id="unid_factura">
-            </div>
-            <div class="col-md-4 mb-3">
               <label for="origen_destino" class="form-label">Origen y destino</label>
               <input type="text" class="form-control form-control-sm" id="origen_destino">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="local_foranea" class="form-label">Local o foránea</label>
-              <select id="local_foranea" class="form-select form-select-sm">
-                <option selected>Elige...</option>
+              <label for="unid_factura" class="form-label">Unid-factura</label>
+              <input type="text" class="form-control form-control-sm" id="unid_factura">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="locFor" class="form-label">Local o Foranea</label>
+              <select id="locFor" class="form-select form-select-sm">
+                <option selected>Selecciona...</option>
                 <option>Local</option>
-                <option>Foránea</option>
+                <option>Foranea</option>
+                <!-- Agrega más opciones según sea necesario -->
               </select>
             </div>
             <div class="col-md-4 mb-3">

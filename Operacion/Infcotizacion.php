@@ -128,6 +128,7 @@ $operadores = $usuario->obtenerOperadores();
                       </div>
                         <div class="border p-4">
                         <p class="text-center">
+                            <p><strong>Cliente:</strong></p>
                             <p><strong>Origen y Destino:</strong></p>
                             <!--<p><strong>Código Postal:</strong></p>-->
                             <p><strong>Peso:</strong></p>
