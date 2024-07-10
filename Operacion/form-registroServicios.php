@@ -1,4 +1,51 @@
 <?php
+session_start();
+include_once ('../models/Usuario.php');
+
+// Crear una instancia del objeto Usuario
+$usuario = new Usuario();
+
+
+$id = $_GET['cotizacionId'] ?? null;
+
+if ($id) {
+  $query = "SELECT * FROM cotizaciones WHERE id_cotizacion = '$id'";
+  $resultado = $usuario->conexion->query($query);
+
+  if ($resultado && $resultado->num_rows > 0) {
+    $cotizacion = $resultado->fetch_assoc();
+  } else {
+    echo "Cotización no encontrada.";
+    exit;
+  }
+} else {
+  echo "ID de cotización no proporcionado.";
+  exit;
+}
+
+ $queryOperadores = "SELECT id, nombre_completo FROM operadores WHERE Activo = 1";
+ $result = $usuario->conexion->query($queryOperadores);
+
+ $operadores = [];
+ if ($result->num_rows > 0) {
+     while($row = $result->fetch_assoc()) {
+         $operadores[] = $row;
+     }
+ } else {
+     echo "No se encontraron operadores.";
+ }
+
+ $queryUnidades = "SELECT Uni_id, Unidad FROM unidades";
+ $result = $usuario->conexion->query($queryUnidades);
+
+ $unidades = [];
+ if ($result->num_rows > 0) {
+     while($row = $result->fetch_assoc()) {
+         $unidades[] = $row;
+     }
+ } else {
+     echo "No se encontraron unidades.";
+ }
 
 
 ?>
@@ -88,7 +135,7 @@
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>
@@ -102,12 +149,12 @@
     <div class="container mt-5">
       <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
         <h3 class="text-center mb-4">Registro de Servicio</h3>
-        <form>
+        <form id="servicioForm" onsubmit="agregarTextoAlFormulario()">
 
           <div class="row">
           <div class="col-md-4 mb-3">
               <label for="lista-reco" class="form-label">Lista de registro</label>
-              <select id="lista-reco" class="form-select form-select-sm">
+              <select id="lista_reco" name="lista_reco" class="form-select form-select-sm">
                 <option selected>Selecciona...</option>
                 <option>Lista general</option>
                 <option>Lista Nippon</option>
@@ -115,93 +162,101 @@
             </div>
             <div class="col-md-4 mb-3">
               <label for="fecha_recoleccion" class="form-label">Fecha de recolección</label>
-              <input type="date" class="form-control form-control-sm" id="fecha_recoleccion" required>
+              <input type="date" class="form-control form-control-sm" id="fecha_recoleccion" name="fecha_recoleccion" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="cliente" class="form-label">Cliente</label>
-              <input type="text" class="form-control form-control-sm" id="cliente" required>
+              <input type="text" class="form-control form-control-sm" id="cliente" name="cliente" value="<?php echo htmlspecialchars($cotizacion['cliente']); ?>" readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="unidad" class="form-label">Unidad</label>
-              <select id="unidad" class="form-select form-select-sm">
-                <option selected>Elige...</option>
-                <option>Unidad 1</option>
-                <option>Unidad 2</option>
-                <option>Unidad 3</option>
-                <!-- Agrega más opciones según sea necesario -->
+              <select id="unidad" name="unidad" class="form-select form-select-sm" required>
+                <option selected>Selecciona...</option>
+                <?php foreach ($unidades as $unidad): ?>
+                    <option value="<?php echo htmlspecialchars($unidad['Uni_id']); ?>">
+                        <?php echo htmlspecialchars($unidad['Unidad']); ?>
+                    </option>
+                <?php endforeach; ?>              
               </select>
             </div>
-            <div class="col-md-4 mb-3">
+            <!-- <div class="col-md-4 mb-3">
               <label for="placas" class="form-label">Placas</label>
-              <input type="text" class="form-control form-control-sm" id="placas" required>
+              <input type="text" class="form-control form-control-sm" id="placas" name="placas" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="econ" class="form-label">Econ</label>
-              <input type="text" class="form-control form-control-sm" id="econ">
-            </div>
+              <input type="text" class="form-control form-control-sm" id="econ" name="econ" required>
+            </div> -->
             <div class="col-md-4 mb-3">
               <label for="origen_destino" class="form-label">Origen y destino</label>
-              <input type="text" class="form-control form-control-sm" id="origen_destino">
+              <input type="text" class="form-control form-control-sm" id="origen_destino" name="origen_destino" value="<?php echo htmlspecialchars($cotizacion['origen']); ?>" readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="unid_factura" class="form-label">Unid-factura</label>
-              <input type="text" class="form-control form-control-sm" id="unid_factura">
+              <input type="text" class="form-control form-control-sm" id="unid_factura" name="unid_factura" required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="locFor" class="form-label">Local o Foranea</label>
-              <select id="locFor" class="form-select form-select-sm">
+              <label for="local_foranea" class="form-label">Local o Foranea</label>
+              <select id="local_foranea" name="local_foranea" class="form-select form-select-sm" required>
                 <option selected>Selecciona...</option>
                 <option>Local</option>
-                <option>Foranea</option>
-                <!-- Agrega más opciones según sea necesario -->
+                <option>Foranea</option>                
               </select>
             </div>
             <div class="col-md-4 mb-3">
               <label for="sello" class="form-label">Sello</label>
-              <input type="text" class="form-control form-control-sm" id="sello">
+              <input type="text" class="form-control form-control-sm" id="sello" name="sello" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="operador" class="form-label">Operador</label>
-              <select id="operador" class="form-select form-select-sm">
+              <select id="operador" name="operador" class="form-select form-select-sm" required>
                 <option selected>Elige...</option>
-                <option>Operador 1</option>
-                <option>Operador 2</option>
-                <option>Operador 3</option>
-                <!-- Agrega más opciones según sea necesario -->
+                <?php foreach ($operadores as $operador): ?>
+                    <option value="<?php echo htmlspecialchars($operador['id']); ?>">
+                        <?php echo htmlspecialchars($operador['nombre_completo']); ?>
+                    </option>
+                <?php endforeach; ?>
               </select>
+              <input type="hidden" name="texto_operador" id="texto_operador">
             </div>
             <div class="col-md-4 mb-3">
               <label for="cliente_solicita" class="form-label">Cliente que solicita</label>
-              <input type="text" class="form-control form-control-sm" id="cliente_solicita">
+              <input type="text" class="form-control form-control-sm" id="cliente_solicita" name="cliente_solicita" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="referencia" class="form-label">Referencia</label>
-              <input type="text" class="form-control form-control-sm" id="referencia">
+              <input type="text" class="form-control form-control-sm" id="referencia" name="referencia" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="bultos" class="form-label">Bultos</label>
-              <input type="text" class="form-control form-control-sm" id="bultos">
+              <input type="text" class="form-control form-control-sm" id="bultos" name="bultos" value="<?php echo htmlspecialchars($cotizacion['num_bultos']); ?>" readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="doc_fiscal" class="form-label">Doc. fiscal</label>
-              <input type="text" class="form-control form-control-sm" id="doc_fiscal">
+              <input type="text" class="form-control form-control-sm" id="doc_fiscal" name="doc_fiscal" required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="precio" class="form-label">Precio</label>
-              <input type="text" class="form-control form-control-sm" id="precio">
+              <label for="precio" class="form-label">Costo</label>
+              <input type="text" class="form-control form-control-sm" id="costo" name="costo" value="<?php echo htmlspecialchars($cotizacion['precio']); ?>" readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="factura" class="form-label">Factura</label>
-              <input type="text" class="form-control form-control-sm" id="factura">
+              <input type="text" class="form-control form-control-sm" id="factura" name="factura" required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="costo" class="form-label">Costo</label>
-              <input type="text" class="form-control form-control-sm" id="costo">
+              <label for="factura" class="form-label">Numero de candados</label>
+              <input type="number" class="form-control form-control-sm" id="candados" name="candados" required>
             </div>
+            <div class="col-md-4 mb-3">
+              <label for="factura" class="form-label">CAAT</label>
+              <input type="text" class="form-control form-control-sm" id="caat" name="caat" required>
+            </div>
+
             <div class="col-md-4 mb-3">
               <label for="observaciones" class="form-label">Observaciones</label>
-              <textarea class="form-control form-control-sm" id="observaciones" rows="3"></textarea>
+              <textarea class="form-control form-control-sm" id="observaciones" name="observaciones" rows="3" required></textarea>
             </div>
+            <input type="hidden" name="idcoti" id="idcoti" value="<?php echo htmlspecialchars($id); ?>" required>
           </div>
           <button type="submit" class="btn btn-danger btn-sm w-100">Registrar</button>
         </form>
@@ -224,6 +279,7 @@
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script src="altaServicio.js"></script>
 </body>
 
 </html>

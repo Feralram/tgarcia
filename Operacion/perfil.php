@@ -59,7 +59,7 @@ $operadores = $usuario->obtenerOperadores();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
+            <a class="nav-link text-white active bg-gradient-info" href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
@@ -68,7 +68,7 @@ $operadores = $usuario->obtenerOperadores();
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./form-altaCot.php">
+          <a class="nav-link text-white" href="form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -76,7 +76,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -100,7 +100,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>

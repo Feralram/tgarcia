@@ -1,80 +1,14 @@
 <?php
+// Mostrar todos los errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include_once('db_connection.php');
 
 
 class Usuario extends Connect {
-    private $id;
-    private $nombre;
-    private $apellidoP;
-    private $apellidoM;
-    private $puesto_id;
-    private $status;
-    private $usuario;
-    private $psw;
-
-    public function getId() {
-        return $this->id;
-    }
-
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function getNombre() {
-        return $this->nombre;
-    }
-
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
-    }
-
-    public function getApellidoP() {
-        return $this->apellidoP;
-    }
-
-    public function setApellidoP($apellidoP) {
-        $this->apellidoP = $apellidoP;
-    }
-    public function getApellidoM() {
-        return $this->apellidoM;
-    }
-
-    public function setApellidoM($apellidoM) {
-        $this->apellidoM = $apellidoM;
-    }
-
-    public function getPuestoid() {
-        return $this->puesto_id;
-    }
-
-    public function setPuestoid($puesto_id) {
-        $this->puesto_id = $puesto_id;
-    }
-    public function getStatus() {
-        return $this->status;
-    }
-
-    public function setStatus($status) {
-        $this->status = $status;
-    }
-
-    public function getUsuario() {
-        return $this->usuario;
-    }
-
-    public function setUsuario($usuario) {
-        $this->usuario = $usuario;
-    }
-    public function getPsw() {
-        return $this->psw;
-    }
-
-    public function setPsw($psw) {
-        $this->psw = $psw;
-    }
 
 
-    
     // Método para validar el inicio de sesión
     public function validarInicioSesion($usu, $psw) {
         $usu = $this->conexion->real_escape_string($usu); // Evita SQL Injection
@@ -149,31 +83,56 @@ class Usuario extends Connect {
         return $operadores;
     }
 
-    private function validarAccesoDocumentos($estudianteId) {
-        $documents = "SELECT COUNT(*) AS numDocumentos, SUM(CASE WHEN ISNULL(Aprobado) THEN 1 ELSE 0 END) AS numDocumentosNoAprobados FROM documentosaspirantes WHERE EstudianteId = '$estudianteId'";
-        // $documents = "SELECT
-        //                 COUNT(*) AS numDocumentos,
-        //                 SUM(CASE WHEN COALESCE(Aprobado, 0) = 0 THEN 1 ELSE 0 END) AS numDocumentosNoAprobados
-        //             FROM
-        //                 documentosaspirantes
-        //             WHERE
-        //                 EstudianteId = '$estudianteId';";
-        $resultado = $this->conexion->query($documents);
+    public function obtenerCotizaciones() {
+        $query = "SELECT *
+        FROM cotizaciones
+        WHERE status = 1
+        ORDER BY id_cotizacion ASC";
+        $resultado = $this->conexion->query($query);
 
-        $fila = $resultado->fetch_assoc();
-        if ($fila['numDocumentos'] > 0) {
-            if ($fila['numDocumentosNoAprobados'] > 0) {
-                //Ha subido documentos pero tiene por lo menos uno no aprobado, puede acceder a documentos
-                $_SESSION['DocumentosAlumno'] = true;
-            }else {
-                //Documentos aprobados
-                $_SESSION['DocumentosAlumno'] = false;
-            }
-        }else {
-            //No ha subido documentos, puede acceder a documentos
-            $_SESSION['DocumentosAlumno'] = true;
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
         }
+
+        return $operadores;
     }
+
+    public function obtenerServicios() {
+        $query = "SELECT *
+        FROM servicios  
+        INNER JOIN operadores ON servicios.id_operador = operadores.id
+        INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
+        INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+        WHERE lista != 'Lista Nippon'
+        ORDER BY id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+    public function obtenerServiciosNippon() {
+        $query = "SELECT *
+        FROM servicios  
+        INNER JOIN operadores ON servicios.id_operador = operadores.id
+        INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
+        INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+        WHERE lista = 'Lista Nippon'
+        ORDER BY id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+
 
     public function CerrarSesion(){
                 // Lógica para cerrar la sesión (por ejemplo, cuando el usuario hace clic en "Cerrar sesión")
@@ -197,279 +156,322 @@ class Usuario extends Connect {
         }
     }
 
-    public function actualizarDatos($id, $fechadenacimiento, $edad, $meses, $peso, $lentes, $cartilla, $vacunas, $ortopedico, $sexo, 
-    $nacionalidad, $entidaddenacimiento,$domicilio, $telefono, $correoelectronico, $tparentesco, $tnombre, $tfechadenacimiento, $tsexo, $testadocivil, $tgradodeestudios,
-    $tcurp, $tnacionalidad, $tentidaddenacimiento, $ttipodedocumento, $tdomicilio, $ttelefono, $tcorreoelectronico, $tnecesidadespecial,
-    $therramientasdeapoyo, $tgrupoindigena, $tsituacionlaboral) {
+    public function obtenerDimensionesGen($idOrigen) {
+        $idOrigen = $this->conexion->real_escape_string($idOrigen); // Evita SQL Injection
 
-        //Alumno
-
-        $id = $this->conexion->real_escape_string($id); // Evita SQL Injection                                        
-       //$nombre = $this->conexion->real_escape_string($nombre); // Evita SQL Injection
-        //$grado = $this->conexion->real_escape_string($grado); // Evita SQL Injection
-        $fechadenacimiento = $this->conexion->real_escape_string($fechadenacimiento); // Evita SQL Injection
-        $edad = $this->conexion->real_escape_string($edad); // Evita SQL Injection
-        $meses = $this->conexion->real_escape_string($meses); // Evita SQL Injection
-        $peso = $this->conexion->real_escape_string($peso); // Evita SQL Injection
-        $lentes = $this->conexion->real_escape_string($lentes); // Evita SQL Injection
-        $cartilla = $this->conexion->real_escape_string($cartilla); // Evita SQL Injection
-        $vacunas = $this->conexion->real_escape_string($vacunas); // Evita SQL Injection
-        $ortopedico = $this->conexion->real_escape_string($ortopedico); // Evita SQL Injection
-        $sexo = $this->conexion->real_escape_string($sexo); // Evita SQL Injection
-        $nacionalidad = $this->conexion->real_escape_string($nacionalidad); // Evita SQL Injection
-        $entidaddenacimiento = $this->conexion->real_escape_string($entidaddenacimiento); // Evita SQL Injection
-        $domicilio = $this->conexion->real_escape_string($domicilio); // Evita SQL Injection
-        $telefono = $this->conexion->real_escape_string($telefono); // Evita SQL Injection
-        // $redsocial = $this->conexion->real_escape_string($redsocial); // Evita SQL Injection
-        // $nombrecuenta = $this->conexion->real_escape_string($nombrecuenta); // Evita SQL Injection
-        $correoelectronico = $this->conexion->real_escape_string($correoelectronico); // Evita SQL Injection
-
-        //Tutor
-
-        $tparentesco = $this->conexion->real_escape_string($tparentesco); // Evita SQL Injection
-        $tnombre = $this->conexion->real_escape_string($tnombre); // Evita SQL Injection
-        $tfechadenacimiento = $this->conexion->real_escape_string($tfechadenacimiento); // Evita SQL Injection
-        $tsexo = $this->conexion->real_escape_string($tsexo); // Evita SQL Injection
-        $testadocivil = $this->conexion->real_escape_string($testadocivil); // Evita SQL Injection
-        $tgradodeestudios = $this->conexion->real_escape_string($tgradodeestudios); // Evita SQL Injection
-        $tcurp = $this->conexion->real_escape_string($tcurp); // Evita SQL Injection
-        $tnacionalidad = $this->conexion->real_escape_string($tnacionalidad); // Evita SQL Injection
-        $tentidaddenacimiento = $this->conexion->real_escape_string($tentidaddenacimiento); // Evita SQL Injection
-        $ttipodedocumento = $this->conexion->real_escape_string($ttipodedocumento); // Evita SQL Injection
-        $tdomicilio = $this->conexion->real_escape_string($tdomicilio); // Evita SQL Injection
-        $ttelefono = $this->conexion->real_escape_string($ttelefono); // Evita SQL Injection
-        $tcorreoelectronico = $this->conexion->real_escape_string($tcorreoelectronico); // Evita SQL Injection
-        $tnecesidadespecial = $this->conexion->real_escape_string($tnecesidadespecial); // Evita SQL Injection
-        $therramientasdeapoyo = $this->conexion->real_escape_string($therramientasdeapoyo); // Evita SQL Injection
-        $tgrupoindigena = $this->conexion->real_escape_string($tgrupoindigena); // Evita SQL Injection
-        $tsituacionlaboral = $this->conexion->real_escape_string($tsituacionlaboral); // Evita SQL Injection
+        $query = "SELECT Id_tarifagen, 'Nissan16' AS tipo_unidad, Nissan_16 AS monto FROM tarifario_general WHERE Id_tarifagen = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifagen, '3.517' AS tipo_unidad, 3_517 AS monto FROM tarifario_general WHERE Id_tarifagen = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifagen, 'Rabon18' AS tipo_unidad, Rabon18 AS monto FROM tarifario_general WHERE Id_tarifagen = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifagen, 'Torton6' AS tipo_unidad, Thorton6 AS monto FROM tarifario_general WHERE Id_tarifagen = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifagen, 'Trailer19' AS tipo_unidad, Trailer19 AS monto FROM tarifario_general WHERE Id_tarifagen = '$idOrigen'
+        ORDER BY Id_tarifagen, tipo_unidad;";
+        $statement = $this->conexion->prepare($query);
         
+        $dimensiones = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $dimensiones[] = $row;
+            }
+        } else {
+            die("Error al obtener dimensiones: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $dimensiones;
+    }
+    // Método para obtener las dimensiones según el ID de origen seleccionado
+    public function obtenerDimensionesCom($idOrigen) {
+        $idOrigen = $this->conexion->real_escape_string($idOrigen); // Evita SQL Injection
 
-        $query = 
-        "UPDATE aspirantes 
-        SET FechaDeNacimiento='$fechadenacimiento', Edad='$edad', Meses='$meses', Peso='$peso', Lentes='$lentes', Cartilla='$cartilla',
-        Vacunas='$vacunas', Ortopedico='$ortopedico', Sexo='$sexo', Nacionalidad='$nacionalidad', EntidadDeNacimiento='$entidaddenacimiento', Domicilio='$domicilio', Telefono='$telefono',
-        CorreoElectronico='$correoelectronico', Comentario='None'
-        WHERE Id = '$id' ";
+        $query = "SELECT id_tarifacom, '1.5 Ton' AS tipo_unidad, 1_5ton AS monto FROM tarifario_comunes WHERE id_tarifacom = '$idOrigen'
+        UNION ALL
+        SELECT id_tarifacom, '3.5 Ton' AS tipo_unidad, 3_5ton AS monto FROM tarifario_comunes WHERE id_tarifacom = '$idOrigen'
+        UNION ALL
+        SELECT id_tarifacom, 'Rabon' AS tipo_unidad, rabon AS monto FROM tarifario_comunes WHERE id_tarifacom = '$idOrigen'
+        UNION ALL
+        SELECT id_tarifacom, 'Torton' AS tipo_unidad, torton AS monto FROM tarifario_comunes WHERE id_tarifacom = '$idOrigen'
+        UNION ALL
+        SELECT id_tarifacom, 'Trailer' AS tipo_unidad, trailer AS monto FROM tarifario_comunes WHERE id_tarifacom = '$idOrigen'
+        ORDER BY id_tarifacom, tipo_unidad;";
+        $statement = $this->conexion->prepare($query);
+        
+        $dimensiones = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $dimensiones[] = $row;
+            }
+        } else {
+            die("Error al obtener dimensiones: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $dimensiones;
+    }
 
-        $query2 = 
-        "INSERT INTO tutores 
-        (Id, Nombre, Parentesco, FechaDeNacimiento, Sexo, EstadoCivil, GradoDeEstudios,Curp, Nacionalidad, EntidadDeNacimiento, tipodedocumento,
-        Direccion, Telefono, CorreoElectronico, NecesidadEspecial, HerramientasDeApoyo, GrupoIndigena, SituacionLaboral, IdAlumno) 
-        VALUES (UUID(), '$tnombre','$tparentesco','$tfechadenacimiento','$tsexo','$testadocivil','$tgradodeestudios','$tcurp','$tnacionalidad','$tentidaddenacimiento',
-        '$ttipodedocumento','$tdomicilio','$ttelefono','$tcorreoelectronico','$tnecesidadespecial','$therramientasdeapoyo','$tgrupoindigena','$tsituacionlaboral','$id')
-        ";
+    public function obtenerDimensionesComRefri($idOrigen) {
+        $idOrigen = $this->conexion->real_escape_string($idOrigen); // Evita SQL Injection
+
+        $query = "SELECT Id_tarifacomref, '1.5 Ton Refrigerada' AS tipo_unidad, 1_5ton_refri AS monto FROM tarifario_comunes_refrig WHERE Id_tarifacomref = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifacomref, '3.5 Ton Refrigerada' AS tipo_unidad, 3_5ton_refri AS monto FROM tarifario_comunes_refrig WHERE Id_tarifacomref = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifacomref, 'Rabon Refrigerada' AS tipo_unidad, rabon_refri AS monto FROM tarifario_comunes_refrig WHERE Id_tarifacomref = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifacomref, 'Trailer Refrigerada' AS tipo_unidad, trailer_refri AS monto FROM tarifario_comunes_refrig WHERE Id_tarifacomref = '$idOrigen'
+        ORDER BY Id_tarifacomref, tipo_unidad;";
+        $statement = $this->conexion->prepare($query);
+        
+        $dimensiones = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $dimensiones[] = $row;
+            }
+        } else {
+            die("Error al obtener dimensiones: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $dimensiones;
+    }
+
+    public function obtenerDimensionesProexi($idOrigen) {
+        $idOrigen = $this->conexion->real_escape_string($idOrigen); // Evita SQL Injection
+
+        $query = "SELECT Id_tarifa_proexi, 'Nissan' AS tipo_unidad, nissan AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifa_proexi, '3.5' AS tipo_unidad, 3_5 AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifa_proexi, 'Rabon' AS tipo_unidad, rabon AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
+        ORDER BY Id_tarifa_proexi, tipo_unidad;";
+        $statement = $this->conexion->prepare($query);
+        
+        $dimensiones = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $dimensiones[] = $row;
+            }
+        } else {
+            die("Error al obtener dimensiones: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $dimensiones;
+    }
+
+    public function obtenerTarifarioGeneral() {
+
+        $query = "SELECT Id_tarifagen, CONCAT(estado_origen, ' - ',municipio_origen) AS origen, CONCAT(estado_destino, ' - ',municipio_destino) AS destino FROM tarifario_general";
+        $statement = $this->conexion->prepare($query);
+        
+        $tarifarioGeneral = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $tarifarioGeneral[] = $row;
+            }
+        } else {
+            die("Error al obtener origenes-destinos: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $tarifarioGeneral;
+    }
+
+    public function obtenerTarifarioComun() {
+
+        $query = "SELECT Id_tarifacom, origen, destino FROM tarifario_comunes";
+        $statement = $this->conexion->prepare($query);
+        
+        $tarifarioGeneral = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $tarifarioGeneral[] = $row;
+            }
+        } else {
+            die("Error al obtener origenes-destinos: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $tarifarioGeneral;
+    }
+    
+    public function obtenerTarifarioComunRefri() {
+
+        $query = "SELECT Id_tarifacomref, origen, destino FROM tarifario_comunes_refrig";
+        $statement = $this->conexion->prepare($query);
+        
+        $tarifarioGeneral = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $tarifarioGeneral[] = $row;
+            }
+        } else {
+            die("Error al obtener origenes-destinos: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $tarifarioGeneral;
+    }
+
+    public function obtenerTarifarioProexi() {
+
+        $query = "SELECT Id_tarifa_proexi, origen, destino FROM tarifario_proexi";
+        $statement = $this->conexion->prepare($query);
+        
+        $tarifarioGeneral = [];
+        if ($statement->execute()) {
+            $result = $statement->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $tarifarioGeneral[] = $row;
+            }
+        } else {
+            die("Error al obtener origenes-destinos: " . $this->conexion->error);
+        }
+        
+        $statement->close();
+        return $tarifarioGeneral;
+    }
+
+    public function contarCotizaciones() {
+        $query = "SELECT COUNT(*) as total FROM cotizaciones";
+        $resultado = $this->conexion->query($query);
+
+        if ($resultado) {
+            $fila = $resultado->fetch_assoc();
+            $numeroRegistros = $fila['total'];
+
+            // Si no hay registros, asignar 1. De lo contrario, asignar el número de registros.
+            $numero = ($numeroRegistros == 0) ? 1 : $numeroRegistros+1;
+
+            return $numero;
+        } else {
+            // Manejo de errores si la consulta falla
+            return 1; // Puedes ajustar esto según tus necesidades
+        }
+    }
+    public function contarServicios() {
+        $query = "SELECT COUNT(*) as total FROM servicios";
+        $resultado = $this->conexion->query($query);
+
+        if ($resultado) {
+            $fila = $resultado->fetch_assoc();
+            $numeroRegistros = $fila['total'];
+
+            // Si no hay registros, asignar 1. De lo contrario, asignar el número de registros.
+            $numero = ($numeroRegistros == 0) ? 1 : $numeroRegistros+1;
+
+            return $numero;
+        } else {
+            // Manejo de errores si la consulta falla
+            return 1; // Puedes ajustar esto según tus necesidades
+        }
+    }
+
+    public function insertarCotizacion($datos) {
+        $cliente = $this->conexion->real_escape_string($datos['cliente']);
+        $tarifario = $this->conexion->real_escape_string($datos['tarifario']);
+        $origen = $this->conexion->real_escape_string($datos['origen']);
+        $codigo_postal = $this->conexion->real_escape_string($datos['codigo_postal']);
+        $peso = $this->conexion->real_escape_string($datos['peso']);
+        $dimension = $this->conexion->real_escape_string($datos['dimension']);
+        $texto_dimension = $this->conexion->real_escape_string($datos['texto_dimension']);
+        $texto_origen = $this->conexion->real_escape_string($datos['texto_origen']);
+        $precio = $this->conexion->real_escape_string($datos['precio']);
+        $num_bultos = $this->conexion->real_escape_string($datos['num_bultos']);
+        $km_adicionales = $this->conexion->real_escape_string($datos['km_adicionales']);
+
+        $id = $this->contarCotizaciones();
+        $id_especifico = 'C-'.$id;
+    
+        $query = "INSERT INTO cotizaciones (id_cotizacion, id_especifico, cliente, tarifario, origen, codigo_postal, peso, dimension, precio, num_bultos, km_adicionales, fecha_creacion)
+                  VALUES ('$id', '$id_especifico', '$cliente', '$tarifario', '$texto_origen', '$codigo_postal', '$peso', '$texto_dimension', '$precio', '$num_bultos', '$km_adicionales', now())";
+    
+        
+        if ($this->conexion->query($query)) {
+            return $id; // Devolvemos el ID específico en caso de éxito
+        } else {
+            return false;
+        }
+    }
+
+    public function updateCotizacion($id, $km_extras, $total) {
+        $id = $this->conexion->real_escape_string($id);
+        $km_extras = $this->conexion->real_escape_string($km_extras);
+        $total = $this->conexion->real_escape_string($total);
+    
+        $query = "UPDATE cotizaciones SET km_adicionales='$km_extras', precio='$total' WHERE id_cotizacion='$id'";
+    
+        if ($this->conexion->query($query)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function terminarCotizacion($id) {
+        $id = $this->conexion->real_escape_string($id);
 
     
-
-        // die($query2);
-
-        
-        $resultado1 = $this->conexion->prepare($query);
-
-        $resultado2 = $this->conexion->prepare($query2);
-
-        
-
-        if ($resultado1->execute() && $resultado2->execute()) {
-            // Imprime un fragmento de JavaScript para mostrar una alerta
-
-            $_SESSION['ComentarioAlumno'] = 'None';
-            $response = array("success" => True, "message" => "Datos registradas correctamente.");
-            echo json_encode($response);
-
-            
+        $query = "UPDATE cotizaciones SET status=0 WHERE id_cotizacion='$id'";
+    
+        if ($this->conexion->query($query)) {
+            return $id;
         } else {
-            // En caso de error, puedes mostrar una alerta de error
-            $response = array("success" => False, "message" => "Ha ocurrido un error al actualizar los datos, intenta de nuevo mas tarde.");
-            echo json_encode($response);
-            // echo'<script type="text/javascript">
-            //     alert("Ha ocurrido un error al actualizar los datos.");
-            //     window.location.href="../../alumnos/perfil.php";
-            //     </script>';
-
+            return false;
         }
-
-
     }
 
+    public function insertaServicio($datos) {
+        $lista_reco = $this->conexion->real_escape_string($datos['lista_reco']);
+        $fecha_recoleccion = $this->conexion->real_escape_string($datos['fecha_recoleccion']);
+        $cliente = $this->conexion->real_escape_string($datos['cliente']);
+        $unidad = $this->conexion->real_escape_string($datos['unidad']);
+        $origen_destino = $this->conexion->real_escape_string($datos['origen_destino']);
+        $unid_factura = $this->conexion->real_escape_string($datos['unid_factura']);
+        $local_foranea = $this->conexion->real_escape_string($datos['local_foranea']);
+        $sello = $this->conexion->real_escape_string($datos['sello']);
+        $operador = $this->conexion->real_escape_string($datos['operador']);
+        $texto_operador = $this->conexion->real_escape_string($datos['texto_operador']);
+        $cliente_solicita = $this->conexion->real_escape_string($datos['cliente_solicita']);
+        $referencia = $this->conexion->real_escape_string($datos['referencia']);
+        $bultos = $this->conexion->real_escape_string($datos['bultos']);
+        $doc_fiscal = $this->conexion->real_escape_string($datos['doc_fiscal']);
+        $costo = $this->conexion->real_escape_string($datos['costo']);
+        $factura = $this->conexion->real_escape_string($datos['factura']);
+        $candados = $this->conexion->real_escape_string($datos['candados']);
+        $caat = $this->conexion->real_escape_string($datos['caat']);
+        $observaciones = $this->conexion->real_escape_string($datos['observaciones']);
+        $idcoti = $this->conexion->real_escape_string($datos['idcoti']);
 
-    public function documentosAlumnos($id,$curp){
-
+        $id = $this->contarServicios();
+        $id_especifico = 'S-'.$id;
+    
+        $query = "INSERT INTO servicios (id_servicio, id_especifico, lista, fecha_recoleccion, cliente, unidad, oriDestino
+        , unid_factura, local_foranea, sello, operador, id_operador, cliente_solicita, referencia, bultos, doc_fiscal, costo, factura, observaciones, fecha_creacion, id_cotizacion, num_candados, CAAT )
+                  VALUES ('$id', '$id_especifico', '$lista_reco', '$fecha_recoleccion', '$cliente', '$unidad', '$origen_destino', '$unid_factura', '$local_foranea',
+                  '$sello','$texto_operador','$operador','$cliente_solicita','$referencia','$bultos','$doc_fiscal','$costo','$factura','$observaciones', now(), '$idcoti', '$candados', '$caat')";
+    
         
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Carpeta de destino (ajusta la ruta según tu configuración)
-            $carpetaDestino = '../../documentosAlumnos/' . $curp . "/";
-
-            if (!is_dir($carpetaDestino)) {
-                // Verifica si la carpeta no existe
-                if (mkdir($carpetaDestino, 0755, true)) {
-                    echo "La carpeta '$carpetaDestino' se ha creado correctamente \n.";
-                } else {
-                    echo "Error al crear la carpeta '$carpetaDestino'.";
-                }
-            } else {
-                echo "La carpeta '$carpetaDestino' ya existe, no se creó de nuevo.";
-            }
-        
-            // Verifica si se enviaron archivos
-            if (isset($_FILES['archivos'])) {
-                $archivos = $_FILES['archivos'];
-        
-                // Itera a través de los archivos
-                for ($i = 0; $i < count($archivos['tmp_name']); $i++) {
-                    if ($archivos['error'][$i] === UPLOAD_ERR_OK) {
-                        $nombreArchivo = $archivos['name'][$i];
-                        $extension = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-                        $rutaDestino = $carpetaDestino . $nombreArchivo;
-
-                        $rutafinal = '../documentosAlumnos/'.$curp.'/' . $nombreArchivo;
-
-             
-        
-                        // Mueve el archivo a la carpeta de destino
-                        if ( move_uploaded_file($archivos['tmp_name'][$i], $rutaDestino)) {
-
-                            $query = "INSERT INTO documentosaspirantes (EstudianteId, TipoDocumentoId, Nombre, Ruta, Aprobado) VALUES ('$id', $i+1, '$nombreArchivo', '$rutafinal',0)
-                            ON DUPLICATE KEY UPDATE Nombre = '$nombreArchivo', Ruta = '$rutafinal'";
-                            
-
-                            $query2 = "UPDATE documentosaspirantes  AS docasp
-                            JOIN tipodocumento AS td ON docasp.TipoDocumentoId = td.id
-                            SET docasp.NombreDocumento = td.Nombre 
-                            WHERE docasp.EstudianteId  = '$id' AND docasp.TipoDocumentoId = td.Id ";
-
-                            // die($query);    
-
-                            $resultado = $this->conexion->prepare($query);
-                            $resultado->execute();
-
-                            $resultado2 = $this->conexion->prepare($query2);
-                            $resultado2->execute();
-                            
-                            $_SESSION['DocumentosAlumno'] = false;
-                            // echo "Archivo $i: '$nombreArchivo' se ha subido correctamente a: " . $rutaDestino . "<br>";
-                            // echo "Extensión: " . $extension . "<br><br>";
-
-
-                            echo'<script type="text/javascript">
-                            alert("Documentos cargados correctamente.");
-                            window.location.href="../../alumnos/perfil.php";
-                            </script>';
-                        } else {
-                            echo'<script type="text/javascript">
-                            alert("No se han enviado archivos.");
-                            window.location.href="../../alumnos/documentos.php";
-                            </script>';
-                        }
-                    }
-                }
-            } else {
-
-                echo'<script type="text/javascript">
-                            alert("No se han enviado archivos.");
-                            window.location.href="../../alumnos/documentos.php";
-                            </script>';
-                
-
-            }
-        }
-        
-
-    }
-
-    public function ObtenerAlumnos(){
-
-        // Conecta a la base de datos (reemplaza con tus datos de conexión)
-
-
-        // Prepara y ejecuta la consulta SQL
-        $consulta = $this->conexion->prepare("SELECT folio, nombre, grado, id, ,status, fecha FROM aspirantes");
-        $consulta->execute();
-
-        // Obtiene los resultados y los formatea en formato JSON
-        $users = $consulta->fetchAll(PDO::FETCH_ASSOC);
-
-        echo json_encode($users);
-
-
-    }
-
-    public function EliminarDocumentoAlumno($AlumnoId, $tipo){
-
-        // Conecta a la base de datos (reemplaza con tus datos de conexión)
-
-
-        // Prepara y ejecuta la consulta SQL
-        $query = "UPDATE documentosaspirantes SET Aprobado = NULL  WHERE EstudianteId ='$AlumnoId' AND TipoDocumentoId = '$tipo'";
-
-        $consulta = $this->conexion->prepare($query);
-
-
-
-        
-
-        if ($consulta->execute()) {
-            // Imprime un fragmento de JavaScript para mostrar una alerta
-
-            echo'<script type="text/javascript">
-                alert("El archivo ha sido eliminado.");
-                window.location.href="../../admin/ver-documentos-alumno.php?id='.$AlumnoId.'";
-                </script>';
-
-
-            
+        if ($this->conexion->query($query)) {
+            return $id; // Devolvemos el ID específico en caso de éxito
         } else {
-            // En caso de error, puedes mostrar una alerta de error
-
-            echo'<script type="text/javascript">
-                alert("Error al eliminar el archivo.");
-                window.location.href="../../admin/ver-documentos-alumno.php?id='.$AlumnoId.'";
-                </script>';
-
+            return false;
         }
-
     }
-
-    public function EliminarAlumno($id){
-
-        // Conecta a la base de datos (reemplaza con tus datos de conexión)
+    
+    
 
 
-        // Prepara y ejecuta la consulta SQL        
-        $query = "DELETE FROM aspirantes  WHERE id ='$id'";
-        
-
-
-
-        $consulta = $this->conexion->prepare($query);
-
-
-
-        
-
-        if ($consulta->execute()) {
-            // Imprime un fragmento de JavaScript para mostrar una alerta
-
-            echo'<script type="text/javascript">
-                alert("El alumno seleccionado a sido eliminado.");
-                window.location.href="../../admin/lista-alumnos.php";
-                </script>';
-
-
-            
-        } else {
-            // En caso de error, puedes mostrar una alerta de error
-
-            echo'<script type="text/javascript">
-                alert("Error al eliminar el alumno seleccionado.");
-                window.location.href="../../admin/lista-alumnos.php";
-                </script>';
-
-        }
-
-    }
 
     
     

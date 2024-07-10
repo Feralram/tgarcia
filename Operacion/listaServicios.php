@@ -5,9 +5,8 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-// Obtener las unidades desde el modelo
-$unidades = $usuario->obtenerUnidades();
-$operadores = $usuario->obtenerOperadores();
+$servicios = $usuario->obtenerServicios();
+$serviciosNippon = $usuario->obtenerServiciosNippon();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +99,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>
@@ -127,11 +126,11 @@ $operadores = $usuario->obtenerOperadores();
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
-                          <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
+                          <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
                                       <th scope="col">Fecha recoleccion</th>
-                                      <th scope="col">cliente</th>
+                                      <th scope="col">Cliente</th>
                                       <th scope="col">Unidad</th>
                                       <th scope="col">Placas</th>
                                       <th scope="col">Econ</th>
@@ -143,8 +142,7 @@ $operadores = $usuario->obtenerOperadores();
                                       <th scope="col">Cliente que solicita</th>
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
-                                      <th scope="col">Doc-Fiscal</th>
-                                      <th scope="col">Precio</th>
+                                      <th scope="col">Doc-Fiscal</th>                                      
                                       <th scope="col">Factura</th>
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
@@ -152,34 +150,34 @@ $operadores = $usuario->obtenerOperadores();
                                   </tr>
                               </thead>
                               <tbody>
-                                  <!-- Ejemplo de una fila de datos -->
-                                  <tr>
-                                  <tr>
-                                    <td>2024-07-04</td>
-                                    <td>Cliente ABC</td>
-                                    <td>Unidad 1</td>
-                                    <td>ABC-123</td>
-                                    <td>Econ 456</td>
-                                    <td>Unid-001</td>
-                                    <td>Origen: Ciudad A / Destino: Ciudad B</td>
-                                    <td>Foranea</td>
-                                    <td>Sello-001</td>
-                                    <td>Operador 2</td>
-                                    <td>Juan Pérez</td>
-                                    <td>Ref-001</td>
-                                    <td>5</td>
-                                    <td>Doc-001</td>
-                                    <td>1500</td>
-                                    <td>Factura-001</td>
-                                    <td>200</td>
-                                    <td>Detalles adicionales...</td>
-                                      <td class="text-center">
-                                        
-                                      <button type="button" class="btn btn-success btn-icon btn-transparent">
-                                          <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
-                                      </button>
-                                      </td>
-                                  </tr>
+                              <?php foreach ($servicios as $servicio): ?>
+        <tr>
+          <td><?php echo $servicio['fecha_recoleccion']; ?></td>
+            <td><?php echo $servicio['cliente']; ?></td>
+            <td><?php echo $servicio['unidad']; ?></td>
+            <td><?php echo $servicio['Placas']; ?></td>
+            <td><?php echo $servicio['eco']; ?></td>
+            <td><?php echo $servicio['unid_factura']; ?></td>
+            <td><?php echo $servicio['oriDestino']; ?></td>
+            <td><?php echo $servicio['local_foranea']; ?></td>
+            <td><?php echo $servicio['sello']; ?></td>
+            <td><?php echo $servicio['Nombre_completo']; ?></td>
+            <td><?php echo $servicio['cliente_solicita']; ?></td>
+            <td><?php echo $servicio['referencia']; ?></td>
+            <td><?php echo $servicio['bultos']; ?></td>
+            <td><?php echo $servicio['doc_fiscal']; ?></td>
+            <td><?php echo $servicio['factura']; ?></td>
+            <td><?php echo $servicio['costo']; ?></td>
+            <td><?php echo $servicio['observaciones']; ?></td>
+            <td class="text-center">
+            <a href="Infservicio.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+              </button>
+            
+            </td>
+        </tr>
+        <?php endforeach; ?>
                                   
                                   <!-- Más filas de datos aquí -->
                               </tbody>
@@ -199,7 +197,7 @@ $operadores = $usuario->obtenerOperadores();
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
-                          <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
+                          <table id="tablaNippon" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
                                       <th scope="col">Fecha recoleccion</th>
@@ -216,7 +214,6 @@ $operadores = $usuario->obtenerOperadores();
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
                                       <th scope="col">Doc-Fiscal</th>
-                                      <th scope="col">Precio</th>
                                       <th scope="col">Factura</th>
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
@@ -224,34 +221,35 @@ $operadores = $usuario->obtenerOperadores();
                                   </tr>
                               </thead>
                               <tbody>
-                                  <!-- Ejemplo de una fila de datos -->
-                                  <tr>
-                                  <tr>
-                                    <td>2024-07-04</td>
-                                    <td>Cliente ABC</td>
-                                    <td>Unidad 1</td>
-                                    <td>ABC-123</td>
-                                    <td>Econ 456</td>
-                                    <td>Unid-001</td>
-                                    <td>Origen: Ciudad A / Destino: Ciudad B</td>
-                                    <td>Foranea</td>
-                                    <td>Sello-001</td>
-                                    <td>Operador 2</td>
-                                    <td>Juan Pérez</td>
-                                    <td>Ref-001</td>
-                                    <td>5</td>
-                                    <td>Doc-001</td>
-                                    <td>1500</td>
-                                    <td>Factura-001</td>
-                                    <td>200</td>
-                                    <td>Detalles adicionales...</td>
-                                      <td class="text-center">
-                                        
-                                      <button type="button" class="btn btn-success btn-icon btn-transparent">
-                                          <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
-                                      </button>
-                                      </td>
-                                  </tr>
+                              <?php foreach ($serviciosNippon as $servNippon): ?>
+        <tr>
+          <td><?php echo $servNippon['fecha_recoleccion']; ?></td>
+            <td><?php echo $servNippon['cliente']; ?></td>
+            <td><?php echo $servNippon['unidad']; ?></td>
+            <td><?php echo $servNippon['placas']; ?></td>
+            <td><?php echo $servNippon['eco']; ?></td>
+            <td><?php echo $servNippon['unid_factura']; ?></td>
+            <td><?php echo $servNippon['oriDestino']; ?></td>
+            <td><?php echo $servNippon['local_foranea']; ?></td>
+            <td><?php echo $servNippon['sello']; ?></td>
+            <td><?php echo $servNippon['Nombre_completo']; ?></td>
+            <td><?php echo $servNippon['cliente_solicita']; ?></td>
+            <td><?php echo $servNippon['referencia']; ?></td>
+            <td><?php echo $servNippon['bultos']; ?></td>
+            <td><?php echo $servNippon['doc_fiscal']; ?></td>
+            <td><?php echo $servNippon['factura']; ?></td>
+            <td><?php echo $servNippon['costo']; ?></td>
+            <td><?php echo $servNippon['observaciones']; ?></td>
+            <td class="text-center">
+            <a href="Infservicio.php?servicioId=<?php echo $servNippon['id_servicio']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+              </button>
+            
+            </td>
+        </tr>
+        <?php endforeach; ?>
+                                  
                                   
                                   <!-- Más filas de datos aquí -->
                               </tbody>
@@ -273,7 +271,66 @@ $operadores = $usuario->obtenerOperadores();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-
+<script>
+  $(document).ready(function() {
+      $('#tablaGenerales').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+      $('#tablaNippon').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
+</script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

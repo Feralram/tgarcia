@@ -6,8 +6,7 @@ include_once('../models/Usuario.php');
 $usuario = new Usuario();
 
 // Obtener las unidades desde el modelo
-$unidades = $usuario->obtenerUnidades();
-$operadores = $usuario->obtenerOperadores();
+$cotizaciones = $usuario->obtenerCotizaciones();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +58,7 @@ $operadores = $usuario->obtenerOperadores();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
+            <a class="nav-link text-white" href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
@@ -68,7 +67,7 @@ $operadores = $usuario->obtenerOperadores();
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./form-altaCot.php">
+          <a class="nav-link text-white" href="form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -76,7 +75,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white active bg-gradient-info " href="cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -100,7 +99,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>
@@ -127,7 +126,7 @@ $operadores = $usuario->obtenerOperadores();
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
-                          <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
+                          <table id="tablaCotizaciones" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
                                       <th scope="col">Id cotizacion</th>
@@ -143,26 +142,31 @@ $operadores = $usuario->obtenerOperadores();
                               </thead>
                               <tbody>
                                   <!-- Ejemplo de una fila de datos -->
-                                  <tr>
-                                      <td>123</td>
-                                      <td>Nippon</td>
-                                      <td>AICM - Puebla</td>
-                                      <td>10 kg</td>
-                                      <td>100x50x30 cm</td>
-                                      <td>$100</td>
-                                      <td>$1/km</td>
-                                      <td class="text-center">
-                                        
-                                      <button type="button" class="btn btn-success btn-icon btn-transparent">
-                                          <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
-                                      </button>
-                                      </td>
-                                      <td class="text-center">
-                                      <button type="button" class="btn btn-primary btn-icon btn-transparent">
-                                              <i class="fas fa-edit fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
-                                      </button>
-                                      </td>
-                                  </tr>
+                                  <?php foreach ($cotizaciones as $cotizacion): ?>
+        <tr>
+            <td><?php echo $cotizacion['id_especifico']; ?></td>
+            <td><?php echo $cotizacion['cliente']; ?></td>
+            <td><?php echo $cotizacion['origen']; ?></td>
+            <td><?php echo $cotizacion['peso']; ?></td>
+            <td><?php echo $cotizacion['dimension']; ?></td>
+            <td>$<?php echo $cotizacion['precio']; ?></td>
+            <td>$<?php echo $cotizacion['km_adicionales']; ?></td>
+            <td class="text-center">
+            <a href="Infcotizacion.php?cotizacionId=<?php echo $cotizacion['id_cotizacion']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+              </button>
+            
+            </td>
+            <td class="text-center">
+            <a href="edit-InfCotizacion.php?cotizacionId=<?php echo $cotizacion['id_cotizacion']; ?>">
+              <button type="button" class="btn btn-primary btn-icon btn-transparent">
+                      <i class="fas fa-edit fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+              </button>
+            </a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
                                   
                                   <!-- Más filas de datos aquí -->
                               </tbody>
@@ -196,6 +200,36 @@ $operadores = $usuario->obtenerOperadores();
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script>
+  $(document).ready(function() {
+      $('#tablaCotizaciones').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
+</script>
 </body>
 
 </html>

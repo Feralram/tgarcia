@@ -1,5 +1,8 @@
 <?php
-
+// Mostrar todos los errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 ?>
@@ -66,7 +69,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -90,7 +93,7 @@
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>
@@ -106,58 +109,59 @@
         <h6 class="text-white text-capitalize ps-3 text-center h5">Iniciar cotización</h6>
       </div>
       <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
-        <form>
+      <form id="cotizacionForm" onsubmit="agregarTextoAlFormulario()" >
           <div class="row">
           <div class="col-md-4 mb-3">
               <label for="cliente" class="form-label">Cliente</label>
-              <input type="text" class="form-control form-control-sm" id="peso">
+              <input type="text" class="form-control form-control-sm" name="cliente" id="cliente">
             </div>
             <div class="col-md-4 mb-3">
               <label for="tarifario" class="form-label">Tarifario</label>
-              <select id="tarifario" class="form-select form-select-sm">
+              <select id="tarifario" name="tarifario" class="form-select form-select-sm">
                 <option selected>Selecciona...</option>
-                <option>Tarifario 1</option>
-                <option>Tarifario 2</option>
-                <option>Tarifario 3</option>
+                <option value="1">Tarifario General</option>
+                <option value="2">Tarifario Comunes</option>
+                <option value="3">Tarifario Comunes Refrigerados</option>
+                <option value="4">Tarifario PROEXI</option>
               </select>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="origen_destino" class="form-label">Origen Y Destino</label>
-              <select id="origen_destino" class="form-select form-select-sm">
-                <option selected>Selecciona...</option>
-                <option>Origen 1</option>
-                <option>Origen 2</option>
-                <option>Origen 3</option>
+              <label for="origen" class="form-label">Origen Y Destino</label>
+              <select id="origen" name="origen" class="form-select form-select-sm">
+              <option selected>Selecciona...</option>
+                <!-- Este select se llenará dinámicamente según la selección en tarifario -->
               </select>
+              <input type="hidden" name="texto_origen" id="texto_origen">
             </div>
             <div class="col-md-4 mb-3">
               <label for="codigo_postal" class="form-label">Código Postal</label>
-              <input type="text" class="form-control form-control-sm" id="codigo_postal">
+              <input type="text" class="form-control form-control-sm" name="codigo_postal" id="codigo_postal">
             </div>
             <div class="col-md-4 mb-3">
               <label for="peso" class="form-label">Peso</label>
-              <input type="text" class="form-control form-control-sm" id="peso">
+              <input type="text" class="form-control form-control-sm" name="peso" id="peso">
             </div>
             <div class="col-md-4 mb-3">
               <label for="dimension" class="form-label">Dimensión</label>
-              <select id="dimension" class="form-select form-select-sm">
+              <select id="dimension" name="dimension" class="form-select form-select-sm">
                 <option selected>Selecciona...</option>
                 <option>Opcion 1</option>
                 <option>Opcion 2</option>
                 <option>Opcion 3</option>
               </select>
+              <input type="hidden" name="texto_dimension" id="texto_dimension">
             </div>
             <div class="col-md-4 mb-3">
             <label for="precio" class="form-label">Precio</label>
-            <input type="text" id="precio" class="form-control" readonly>
+            <input type="text" id="precio" name="precio" class="form-control" readonly step="any">
             </div>
             <div class="col-md-4 mb-3">
               <label for="num_bultos" class="form-label">Número de Bultos</label>
-              <input type="text" class="form-control form-control-sm" id="num_bultos">
+              <input type="text" class="form-control form-control-sm" name="num_bultos" id="num_bultos">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="km_adicionales" class="form-label">Costo por km extra</label>
-              <input type="text" class="form-control form-control-sm" id="km_adicionales">
+              <label for="km_adicionales" class="form-label">Gastos adicionales:</label>
+              <input type="text" class="form-control form-control-sm" name="km_adicionales" id="km_adicionales">
             </div>
           </div>
           <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Generar cotización</button>
@@ -181,6 +185,7 @@
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script src="app.js"></script>
 </body>
 
 </html>

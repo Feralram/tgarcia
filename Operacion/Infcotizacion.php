@@ -1,13 +1,28 @@
 <?php
-session_start();
 include_once('../models/Usuario.php');
+session_start();
 
-// Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-// Obtener las unidades desde el modelo
-$unidades = $usuario->obtenerUnidades();
-$operadores = $usuario->obtenerOperadores();
+$id = $_GET['cotizacionId'] ?? null;
+
+if ($id) {
+    $query = "SELECT * FROM cotizaciones WHERE id_cotizacion = '$id'";
+    $resultado = $usuario->conexion->query($query);
+
+    if ($resultado && $resultado->num_rows > 0) {
+        $cotizacion = $resultado->fetch_assoc();
+    } else {
+        echo "Cotización no encontrada.";
+        exit;
+    }
+} else {
+    echo "ID de cotización no proporcionado.";
+    exit;
+}
+
+$total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +74,7 @@ $operadores = $usuario->obtenerOperadores();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
+            <a class="nav-link text-white" href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
@@ -68,7 +83,7 @@ $operadores = $usuario->obtenerOperadores();
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./form-altaCot.php">
+          <a class="nav-link text-white" href="form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -76,7 +91,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -100,7 +115,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item mt-4">
-          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=0">
+          <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">logout</i>
               </div>
@@ -124,19 +139,19 @@ $operadores = $usuario->obtenerOperadores();
                     <div class="card-header">
                     <div class="container mt-4">
                       <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la cotización</h6>
+                        <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la cotización <?php echo htmlspecialchars($cotizacion['id_especifico']); ?></h6>
                       </div>
                         <div class="border p-4">
                         <p class="text-center">
-                            <p><strong>Cliente:</strong></p>
-                            <p><strong>Origen y Destino:</strong></p>
+                            <p><strong>Cliente:</strong> <?php echo htmlspecialchars($cotizacion['cliente']); ?></p>
+                            <p><strong>Origen y Destino: </strong><?php echo htmlspecialchars($cotizacion['origen']); ?></p>
                             <!--<p><strong>Código Postal:</strong></p>-->
-                            <p><strong>Peso:</strong></p>
-                            <p><strong>Dimensión:</strong></p>
+                            <p><strong>Peso:</strong> <?php echo htmlspecialchars($cotizacion['peso']); ?></p>
+                            <p><strong>Dimensión: </strong><?php echo htmlspecialchars($cotizacion['dimension']); ?></p>
                             <!--<p><strong>Número de Bultos:</strong></p>-->
-                            <p><strong>Costo por unidad asignada:</strong></p>
-                            <p><strong>Costo por km extras:</strong></p>
-                            <p><strong>Costo final:</strong></p>
+                            <p><strong>Costo por unidad asignada: </strong><?php echo htmlspecialchars($cotizacion['precio']); ?></p>
+                            <p><strong>Costo por km extras: </strong><?php echo htmlspecialchars($cotizacion['km_adicionales']); ?></p>
+                            <p><strong>Costo final: </strong><?php echo htmlspecialchars(number_format($total,2)); ?></p>
                             <!-- Añade este botón donde desees -->
             </div>
         </div>
@@ -145,7 +160,7 @@ $operadores = $usuario->obtenerOperadores();
         </div>
         </div>
         <div class="text-center mt-3">
-        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="mostrarAlerta()">Guardar</button>
+        <!-- <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="mostrarAlerta()">Guardar</button> -->
                 <!--<button type="button" class="btn btn-secondary me-2">Editar</button>-->
                 <button type="button" class="btn btn-secondary me-2" onclick="copiarAlPortapapeles()">
                 <i class="fas fa-copy"></i> Copiar inf

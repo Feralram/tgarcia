@@ -1,29 +1,36 @@
 <?php
-session_start();
 include_once ('../models/Usuario.php');
+session_start();
 
-// Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-
-$id = $_GET['cotizacionId'] ?? null;
+$id = $_GET['servicioId'] ?? null;
 
 if ($id) {
-  $query = "SELECT * FROM cotizaciones WHERE id_cotizacion = '$id'";
-  $resultado = $usuario->conexion->query($query);
+  $stmt = $usuario->conexion->prepare(
+  "SELECT servicios.id_especifico, servicios.cliente, servicios.operador, servicios.num_candados, servicios.caat,
+  servicios.oriDestino, cotizaciones.dimension, operadores.rfc, operadores.celular
+  , unidades.placas, unidades.modelo, unidades.unidad, unidades.eco
+  FROM servicios  
+  INNER JOIN operadores ON servicios.id_operador = operadores.id
+  INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
+  INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+  WHERE id_servicio = ?");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+  $resultado = $stmt->get_result();
 
   if ($resultado && $resultado->num_rows > 0) {
-    $cotizacion = $resultado->fetch_assoc();
+    $servicio = $resultado->fetch_assoc();
   } else {
-    echo "Cotización no encontrada.";
+    echo "Servicio no encontrada.";
     exit;
   }
 } else {
-  echo "ID de cotización no proporcionado.";
+  echo "ID de servicio no proporcionado.";
   exit;
 }
 
-$total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
 
 ?>
 <!DOCTYPE html>
@@ -101,7 +108,7 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="listaServicios.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -141,27 +148,63 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
             <div class="card-header">
               <div class="container mt-4">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                  <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la cotización
-                    <?php echo htmlspecialchars($cotizacion['id_especifico']); ?></h6>
+                  <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion del servicio
+                    <?php echo htmlspecialchars($servicio['id_especifico']); ?></h6>
                 </div>
-                <div class="border p-4">
-                  <p class="text-center">
-                  <p><strong>Origen y Destino:</strong> <?php echo htmlspecialchars($cotizacion['origen']); ?></p>
-                  <!--<p><strong>Código Postal:</strong></p>-->
-                  <p><strong>Peso:</strong> <?php echo htmlspecialchars($cotizacion['peso']); ?></p>
-                  <p><strong>Dimensión:</strong> <?php echo htmlspecialchars($cotizacion['dimension']); ?></p>
-                  <!--<p><strong>Número de Bultos:</strong></p>-->
-                  <p><strong>Costo por unidad asignada:</strong> <?php echo htmlspecialchars($cotizacion['precio']); ?>
-                  </p>
-                  <p><strong>Gastos adicionales:</strong> <input type="number" name="km_extras" id="km_extras"
-                      value="<?php echo htmlspecialchars($cotizacion['km_adicionales']); ?>"></p>
-                  <p><strong>Costo final:</strong> <input type="number" name="total" id="total"
-                      value="<?php echo htmlspecialchars($total); ?>"></p>
-                  <p><strong>Comentarios:</strong></p>
-                  <textarea name="comentarios" id="comentarios"></textarea>
-                  <input type="hidden" name="precio" id="precio" value="<?php echo htmlspecialchars($cotizacion['precio']); ?>">
-                  <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($cotizacion['id_cotizacion']); ?>">
-                  <!-- Añade este botón donde desees -->
+                <div id="contenedor" class="border p-4">
+                <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th colspan="2" class="text-center">TRANSPORTES ADUANALES GARCIA, S.A. DE C.V.</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Cliente:</td>
+                          <td><?php echo htmlspecialchars($servicio['cliente']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>ECO:</td>
+                          <td><?php echo htmlspecialchars($servicio['eco']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>Num de Candados:</td>
+                          <td><?php echo htmlspecialchars($servicio['num_candados']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>Nombre del Operador:</td>
+                          <td><?php echo htmlspecialchars($servicio['operador']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>Tipo de unidad:</td>
+                          <td><?php echo htmlspecialchars($servicio['unidad']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>Modelo:</td>
+                          <td><?php echo htmlspecialchars($servicio['modelo']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>Placas:</td>
+                          <td><?php echo htmlspecialchars($servicio['placas']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>Coordinador:</td>
+                          <td><?php echo htmlspecialchars($servicio['operador']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>Tel:</td>
+                          <td><?php echo htmlspecialchars($servicio['celular']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>CAAT:</td>
+                          <td><?php echo htmlspecialchars($servicio['caat']); ?></td>
+                        </tr>
+                        <tr>
+                          <td>RFC:</td>
+                          <td><?php echo htmlspecialchars($servicio['rfc']); ?></td>
+                        </tr>
+                      </tbody>
+                    </table>
                 </div>
               </div>
             </div>
@@ -169,16 +212,11 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
         </div>
       </div>
       <div class="text-center mt-3">
-        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="updateCotizacion()">Guardar</button>
+        <!-- <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="mostrarAlerta()">Guardar</button> -->
         <!--<button type="button" class="btn btn-secondary me-2">Editar</button>-->
-        <button type="button" class="btn btn-secondary me-2" onclick="copiarAlPortapapeles()">
-          <i class="fas fa-copy"></i> Copiar inf
+        <button type="button" class="btn bg-gradient-info me-2" id="downloadBtn">
+          <i class="fa fa-download"></i> Descargar
         </button>
-        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="registrar()">
-          Registrar
-        </button>
-
-
       </div>
     </div>
   </main>
@@ -189,9 +227,32 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../validations/validators.js"></script>
   <script src="../admin/ajax/notifications.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-  <script src="editCotizacion.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
+  <script>
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      var nombre = "Estampa_<?php echo $servicio['id_especifico']; ?>";
+      html2canvas(document.querySelector('#contenedor')).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('landscape');
+        
+        const imgWidth = 175; // Ancho deseado de la imagen en mm
+
+        
+
+        const imgHeight = 125
+        
+
+        
+        pdf.addImage(imgData, 'PNG', 65, 30, imgWidth, imgHeight);
+        pdf.save(nombre+'.pdf');
+      });
+    });
+  </script>
 
 
   <script>
@@ -206,68 +267,6 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
   <!-- Agrega el script al final del body o en el head -->
-  <script>
-    // Función para copiar al portapapeles
-    function copiarAlPortapapeles() {
-      // Selecciona el contenido del div
-      var contenido = document.getElementById('datos').innerText;
-
-      // Crea un elemento textarea temporal para copiar el texto
-      var textarea = document.createElement('textarea');
-      textarea.value = contenido;
-      document.body.appendChild(textarea);
-
-      // Selecciona el texto del textarea y copia al portapapeles
-      textarea.select();
-      document.execCommand('copy');
-
-      // Remueve el textarea temporal
-      document.body.removeChild(textarea);
-
-      // Alerta o mensaje de confirmación (opcional)
-      alert('¡La información se ha copiado al portapapeles!');
-    }
-  </script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-
-    // Función para mostrar alerta al guardar
-    function mostrarAlerta() {
-      alert('La cotización se ha guardado correctamente. Puede visualizarla en el apartado de "Cotizaciones en proceso".');
-    }
-    function registrar() {
-      // Mostrar alerta de confirmación
-      if (confirm("¿Estás seguro de querer registrar? No podrás editar después.")) {
-        // Aquí puedes agregar la lógica para registrar
-        // Por ejemplo, enviar datos al servidor, etc.
-        terminarCotizacion();
-      }
-      // No hay necesidad de un else aquí, ya que no se hace nada si el usuario cancela
-    }
-    // Función para copiar al portapapeles
-    function copiarAlPortapapeles() {
-      // Selecciona el contenido del div
-      var contenido = document.getElementById('datos').innerText;
-
-      // Crea un elemento textarea temporal para copiar el texto
-      var textarea = document.createElement('textarea');
-      textarea.value = contenido;
-      document.body.appendChild(textarea);
-
-      // Selecciona el texto del textarea y copia al portapapeles
-      textarea.select();
-      document.execCommand('copy');
-
-      // Remueve el textarea temporal
-      document.body.removeChild(textarea);
-    }
-  </script>
 
 </body>
 
