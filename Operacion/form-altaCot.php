@@ -61,7 +61,7 @@ error_reporting(E_ALL);
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./documentos.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -77,7 +77,7 @@ error_reporting(E_ALL);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="./listaServicios.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
