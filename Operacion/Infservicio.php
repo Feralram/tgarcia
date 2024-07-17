@@ -8,7 +8,7 @@ $id = $_GET['servicioId'] ?? null;
 
 if ($id) {
   $stmt = $usuario->conexion->prepare(
-  "SELECT servicios.id_especifico, servicios.cliente, servicios.operador, servicios.num_candados, servicios.caat,
+  "SELECT servicios.id_especifico, servicios.cliente, servicios.operador, servicios.num_candados,
   servicios.oriDestino, cotizaciones.dimension, operadores.rfc, operadores.celular
   , unidades.placas, unidades.modelo, unidades.unidad, unidades.eco
   FROM servicios  
@@ -151,11 +151,11 @@ if ($id) {
                   <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion del servicio
                     <?php echo htmlspecialchars($servicio['id_especifico']); ?></h6>
                 </div>
-                <div id="contenedor" class="border p-4">
+                <div id="contenedor" class="border p-4 card-body">
                 <table class="table table-bordered">
                       <thead>
                         <tr>
-                          <th colspan="2" class="text-center">TRANSPORTES ADUANALES GARCIA, S.A. DE C.V.</th>
+                          <th colspan="2" class="text-center bg-warning text-white font-weight-bold">TRANSPORTES ADUANALES GARCIA, S.A. DE C.V.</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -189,7 +189,7 @@ if ($id) {
                         </tr>
                         <tr>
                           <td>Coordinador:</td>
-                          <td><?php echo htmlspecialchars($servicio['operador']); ?></td>
+                          <td>Palestina Cordova Juan Carlos</td>
                         </tr>
                         <tr>
                           <td>Tel:</td>
@@ -197,11 +197,11 @@ if ($id) {
                         </tr>
                         <tr>
                           <td>CAAT:</td>
-                          <td><?php echo htmlspecialchars($servicio['caat']); ?></td>
+                          <td>12DT</td>
                         </tr>
                         <tr>
                           <td>RFC:</td>
-                          <td><?php echo htmlspecialchars($servicio['rfc']); ?></td>
+                          <td>TAG200630F74</td>
                         </tr>
                       </tbody>
                     </table>
@@ -230,29 +230,30 @@ if ($id) {
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
 
   <script>
-    document.getElementById('downloadBtn').addEventListener('click', function() {
-      var nombre = "Estampa_<?php echo $servicio['id_especifico']; ?>";
-      html2canvas(document.querySelector('#contenedor')).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('landscape');
-        
-        const imgWidth = 175; // Ancho deseado de la imagen en mm
+document.getElementById('downloadBtn').addEventListener('click', function() {
+  var nombre = "Estampa_<?php echo $servicio['id_especifico']; ?>";
+  
+  // Selecciona el elemento que deseas convertir a PDF
+  var content = document.querySelector('#contenedor');
+  
+  // Configura las opciones para html2pdf
+  var opt = {
+    margin:       1,
+    filename:     nombre + '.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+  
+  // Genera el PDF y lo descarga
+  html2pdf().set(opt).from(content).save();
+});
+</script>
 
-        
-
-        const imgHeight = 125
-        
-
-        
-        pdf.addImage(imgData, 'PNG', 65, 30, imgWidth, imgHeight);
-        pdf.save(nombre+'.pdf');
-      });
-    });
-  </script>
 
 
   <script>

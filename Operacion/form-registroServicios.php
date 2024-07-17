@@ -35,7 +35,7 @@ if ($id) {
      echo "No se encontraron operadores.";
  }
 
- $queryUnidades = "SELECT Uni_id, Unidad FROM unidades";
+ $queryUnidades = "SELECT Uni_id, Unidad, Placas FROM unidades";
  $result = $usuario->conexion->query($queryUnidades);
 
  $unidades = [];
@@ -119,7 +119,7 @@ if ($id) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="./listaServicios.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -174,7 +174,7 @@ if ($id) {
                 <option selected>Selecciona...</option>
                 <?php foreach ($unidades as $unidad): ?>
                     <option value="<?php echo htmlspecialchars($unidad['Uni_id']); ?>">
-                        <?php echo htmlspecialchars($unidad['Unidad']); ?>
+                        <?php echo htmlspecialchars($unidad['Placas'].' - '.$unidad['Unidad']); ?>
                     </option>
                 <?php endforeach; ?>              
               </select>
@@ -246,10 +246,6 @@ if ($id) {
             <div class="col-md-4 mb-3">
               <label for="factura" class="form-label">Numero de candados</label>
               <input type="number" class="form-control form-control-sm" id="candados" name="candados" required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="factura" class="form-label">CAAT</label>
-              <input type="text" class="form-control form-control-sm" id="caat" name="caat" required>
             </div>
 
             <div class="col-md-4 mb-3">

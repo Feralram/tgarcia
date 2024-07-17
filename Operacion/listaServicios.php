@@ -192,7 +192,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Nippon</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Proexi</h6>
                 </div>
                     <div class="card-header">
                     <div class="card-body">

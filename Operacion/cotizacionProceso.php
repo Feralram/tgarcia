@@ -135,7 +135,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
                                       <th scope="col">Peso</th>
                                       <th scope="col">Dimension</th>
                                       <th scope="col">Costo unidad</th>
-                                      <th scope="col">Costo km</th>
+                                      <th scope="col">Gastos adicionales</th>
                                       <th scope="col">Ver</th>
                                       <th scope="col">Editar</th>
                                   </tr>

@@ -20,7 +20,6 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
     const costo = document.getElementById('costo').value;
     const factura = document.getElementById('factura').value;
     const candados = document.getElementById('candados').value;
-    const caat = document.getElementById('caat').value;
     const observaciones = document.getElementById('observaciones').value;
     const idcoti = document.getElementById('idcoti').value;
 
@@ -44,8 +43,7 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
             doc_fiscal: doc_fiscal,
             costo: costo,
             factura: factura,
-            candados: candados,
-            caat: caat,
+            candados: candados,            
             observaciones: observaciones,
             idcoti: idcoti
         }

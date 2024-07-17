@@ -38,22 +38,24 @@ function updateCotizacion (){
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error en la solicitud');
+            return response.json().then(data => {
+                throw new Error(data.message || 'Error en la solicitud');
+            });
         }
         return response.json();
     })
     .then(data => {
         // Manejar la respuesta del servidor
         if (data.success) {
-            alert('Cotización actualizada correctamente');
+            alert(data.message || 'Cotización actualizada correctamente');
             window.location.reload(); // Recargar la página
         } else {
-            alert('Error al actualizar la cotización');
+            alert(data.message || 'Error al actualizar la cotización');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error en la solicitud');
+        alert(error.message || 'Error en la solicitud');
     });
 }
 

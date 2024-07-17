@@ -14,10 +14,10 @@ class Usuario extends Connect {
         $usu = $this->conexion->real_escape_string($usu); // Evita SQL Injection
         $psw = $this->conexion->real_escape_string($psw); // Evita SQL Injection
 
-        $query = "SELECT Usuario.Nombre, Usuario.ApellidoP, Usuario.ApellidoM, Usuario.Usu_id, Usuario.Puesto_id, puestos.Nombre as Puesto
-        FROM Usuario 
+        $query = "SELECT usuario.Nombre, usuario.ApellidoP, usuario.ApellidoM, usuario.Usu_id, usuario.Puesto_id, puestos.Nombre as Puesto
+        FROM usuario 
         INNER JOIN puestos 
-        ON Usuario.Puesto_id = puestos.Puesto_id
+        ON usuario.Puesto_id = puestos.Puesto_id
         WHERE Usuario = '$usu' 
         AND psw = '$psw' 
         ";
@@ -104,7 +104,7 @@ class Usuario extends Connect {
         INNER JOIN operadores ON servicios.id_operador = operadores.id
         INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
         INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
-        WHERE lista != 'Lista Nippon'
+        WHERE lista != 'Lista Proexi'
         ORDER BY id_servicio ASC";
         $resultado = $this->conexion->query($query);
 
@@ -121,7 +121,7 @@ class Usuario extends Connect {
         INNER JOIN operadores ON servicios.id_operador = operadores.id
         INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
         INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
-        WHERE lista = 'Lista Nippon'
+        WHERE lista = 'Lista Proexi'
         ORDER BY id_servicio ASC";
         $resultado = $this->conexion->query($query);
 
@@ -389,12 +389,13 @@ class Usuario extends Connect {
         $precio = $this->conexion->real_escape_string($datos['precio']);
         $num_bultos = $this->conexion->real_escape_string($datos['num_bultos']);
         $km_adicionales = $this->conexion->real_escape_string($datos['km_adicionales']);
+        $usuario_registro = $_SESSION['NombreUsu'];
 
         $id = $this->contarCotizaciones();
         $id_especifico = 'C-'.$id;
     
-        $query = "INSERT INTO cotizaciones (id_cotizacion, id_especifico, cliente, tarifario, origen, codigo_postal, peso, dimension, precio, num_bultos, km_adicionales, fecha_creacion)
-                  VALUES ('$id', '$id_especifico', '$cliente', '$tarifario', '$texto_origen', '$codigo_postal', '$peso', '$texto_dimension', '$precio', '$num_bultos', '$km_adicionales', now())";
+        $query = "INSERT INTO cotizaciones (id_cotizacion, id_especifico, cliente, tarifario, origen, codigo_postal, peso, dimension, precio, num_bultos, km_adicionales, fecha_creacion, usuario_registro, contador_modificaciones)
+                  VALUES ('$id', '$id_especifico', '$cliente', '$tarifario', '$texto_origen', '$codigo_postal', '$peso', '$texto_dimension', '$precio', '$num_bultos', '$km_adicionales', now(), '$usuario_registro', 1)";
     
         
         if ($this->conexion->query($query)) {
@@ -404,17 +405,73 @@ class Usuario extends Connect {
         }
     }
 
-    public function updateCotizacion($id, $km_extras, $total) {
+    // Nueva función para obtener cotización por ID
+    public function getCotizacionById($id) {
         $id = $this->conexion->real_escape_string($id);
+        $query = "SELECT * FROM cotizaciones WHERE id_cotizacion='$id'";
+        $resultado = $this->conexion->query($query);
+
+        if ($resultado && $resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
+
+    public function registrarCotizacion($cotizacion) {
+        // Prepare los datos para la inserción
+        $id_cotizacion = $this->conexion->real_escape_string($cotizacion['id_cotizacion']);
+        $id_especifico = $this->conexion->real_escape_string($cotizacion['id_especifico']);
+        $cliente = $this->conexion->real_escape_string($cotizacion['cliente']);
+        $tarifario = $this->conexion->real_escape_string($cotizacion['tarifario']);
+        $origen = $this->conexion->real_escape_string($cotizacion['origen']);
+        $codigo_postal = $this->conexion->real_escape_string($cotizacion['codigo_postal']);
+        $peso = $this->conexion->real_escape_string($cotizacion['peso']);
+        $dimension = $this->conexion->real_escape_string($cotizacion['dimension']);
+        $precio = $this->conexion->real_escape_string($cotizacion['precio']);
+        $num_bultos = $this->conexion->real_escape_string($cotizacion['num_bultos']);
+        $km_adicionales = $this->conexion->real_escape_string($cotizacion['km_adicionales']);
+        $fecha_creacion = $this->conexion->real_escape_string($cotizacion['fecha_creacion']);
+
+        $query = "INSERT INTO registro_cotizaciones (id_cotizacion, id_especifico, cliente, tarifario, origen, codigo_postal, peso, dimension, precio, num_bultos, km_adicionales, fecha_creacion) 
+        VALUES ('$id_cotizacion', '$id_especifico', '$cliente', '$tarifario', '$origen', '$codigo_postal', '$peso', '$dimension', '$precio', '$num_bultos', '$km_adicionales', '$fecha_creacion')";
+
+        return $this->conexion->query($query);
+    }
+
+    public function updateCotizacion($id, $km_extras, $total) {
+        // Obtener la cotización actual
+        $cotizacion = $this->getCotizacionById($id);
+
+        if ($cotizacion === null) {
+            return ['success' => false, 'message' => 'Cotización no encontrada'];
+        }
+
+        // Verificar el contador de modificaciones
+        if ($cotizacion['contador_modificaciones'] >= 3) {
+            return ['success' => false, 'message' => 'Se llegó al máximo de cambios posibles en la cotización'];
+        }
+
+        // Registrar el estado actual de la cotización
+        if (!$this->registrarCotizacion($cotizacion)) {
+            return ['success' => false, 'message' => 'Error al registrar el estado actual de la cotización'];
+        }
+
+        // Incrementar el contador de modificaciones
+        $nuevo_contador = $cotizacion['contador_modificaciones'] + 1;
+
+        // Escapar los valores
         $km_extras = $this->conexion->real_escape_string($km_extras);
         $total = $this->conexion->real_escape_string($total);
-    
-        $query = "UPDATE cotizaciones SET km_adicionales='$km_extras', precio='$total' WHERE id_cotizacion='$id'";
-    
+        $nuevo_contador = $this->conexion->real_escape_string($nuevo_contador);
+
+        // Actualizar la cotización
+        $query = "UPDATE cotizaciones SET km_adicionales='$km_extras', precio='$total', contador_modificaciones='$nuevo_contador' WHERE id_cotizacion='$id'";
+
         if ($this->conexion->query($query)) {
-            return true;
+            return ['success' => true, 'message' => 'Cotización actualizada correctamente'];
         } else {
-            return false;
+            return ['success' => false, 'message' => 'Error al actualizar la cotización'];
         }
     }
 
@@ -449,7 +506,6 @@ class Usuario extends Connect {
         $costo = $this->conexion->real_escape_string($datos['costo']);
         $factura = $this->conexion->real_escape_string($datos['factura']);
         $candados = $this->conexion->real_escape_string($datos['candados']);
-        $caat = $this->conexion->real_escape_string($datos['caat']);
         $observaciones = $this->conexion->real_escape_string($datos['observaciones']);
         $idcoti = $this->conexion->real_escape_string($datos['idcoti']);
 
@@ -457,9 +513,9 @@ class Usuario extends Connect {
         $id_especifico = 'S-'.$id;
     
         $query = "INSERT INTO servicios (id_servicio, id_especifico, lista, fecha_recoleccion, cliente, unidad, oriDestino
-        , unid_factura, local_foranea, sello, operador, id_operador, cliente_solicita, referencia, bultos, doc_fiscal, costo, factura, observaciones, fecha_creacion, id_cotizacion, num_candados, CAAT )
+        , unid_factura, local_foranea, sello, operador, id_operador, cliente_solicita, referencia, bultos, doc_fiscal, costo, factura, observaciones, fecha_creacion, id_cotizacion, num_candados )
                   VALUES ('$id', '$id_especifico', '$lista_reco', '$fecha_recoleccion', '$cliente', '$unidad', '$origen_destino', '$unid_factura', '$local_foranea',
-                  '$sello','$texto_operador','$operador','$cliente_solicita','$referencia','$bultos','$doc_fiscal','$costo','$factura','$observaciones', now(), '$idcoti', '$candados', '$caat')";
+                  '$sello','$texto_operador','$operador','$cliente_solicita','$referencia','$bultos','$doc_fiscal','$costo','$factura','$observaciones', now(), '$idcoti', '$candados')";
     
         
         if ($this->conexion->query($query)) {

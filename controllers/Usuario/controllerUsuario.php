@@ -107,12 +107,12 @@ if (isset($request)) {
             $id = $request['id'];
             $resultado = $usuario->updateCotizacion($id, $km_extras, $total);
 
-            if ($resultado) {
+            if ($resultado['success']) {
                 http_response_code(200);
-                echo json_encode(['success' => true, 'message' => 'Cotización actualizada correctamente']);
+                echo json_encode(['success' => true, 'message' => $resultado['message']]);
             } else {
-                http_response_code(500);
-                echo json_encode(['success' => false, 'message' => 'Error al actualizar la cotización']);
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => $resultado['message']]);
             }
             break;
         case 'terminarCotizacion':
@@ -152,7 +152,6 @@ if (isset($request)) {
                 'costo' => $datosServi['costo'],
                 'factura' => $datosServi['factura'],
                 'candados' => $datosServi['candados'],
-                'caat' => $datosServi['caat'],
                 'observaciones' => $datosServi['observaciones'],
                 'idcoti' => $datosServi['idcoti'],
             ];
