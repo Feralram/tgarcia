@@ -1,21 +1,14 @@
 <?php
-
 session_start();
+include_once('../models/Usuario.php');
+
+// Crear una instancia del objeto Usuario
+$usuario = new Usuario();
+
+// Obtener las unidades desde el modelo
+$unidades = $usuario->obtenerUnidades();
+$operadores = $usuario->obtenerOperadores();
 ?>
-<!--
-=========================================================
-* Material Dashboard 2 - v3.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +17,13 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<!-- Incluye jQuery y DataTables CSS y JS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+
+<!-- Incluye el archivo de idioma español de DataTables -->
+<script src="https://cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json"></script>
+
   <title>
    Trasportes Garcia
   </title>
@@ -59,20 +59,27 @@ session_start();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-info" href="./perfil.php">
+            <a class="nav-link text-white active bg-gradient-info" href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
             </a>
         </li>
-        </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Registro Factura</span>
+            <span class="nav-link-text ms-1">Cotización en proceso</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaServicios.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista de servicios</span>
           </a>
         </li>
         <li class="nav-item">
@@ -81,14 +88,6 @@ session_start();
               <span class="material-icons opacity-10">folder</span>
             </div>
             <span class="nav-link-text ms-1">Lista de facturas</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Lista de cotizaciones</span>
           </a>
         </li>
         <li class="nav-item mt-4">
@@ -110,7 +109,7 @@ session_start();
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Facturacion</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Facturación</li>
           </ol>
           <h6 class="font-weight-bolder mb-0">Bienvenido</h6>
         </nav>
@@ -118,461 +117,152 @@ session_start();
     </nav>
     <div class="container-fluid px-2 px-md-4">
       <!-- End Navbar -->
-      <div class="page-header min-height-300 border-radius-xl mt-4"
-        style="background-image: url('../assets/img/students-profile.jpg'); background-position: center 75%;">
-        <span class="mask  bg-gradient-info  opacity-6"></span>
-      </div>
-      <div class="h-100">
-        <br><br><h1>Bienvenid@ </h1>
-        <h2>Nombre: <?= $_SESSION['NombreUsu'] ?></h2>
-        <h2>Puesto: <?= $_SESSION['PuestoUsu'] ?></h2>
-      </div>
-      <!--<div class="card card-body mx-3 mx-md-4 mt-n6">
-
-        <form id="update-profile">
-          <input type="hidden" name="accion" id="accion" value="2">
-        <div class="row gx-4 mb-2">
-          <div class="col-auto my-auto">
-            <div class="h-100">
-              <h5 class="mb-1">
-
-              </h5>
-              <p class="mb-0 font-weight-normal text-sm">
-     
-              </p>
-            </div>
-          </div>
-        </div>
+       <!--Lista Operadores-->
+       <div class="container mt-5">
         <div class="row">
-          <div class="row">
-            <div class="col-12">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <h6 class="mb-0">Datos Generales</h6>
+            <div class="col">
+                <div class="card">
+                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Lista Unidades</h6>
                 </div>
-                <div class="card-body p-3">
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-3">
-                      <label>Fecha de nacimiento</label>
-                      <input type="date" id="birthdayStudent" name="fechadenacimiento" class="form-control" required>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Eco</th>
+                                        <th scope="col">Placa</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Unidad</th>
+                                        <th scope="col">Largo</th>
+                                        <th scope="col">Ancho</th>
+                                        <th scope="col">Alto</th>
+                                        <th scope="col">Peso</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Modelo</th>
+                                        <th scope="col">No. Serie</th>
+                                        <th scope="col">Color</th>
+                                        <th scope="col">Placas Anteriores</th>
+                                        <th scope="col">Poliza</th>
+                                        <th scope="col">Vigencia de poliza</th>
+                                        <th scope="col">Verificación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($unidades as $unidad): ?>
+        <tr>
+            <td><?php echo $unidad['Eco']; ?></td>
+            <td><?php echo $unidad['Placas']; ?></td>
+            <td><?php echo $unidad['Marca']; ?></td>
+            <td><?php echo $unidad['Unidad']; ?></td>
+            <td><?php echo $unidad['Largo']; ?></td>
+            <td><?php echo $unidad['Ancho']; ?></td>
+            <td><?php echo $unidad['Alto']; ?></td>
+            <td><?php echo $unidad['Peso']; ?></td>
+            <td><?php echo $unidad['Tipo']; ?></td>
+            <td><?php echo $unidad['Modelo']; ?></td>
+            <td><?php echo $unidad['No_Serie']; ?></td>
+            <td><?php echo $unidad['Color']; ?></td>
+            <td><?php echo $unidad['Placas_Anteriores']; ?></td>
+            <td><?php echo $unidad['Poliza']; ?></td>
+            <td><?php echo $unidad['Vigencia_Poliza']; ?></td>
+            <td><?php echo $unidad['Verificacion']; ?></td>
+        </tr>
+        <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-1">
-                      <label>Edad</label>
-                      <input type="number" class="form-control" id="edad" name="edad" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-1">
-                      <label>Meses</label>
-                      <input type="number" class="form-control" id="meses" name="meses" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-3">
-                      <label>Peso</label>
-                      <input type="text" class="form-control" aria-describedby="peso-addon2" id="peso" name="peso" required>
-                      <span class="input-group-text" id="peso-addon2">Kg.</span>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-1">
-                      <label for="lentesSelect">Lentes</label>
-                      <select class="form-control" name="lentes" id="lentes" required>
-                        <option value="Sí">Sí</option>
-                        <option value="No">No</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="lentesSelect">Cartilla de vacunación</label>
-                      <select class="form-control" name="cartilla" id="cartilla" required>
-                        <option value="Sí">Sí</option>
-                        <option value="No">No</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-2">
-                      <label for="lentesSelect">Vacunas completas</label>
-                      <select class="form-control" name="vacunas" id="vacunas" required>
-                        <option value="Sí">Sí</option>
-                        <option value="No">No</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="lentesSelect">Zapatos ortopédicos</label>
-                      <select class="form-control" name="ortopedico" id="ortopedico" required>
-                        <option value="Sí">Sí</option>
-                        <option value="No">No</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="sexoSelect">Sexo</label>
-                      <select class="form-control" name="sexo" id="sexo" required>
-                        <option value="Mujer">Mujer</option>
-                        <option value="Hombre">Hombre</option>
-                        <option value="Otro">Otro</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="entidadSelect">Entidad de nacimiento</label>
-                      <select class="form-control" name="entidaddenacimiento" id="entidaddenacimiento" required>
-                        <option value="Ciudad de México">Ciudad de México</option>
-                        <option value="México">México</option>
-                        <option value="Aguascalientes">Aguascalientes</option>
-                        <option value="Baja California">Baja California</option>
-                        <option value="Baja California Sur">Baja California Sur</option>
-                        <option value="Campeche">Campeche</option>
-                        <option value="Chiapas">Chiapas</option>
-                        <option value="Chihuahua">Chihuahua</option>
-                        <option value="Coahuila">Coahuila</option>
-                        <option value="Colima">Colima</option>
-                        <option value="Durango">Durango</option>
-                        <option value="Guanajuato">Guanajuato</option>
-                        <option value="Guerrero">Guerrero</option>
-                        <option value="Hidalgo">Hidalgo</option>
-                        <option value="Jalisco">Jalisco</option>
-                        <option value="Michoacán">Michoacán</option>
-                        <option value="Morelos">Morelos</option>
-                        <option value="Nayarit">Nayarit</option>
-                        <option value="Nuevo León">Nuevo León</option>
-                        <option value="Oaxaca">Oaxaca</option>
-                        <option value="Puebla">Puebla</option>
-                        <option value="Querétaro">Querétaro</option>
-                        <option value="Quintana Roo">Quintana Roo</option>
-                        <option value="San Luis Potosí">San Luis Potosí</option>
-                        <option value="Sinaloa">Sinaloa</option>
-                        <option value="Sonora">Sonora</option>
-                        <option value="Tabasco">Tabasco</option>
-                        <option value="Tamaulipas">Tamaulipas</option>
-                        <option value="Tlaxcala">Tlaxcala</option>
-                        <option value="Veracruz">Veracruz</option>
-                        <option value="Yucatán">Yucatán</option>
-                        <option value="Zacatecas">Zacatecas</option>
-                        <option value="Otro">Otro</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Nacionalidad</label>
-                      <input type="text" value="Mexicana" class="form-control" name="nacionalidad" id="nacionalidad" required>
-                    </div>
-                  </div>
                 </div>
-              </div>
             </div>
-            <div class="col-12 ">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="mb-0">Dirección</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body p-3">
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Calle</label>
-                      <input type="text" class="form-control" name="domicilio1" id="domicilio1" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Entre calle</label>
-                      <input type="text" class="form-control" name="domicilio2" id="domicilio2" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Y la calle</label>
-                      <input type="text" class="form-control" name="domicilio3" id="domicilio3" required>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Colonia</label>
-                      <input type="text" class="form-control" name="domicilio4" id="domicilio4" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Código Postal</label>
-                      <input type="text" class="form-control" name="domicilio5" id="domicilio5" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Localidad</label>
-                      <input type="text" class="form-control" name="domicilio6" id="domicilio6" required>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Municipio</label>
-                      <input type="text" class="form-control" name="domicilio7" id="domicilio7" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Entidad</label>
-                      <input type="text" class="form-control" name="domicilio8" id="domicilio8" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Referencia</label>
-                      <input type="text" class="form-control" name="domicilio9" id="domicilio9" required>
-                    </div>
-                    <div class="row justify-content-md-end mt-0">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 ">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="mb-0">Información de Contacto</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body p-3">
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Numero de teléfono (celular o casa)</label>
-                      <input type="text" class="form-control" aria-describedby="telefonoHelp" name="telefono" id="telefono" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Correo electrónico</label>
-                      <input type="email" class="form-control" name="correoelectronico" id="correoelectronico" required>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 ">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="mb-0">Información del Padre de Familia o Tutor</h6>
-                    </div>
-                    <h6 class="text-uppercase text-body text-xs font-weight-bolder">Datos Generales</h6>
-                  </div>
-                </div>
-                <div class="card-body p-3">
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Parentesco</label>
-                      <input type="text" class="form-control" name="tparentesco" id="tparentesco" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Primer apellido</label>
-                      <input type="text" class="form-control" name="tape" id="tape" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Segundo apellido</label>
-                      <input type="text" class="form-control" name="tape2" id="tape2" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Nombre</label>
-                      <input type="text" class="form-control" name="tnombre" id="tnombre" required>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Fecha de nacimiento</label>
-                      <input type="date" id="tfechadenacimiento" name="tfechadenacimiento" class="form-control" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="sexoSelect">Sexo</label>
-                      <select class="form-control" name="tsexo" id="tsexo" required>
-                        <option value="Mujer">Mujer</option>
-                        <option value="Hombre">Hombre</option>
-                        <option value="Otro">Otro</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="testadocivil">Estado civil</label>
-                      <select class="form-control" name="testadocivil" id="testadocivil" required>
-                        <option value="Soltero(a)">Soltero(a)</option>
-                        <option value="Casado(a)">Casado(a)</option>
-                        <option value="Unión libre">Unión libre</option>
-                        <option value="Separado(a)">Separado(a)</option>
-                        <option value="Divorciado(a)">Divorciado(a)</option>
-                        <option value="Viudo(a)">Viudo(a)</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="tgradodeestudios">Grado de estudios</label>
-                      <select class="form-control" name="tgradodeestudios" id="tgradodeestudios" required>
-                        <option value="Primaria">Primaria</option>
-                        <option value="Secundaria">Secundaria</option>
-                        <option value="Media-superior">Media-superior</option>
-                        <option value="Superior">Superior</option>
-                        <option value="Ninguno">Ninguno</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>CURP</label>
-                      <input type="text" class="form-control" id="tcurp" name="tcurp" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="tentidaddenacimiento">Entidad de nacimiento</label>
-                      <select class="form-control" name="tentidaddenacimiento" id="tentidaddenacimiento" required>
-                        <option value="Ciudad de México">Ciudad de México</option>
-                        <option value="México">México</option>
-                        <option value="Aguascalientes">Aguascalientes</option>
-                        <option value="Baja California">Baja California</option>
-                        <option value="Baja California Sur">Baja California Sur</option>
-                        <option value="Campeche">Campeche</option>
-                        <option value="Chiapas">Chiapas</option>
-                        <option value="Chihuahua">Chihuahua</option>
-                        <option value="Coahuila">Coahuila</option>
-                        <option value="Colima">Colima</option>
-                        <option value="Durango">Durango</option>
-                        <option value="Guanajuato">Guanajuato</option>
-                        <option value="Guerrero">Guerrero</option>
-                        <option value="Hidalgo">Hidalgo</option>
-                        <option value="Jalisco">Jalisco</option>
-                        <option value="Michoacán">Michoacán</option>
-                        <option value="Morelos">Morelos</option>
-                        <option value="Nayarit">Nayarit</option>
-                        <option value="Nuevo León">Nuevo León</option>
-                        <option value="Oaxaca">Oaxaca</option>
-                        <option value="Puebla">Puebla</option>
-                        <option value="Querétaro">Querétaro</option>
-                        <option value="Quintana Roo">Quintana Roo</option>
-                        <option value="San Luis Potosí">San Luis Potosí</option>
-                        <option value="Sinaloa">Sinaloa</option>
-                        <option value="Sonora">Sonora</option>
-                        <option value="Tabasco">Tabasco</option>
-                        <option value="Tamaulipas">Tamaulipas</option>
-                        <option value="Tlaxcala">Tlaxcala</option>
-                        <option value="Veracruz">Veracruz</option>
-                        <option value="Yucatán">Yucatán</option>
-                        <option value="Zacatecas">Zacatecas</option>
-                        <option value="Otro">Otro</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Nacionalidad</label>
-                      <input type="text" value="Mexicana" class="form-control" name="tnacionalidad" id="tnacionalidad" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Tipo de documento oficial</label>
-                      <select class="form-control" id="ttipodedocumento" name="ttipodedocumento" required>
-                        <option value="INE" selected>INE</option>
-                        <option value="Cartilla">Cartilla</option>
-                        <option value="Pasaporte">Pasaporte</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 ">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="text-uppercase text-body text-xs font-weight-bolder">Dirección</h6>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkAddress">
-                        <label class="custom-control-label" for="checkAddress">La misma que el alumno</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body p-3" id="parentAddress">
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Colonia</label>
-                      <input type="text" class="form-control" id="tdomicilio1" name="tdomicilio1" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Código Postal</label>
-                      <input type="text" class="form-control" id="tdomicilio2" name="tdomicilio2" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Localidad</label>
-                      <input type="text" class="form-control" id="tdomicilio3" name="tdomicilio3" required>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Municipio</label>
-                      <input type="text" class="form-control" id="tdomicilio4" name="tdomicilio4" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Entidad</label>
-                      <input type="text" class="form-control" id="tdomicilio5" name="tdomicilio5" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Referencia</label>
-                      <input type="text" class="form-control" id="tdomicilio6" name="tdomicilio6" required>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 ">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="text-uppercase text-body text-xs font-weight-bolder">Información de Contacto</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body p-3">
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Numero de teléfono (celular o casa)</label>
-                      <input type="text" class="form-control" id="ttelefono" name="ttelefono" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-4">
-                      <label>Correo electrónico</label>
-                      <input type="email" class="form-control" id="tcorreoelectronico" name="tcorreoelectronico" required>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 ">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="text-uppercase text-body text-xs font-weight-bolder">Información Adicional</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body p-3">
-                  <div class="row">
-                    <div class="input-group-mody input-group-static mb-4 col-sm-6">
-                      <label>Necesidad educativa especial</label>
-                      <input type="text" class="form-control" id="tnecesidadespecial" name="tnecesidadespecial" >
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm-6">
-                      <label>Herramienta de apoyo</label>
-                      <input type="text" class="form-control" id="therramientasdeapoyo" name="therramientasdeapoyo" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label>Situación laboral</label>
-                      <input type="text" class="form-control" id="tsituacionlaboral" name="tsituacionlaboral" required>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm">
-                      <label for="isIndigenous">¿Pertenece a un grupo indígena?</label>
-                      <select class="form-control" id="isIndigenous" name="isIndigenous" required>
-                        <option value="Sí">Sí</option>
-                        <option value="No">No</option>
-                      </select>
-                    </div>
-                    <div class="input-group-mody input-group-static mb-4 col-sm" id="indigenousGroup">
-                      <label>Grupo indígena</label>
-                      <input type="text" class="form-control" id="tgrupoindigena" name="tgrupoindigena" required>
-                    </div>
-                    <div class="row justify-content-md-end mt-0">
-                      <div class="col-sm-3">
-                          <button type="submit" class="btn bg-gradient-info w-100 mb-2 ">Guardar</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-        </form>-->
+    </div>
+    <div class="container mt-5">
+      <div class="row">
+          <div class="col">
+              <div class="card">
+              <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Lista Operadores</h6>
+                </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                      <table id="tablaOperadores" class="table table-bordered table-striped table-hover">
+
+                                <thead class="thead-dark">
+                                    <tr>
+                                      <th scope="col">Num Trab</th>
+                                      <th scope="col">Nombre Completo</th>
+                                      <th scope="col">Nacionalidad</th>
+                                      <th scope="col">Edad</th>
+                                      <th scope="col">Sexo</th>
+                                      <th scope="col">Estado Civil</th>
+                                      <th scope="col">Licencia</th>
+                                      <th scope="col">Vigencia</th>
+                                      <th scope="col">Tipo</th>
+                                      <th scope="col">Celular</th>
+                                      <th scope="col">CURP</th>
+                                      <th scope="col">RFC</th>
+                                      <th scope="col">Domicilio</th>
+                                      <th scope="col">Domicilio de Constancia</th>
+                                      <th scope="col">Delegación</th>
+                                      <th scope="col">CP</th>
+                                      <th scope="col">Tipo de Trabajador</th>
+                                      <th scope="col">Fecha de ingreso</th>
+                                      <th scope="col">Puesto</th>
+                                      <th scope="col">Descripción</th>
+                                      <th scope="col">Lugar de Trabajo</th>
+                                      <th scope="col">Duración de la Jornada</th>
+                                      <th scope="col">Forma de Pago</th>
+                                      <th scope="col">Días de Pago</th>
+                                      <th scope="col">Días de Descanso</th>
+                                      <th scope="col">Beneficiarios</th>
+                                      <th scope="col">NSS</th>
+                                      <th scope="col">Fecha de Nacimiento</th>
+                                      <th scope="col">Activo o inactivo</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              <?php foreach ($operadores as $operador): ?>
+        <tr>
+            <td><?php echo $operador['Id']; ?></td>
+            <td><?php echo $operador['Nombre_completo']; ?></td>
+            <td><?php echo $operador['Nacionalidad']; ?></td>
+            <td><?php echo $operador['Edad']; ?></td>
+            <td><?php echo $operador['Sexo']; ?></td>
+            <td><?php echo $operador['EstadoCivil']; ?></td>
+            <td><?php echo $operador['Licencia']; ?></td>
+            <td><?php echo $operador['Vigencia']; ?></td>
+            <td><?php echo $operador['Tipo']; ?></td>
+            <td><?php echo $operador['Celular']; ?></td>
+            <td><?php echo $operador['Curp']; ?></td>
+            <td><?php echo $operador['Rfc']; ?></td>
+            <td><?php echo $operador['Domicilio_actual']; ?></td>
+            <td><?php echo $operador['Domicilio_constancia']; ?></td>
+            <td><?php echo $operador['Delegacion']; ?></td>
+            <td><?php echo $operador['CP']; ?></td>
+            <td><?php echo $operador['TipoTrabajador']; ?></td>
+            <td><?php echo $operador['Fecha_ingreso']; ?></td>
+            <td><?php echo $operador['Puesto']; ?></td>
+            <td><?php echo $operador['Descripcion']; ?></td>
+            <td><?php echo $operador['LugardeTrabajo']; ?></td>
+            <td><?php echo $operador['DuraciondelaJornada']; ?></td>
+            <td><?php echo $operador['Forma_pago']; ?></td>
+            <td><?php echo $operador['DiasPago']; ?></td>
+            <td><?php echo $operador['DiasDescanso']; ?></td>
+            <td><?php echo $operador['Beneficiarios']; ?></td>
+            <td><?php echo $operador['NSS']; ?></td>
+            <td><?php echo $operador['FechaNacimiento']; ?></td>
+            <td><?php echo $operador['Eactivo']; ?></td>
+        </tr>
+        <?php endforeach; ?>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
+  </div>
     </div>
     </div>
     <div id="notifications" class="alert container text-white fade show" role="alert"><strong></strong></div>
@@ -588,6 +278,9 @@ session_start();
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../validations/validators.js"></script>
   <script src="../admin/ajax/notifications.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
@@ -600,6 +293,72 @@ session_start();
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  
+<script>
+  $(document).ready(function() {
+      $('#tablaUnidades').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
+</script>
+<script>
+$(document).ready(function() {
+    $('#tablaOperadores').DataTable({
+        "language": {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
+});
+</script>
+
+
+
+
+
 </body>
 
 </html>
