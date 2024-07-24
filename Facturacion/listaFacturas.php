@@ -5,8 +5,8 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-// Obtener las unidades desde el modelo
-$cotizaciones = $usuario->obtenerCotizaciones();
+$servicios = $usuario->obtenerServicios();
+$serviciosNippon = $usuario->obtenerServiciosNippon();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +58,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white" href="perfil.php">
+            <a class="nav-link text-white" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
@@ -66,15 +66,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
             </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info " href="cotizacionProceso.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Cotización en proceso</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="listaServicios.php">
+          <a class="nav-link text-white" href="./listaServicios.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -82,7 +74,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./documentos.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -112,45 +104,75 @@ $cotizaciones = $usuario->obtenerCotizaciones();
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Cotizaciones en proceso</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Generales</h6>
                 </div>
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
-                          <table id="tablaCotizaciones" class="table table-bordered table-striped table-hover">
-                              <thead class="thead-dark">
+                          <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
+                          <thead class="thead-dark">
                                   <tr>
-                                      <th scope="col">Id cotizacion</th>
-                                      <th scope="col">cliente</th>
-                                      <th scope="col">Origen y Destino</th>
-                                      <th scope="col">Peso</th>
-                                      <th scope="col">Dimension</th>
-                                      <th scope="col">Costo unidad</th>
-                                      <th scope="col">Gastos adicionales</th>
-                                      <th scope="col">Ver</th>
+                                      <th scope="col">Factura</th>
+                                      <th scope="col">Fecha</th>
+                                      <th scope="col">Precio Base</th>
+                                      <th scope="col">Iva</th>
+                                      <th scope="col">Retención</th>
+                                      <th scope="col">Precio final</th>
+                                      <th scope="col">Razón social</th>
+                                      <th scope="col">Contacto cliente</th>
+                                      <th scope="col">Servicio</th>
+                                      <th scope="col">Referencia</th>
+                                      <th scope="col">Complemento</th>
+                                      <th scope="col">Fecha de pago</th>
+                                      <th scope="col">Observación</th>
+                                      <th scope="col">Fecha de envio</th>                                      
+                                      <th scope="col">Documento</th>
+                                      <th scope="col">Portal Nippon</th>
                                   </tr>
                               </thead>
+                              </thead>
                               <tbody>
-                                  <!-- Ejemplo de una fila de datos -->
-                                  <?php foreach ($cotizaciones as $cotizacion): ?>
-        <tr>
-            <td><?php echo $cotizacion['id_especifico']; ?></td>
-            <td><?php echo $cotizacion['cliente']; ?></td>
-            <td><?php echo $cotizacion['origen']; ?></td>
-            <td><?php echo $cotizacion['peso']; ?></td>
-            <td><?php echo $cotizacion['dimension']; ?></td>
-            <td>$<?php echo $cotizacion['precio']; ?></td>
-            <td>$<?php echo $cotizacion['km_adicionales']; ?></td>
-            <td class="text-center">
-            <a href="Infcotizacion.php?cotizacionId=<?php echo $cotizacion['id_cotizacion']; ?>">
-              <button type="button" class="btn btn-success btn-icon btn-transparent">
-                <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
-              </button>
-            
-            </td>
-        </tr>
-        <?php endforeach; ?>
                                   
+                                  <!-- Más filas de datos aquí -->
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Proexi</h6>
+                </div>
+                    <div class="card-header">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                          <table id="tablaNippon" class="table table-bordered table-striped table-hover">
+                              <thead class="thead-dark">
+                                  <tr>
+                                      <th scope="col">Factura</th>
+                                      <th scope="col">Fecha</th>
+                                      <th scope="col">Precio Base</th>
+                                      <th scope="col">Iva</th>
+                                      <th scope="col">Retención</th>
+                                      <th scope="col">Precio final</th>
+                                      <th scope="col">Razón social</th>
+                                      <th scope="col">Contacto cliente</th>
+                                      <th scope="col">Servicio</th>
+                                      <th scope="col">Referencia</th>
+                                      <th scope="col">Complemento</th>
+                                      <th scope="col">Fecha de pago</th>
+                                      <th scope="col">Observación</th>
+                                      <th scope="col">Fecha de envio</th>                                      
+                                      <th scope="col">Documento</th>
+                                      <th scope="col">Portal Nippon</th>
+                                  </tr>
+                              </thead>
+                              <tbody> 
                                   <!-- Más filas de datos aquí -->
                               </tbody>
                           </table>
@@ -171,21 +193,9 @@ $cotizaciones = $usuario->obtenerCotizaciones();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <script>
+<script>
   $(document).ready(function() {
-      $('#tablaCotizaciones').DataTable({
+      $('#tablaGenerales').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -213,6 +223,47 @@ $cotizaciones = $usuario->obtenerCotizaciones();
       });
   });
 </script>
+<script>
+  $(document).ready(function() {
+      $('#tablaNippon').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
+</script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
 </body>
 
 </html>
