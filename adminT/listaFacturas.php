@@ -57,13 +57,30 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <li class="nav-item">
+      <li class="nav-item">
             <a class="nav-link text-white" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
             </a>
+        </li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./form-altaCot.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Alta Cotización</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotización en proceso</span>
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="./listaServicios.php">
@@ -74,11 +91,19 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./documentos.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./listaFacturas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
             <span class="nav-link-text ms-1">Lista de facturas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Facturas canceladas</span>
           </a>
         </li>
         <li class="nav-item mt-4">
