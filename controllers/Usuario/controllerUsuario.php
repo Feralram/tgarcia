@@ -66,6 +66,26 @@ if (isset($request)) {
 
             http_response_code(200);
             echo json_encode($tarifagen);
+            break;
+            
+        case 'insertarYRedirigir':
+            $servicioId = $_POST['servicioId'];
+            
+            // Insertar en la base de datos (reemplaza con tu lógica de inserción)
+            $data = [
+                'servicioId' => $servicioId,
+                'otro_campo' => 'valor_predeterminado' // Reemplaza con los datos necesarios
+            ];
+            
+            $id = $usuario->insertaFactura($data); // Usa tu método de inserción adecuado
+
+            if ($id) {
+                // Redirigir después del insert
+                header("Location: form-registroFact.php?servicioId=" . $servicioId);
+                exit();
+            } else {
+                echo "Error al insertar en la base de datos.";
+            }
             break; 
         
         case 'altacotizacion':

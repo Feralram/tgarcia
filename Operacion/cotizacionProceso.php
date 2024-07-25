@@ -136,6 +136,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
                                       <th scope="col">Dimension</th>
                                       <th scope="col">Costo unidad</th>
                                       <th scope="col">Gastos adicionales</th>
+                                      <th scope="col">Usuario que Genero</th>
                                       <th scope="col">Ver</th>
                                       <th scope="col">Editar</th>
                                   </tr>
@@ -151,6 +152,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
             <td><?php echo $cotizacion['dimension']; ?></td>
             <td>$<?php echo $cotizacion['precio']; ?></td>
             <td>$<?php echo $cotizacion['km_adicionales']; ?></td>
+            <td><?php echo ($cotizacion['usuario_registro'] ? $cotizacion['usuario_registro'] : 'Pendiente'); ?></td>
             <td class="text-center">
             <a href="Infcotizacion.php?cotizacionId=<?php echo $cotizacion['id_cotizacion']; ?>">
               <button type="button" class="btn btn-success btn-icon btn-transparent">

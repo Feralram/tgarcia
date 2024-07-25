@@ -74,7 +74,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="./listaFacturas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -130,12 +130,13 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
+                                      <th scope="col">Factura</th>
                                   </tr>
                               </thead>
                               <tbody>
                               <?php foreach ($servicios as $servicio): ?>
         <tr>
-          <td><?php echo $servicio['fecha_recoleccion']; ?></td>
+            <td><?php echo $servicio['fecha_recoleccion']; ?></td>
             <td><?php echo $servicio['cliente']; ?></td>
             <td><?php echo $servicio['unidad']; ?></td>
             <td><?php echo $servicio['Placas']; ?></td>
@@ -158,6 +159,23 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
             </td>
+
+            <td class="text-center">
+            <a href="form-registroFact.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
+                <button type="button" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
+                  <i class="fas fa-file-invoice fa-lg"></i>
+                </button>
+            </td>
+             <!-- Coloca aquí tus otras columnas -->
+        <!-- <td class="text-center">
+          <form method="post" action="../controllers/Usuario/controllerUsuario.php">
+            <input type="hidden" name="accion" value="insertarYRedirigir">
+            <input type="hidden" name="servicioId" value="">
+            <button type="submit" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
+              <i class="fas fa-file-invoice fa-lg"></i>
+            </button>
+          </form>
+        </td> -->
         </tr>
         <?php endforeach; ?>
                                   
@@ -200,6 +218,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
+                                      <th scope="col">Factura</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -227,7 +246,12 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
               <button type="button" class="btn btn-success btn-icon btn-transparent">
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
-            
+            </td>
+            <td class="text-center">
+            <a href="form-registroFact.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
+                <button type="button" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
+                  <i class="fas fa-file-invoice fa-lg"></i>
+                </button>
             </td>
         </tr>
         <?php endforeach; ?>

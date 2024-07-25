@@ -524,6 +524,28 @@ class Usuario extends Connect {
             return false;
         }
     }
+
+    public function insertaFactura($factura) {
+        // Prepara los datos para la inserción
+        $servicioId = $this->conexion->real_escape_string($factura['servicioId']);
+        $otroCampo = $this->conexion->real_escape_string($factura['otro_campo']); // Reemplaza con los campos necesarios
+
+        // Inserta el registro inicial
+        $query = "INSERT INTO facturas (servicioId, otroCampo) VALUES ('$servicioId', '$otroCampo')";
+        if ($this->conexion->query($query)) {
+            // Obtiene el ID auto-incrementado
+            $id = $this->conexion->insert_id;
+
+            // Genera el ID personalizado
+            $idPersonalizado = 'FACT-' . str_pad($id, 6, '0', STR_PAD_LEFT); // Ejemplo: FACT-000001
+
+            // Actualiza el registro con el ID personalizado
+            $updateQuery = "UPDATE facturas SET id_personalizado = '$idPersonalizado' WHERE id = $id";
+            return $this->conexion->query($updateQuery);
+        } else {
+            return false;
+        }
+    }
     
     
 
