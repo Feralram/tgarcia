@@ -91,14 +91,6 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaFacturas.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Lista de facturas</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-white" href="./listaCanceladas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
@@ -155,6 +147,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
+                                      <th scope="col">Ver factura</th>
                                   </tr>
                               </thead>
                               <tbody>
