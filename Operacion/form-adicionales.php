@@ -61,7 +61,7 @@ error_reporting(E_ALL);
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./form-altaCot.php">
+          <a class="nav-link text-white" href="./form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -93,7 +93,7 @@ error_reporting(E_ALL);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./form-adicionales.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -122,7 +122,7 @@ error_reporting(E_ALL);
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <div class="container mt-5">
      <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-        <h6 class="text-white text-capitalize ps-3 text-center h5">Iniciar cotización</h6>
+        <h6 class="text-white text-capitalize ps-3 text-center h5">Iniciar cotización adicional</h6>
       </div>
       <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
       <form id="cotizacionForm" onsubmit="agregarTextoAlFormulario()" >
@@ -132,22 +132,12 @@ error_reporting(E_ALL);
               <input type="text" class="form-control form-control-sm" name="cliente" id="cliente">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="tarifario" class="form-label">Tarifario</label>
-              <select id="tarifario" name="tarifario" class="form-select form-select-sm">
-                <option selected>Selecciona...</option>
-                <option value="1">Tarifario General</option>
-                <option value="2">Tarifario Comunes</option>
-                <option value="3">Tarifario Comunes Refrigerados</option>
-                <option value="4">Tarifario PROEXI</option>
-              </select>
+              <label for="origen" class="form-label">Origen</label>
+              <input type="text" class="form-control form-control-sm" name="origen" id="Origen">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="origen" class="form-label">Origen Y Destino</label>
-              <select id="origen" name="origen" class="form-select form-select-sm">
-              <option selected>Selecciona...</option>
-                <!-- Este select se llenará dinámicamente según la selección en tarifario -->
-              </select>
-              <input type="hidden" name="texto_origen" id="texto_origen">
+              <label for="destino" class="form-label">Destino</label>
+              <input type="text" class="form-control form-control-sm" name="destino" id="destino">
             </div>
             <div class="col-md-4 mb-3">
               <label for="codigo_postal" class="form-label">Código Postal</label>
@@ -158,29 +148,19 @@ error_reporting(E_ALL);
               <input type="text" class="form-control form-control-sm" name="peso" id="peso">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="dimension" class="form-label">Dimensión</label>
-              <select id="dimension" name="dimension" class="form-select form-select-sm">
-                <option selected>Selecciona...</option>
-                <option>Opcion 1</option>
-                <option>Opcion 2</option>
-                <option>Opcion 3</option>
-              </select>
-              <input type="hidden" name="texto_dimension" id="texto_dimension">
+              <label for="dimension" class="form-label">Dimension</label>
+              <input type="text" class="form-control form-control-sm" name="dimension" id="dimension">
             </div>
             <div class="col-md-4 mb-3">
-            <label for="precio" class="form-label">Precio</label>
-            <input type="text" id="precio" name="precio" class="form-control" readonly step="any">
+              <label for="precio" class="form-label">Precio</label>
+              <input type="text" class="form-control form-control-sm" name="precio" id="precio">
             </div>
             <div class="col-md-4 mb-3">
               <label for="num_bultos" class="form-label">Número de Bultos</label>
               <input type="text" class="form-control form-control-sm" name="num_bultos" id="num_bultos">
             </div>
-            <div class="col-md-4 mb-3">
-              <label for="km_adicionales" class="form-label">Gastos adicionales:</label>
-              <input type="text" class="form-control form-control-sm" name="km_adicionales" id="km_adicionales">
-            </div>
           </div>
-          <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Generar cotización</button>
+          <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Guardar cotización</button>
         </form>
       </div>
     </div>

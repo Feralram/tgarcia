@@ -1,28 +1,12 @@
 <?php
-include_once('../models/Usuario.php');
 session_start();
+include_once('../models/Usuario.php');
 
+// Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-$id = $_GET['cotizacionId'] ?? null;
-
-if ($id) {
-    $query = "SELECT * FROM cotizaciones WHERE id_cotizacion = '$id'";
-    $resultado = $usuario->conexion->query($query);
-
-    if ($resultado && $resultado->num_rows > 0) {
-        $cotizacion = $resultado->fetch_assoc();
-    } else {
-        echo "Cotización no encontrada.";
-        exit;
-    }
-} else {
-    echo "ID de cotización no proporcionado.";
-    exit;
-}
-
-$total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
-
+$servicios = $usuario->obtenerServicios();
+$serviciosNippon = $usuario->obtenerServiciosNippon();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +58,7 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white" href="perfil.php">
+            <a class="nav-link text-white" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
@@ -83,7 +67,7 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="form-altaCot.php">
+          <a class="nav-link text-white" href="./form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -91,7 +75,7 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="cotizacionProceso.php">
+          <a class="nav-link text-white" href="./cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -99,7 +83,7 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="./listaServicios.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -123,7 +107,7 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./lista-adicionales.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./lista-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -150,39 +134,34 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
       <!-- End Navbar -->
        <!--Lista Operadores-->
         <div class="row">
-            <div class="col" id="datos">
+            <div class="col">
                 <div class="card">
+                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Generales</h6>
+                </div>
                     <div class="card-header">
-                    <div class="container mt-4">
-                      <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la cotización <?php echo htmlspecialchars($cotizacion['id_especifico']); ?></h6>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                          <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
+                              <thead class="thead-dark">
+                                  <tr>
+                                      <th scope="col">Cliente</th>
+                                      <th scope="col">Origen</th>
+                                      <th scope="col">Destino</th>
+                                      <th scope="col">Codigo Postal</th>
+                                      <th scope="col">Peso</th>
+                                      <th scope="col">Dimension</th>
+                                      <th scope="col">Precio</th>
+                                      <th scope="col">Numero de bultos</th>
+                                  </tr>
+                              </thead>
+                          </table>
                       </div>
-                        <div class="border p-4">
-                        <p class="text-center">
-                            <p><strong>Cliente:</strong> <?php echo htmlspecialchars($cotizacion['cliente']); ?></p>
-                            <p><strong>Origen y Destino: </strong><?php echo htmlspecialchars($cotizacion['origen']); ?></p>
-                            <!--<p><strong>Código Postal:</strong></p>-->
-                            <p><strong>Peso:</strong> <?php echo htmlspecialchars($cotizacion['peso']); ?></p>
-                            <p><strong>Dimensión: </strong><?php echo htmlspecialchars($cotizacion['dimension']); ?></p>
-                            <!--<p><strong>Número de Bultos:</strong></p>-->
-                            <p><strong>Costo por unidad asignada: </strong><?php echo htmlspecialchars($cotizacion['precio']); ?></p>
-                            <p><strong>Costo por km extras: </strong><?php echo htmlspecialchars($cotizacion['km_adicionales']); ?></p>
-                            <p><strong>Costo final: </strong><?php echo htmlspecialchars(number_format($total,2)); ?></p>
-                            <!-- Añade este botón donde desees -->
+                    </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="text-center mt-3">
-        <!-- <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="mostrarAlerta()">Guardar</button> -->
-                <!--<button type="button" class="btn btn-secondary me-2">Editar</button>-->
-                <button type="button" class="btn btn-secondary me-2" onclick="copiarAlPortapapeles()">
-                <i class="fas fa-copy"></i> Copiar inf
-                </button>
-        </div>
-    </div>
  </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
@@ -194,7 +173,66 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-
+<script>
+  $(document).ready(function() {
+      $('#tablaGenerales').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+      $('#tablaNippon').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
+</script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -206,65 +244,6 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <!-- Agrega el script al final del body o en el head -->
-<script>
-    // Función para copiar al portapapeles
-    function copiarAlPortapapeles() {
-        // Selecciona el contenido del div
-        var contenido = document.getElementById('datos').innerText;
-
-        // Crea un elemento textarea temporal para copiar el texto
-        var textarea = document.createElement('textarea');
-        textarea.value = contenido;
-        document.body.appendChild(textarea);
-
-        // Selecciona el texto del textarea y copia al portapapeles
-        textarea.select();
-        document.execCommand('copy');
-
-        // Remueve el textarea temporal
-        document.body.removeChild(textarea);
-
-        // Alerta o mensaje de confirmación (opcional)
-        alert('¡La información se ha copiado al portapapeles!');
-    }
-</script>
-<script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-
-    // Función para mostrar alerta al guardar
-    function mostrarAlerta() {
-      alert('La cotización se ha guardado correctamente. Puede visualizarla en el apartado de "Cotizaciones en proceso".');
-    }
-
-    // Función para copiar al portapapeles
-    function copiarAlPortapapeles() {
-      // Selecciona el contenido del div
-      var contenido = document.getElementById('datos').innerText;
-
-      // Crea un elemento textarea temporal para copiar el texto
-      var textarea = document.createElement('textarea');
-      textarea.value = contenido;
-      document.body.appendChild(textarea);
-
-      // Selecciona el texto del textarea y copia al portapapeles
-      textarea.select();
-      document.execCommand('copy');
-
-      // Remueve el textarea temporal
-      document.body.removeChild(textarea);
-
-      // Alerta o mensaje de confirmación (opcional)
-      alert('¡La información se ha copiado al portapapeles!');
-    }
-  </script>
-
 </body>
 
 </html>
