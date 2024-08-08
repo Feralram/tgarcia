@@ -1,30 +1,22 @@
 <?php
-session_start();
-include_once('../models/Usuario.php');
+// Mostrar todos los errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Crear una instancia del objeto Usuario
-$usuario = new Usuario();
 
-$servicios = $usuario->obtenerServicios();
-$serviciosNippon = $usuario->obtenerServiciosNippon();
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-<!-- Incluye jQuery y DataTables CSS y JS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-
-
-<!-- Incluye el archivo de idioma español de DataTables -->
-<script src="https://cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json"></script>
-
   <title>
-   Trasportes Garcia
+    SIGE | Mi perfil
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
@@ -40,10 +32,12 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside
+  
+    <aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
     <div class="sidenav-header">
@@ -75,7 +69,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./cotizacionProceso.php">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -91,7 +85,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./form-adicionales.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -99,7 +93,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./lista-adicionales.php">
+          <a class="nav-link text-white" href="./lista-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -118,108 +112,56 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
     </div>
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-    <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
-      data-scroll="true">
-    </nav>
-    <div class="container-fluid px-2 px-md-4">
-      <!-- End Navbar -->
-       <!--Lista Operadores-->
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Generales</h6>
-                </div>
-                    <div class="card-header">
-                    <div class="card-body">
-                      <div class="table-responsive">
-                          <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
-                              <thead class="thead-dark">
-                                  <tr>
-                                      <th scope="col">Factura</th>
-                                      <th scope="col">Fecha</th>
-                                      <th scope="col">Motivo de cancelacion</th>
-                                  </tr>
-                              </thead>
-                          </table>
-                      </div>
-                    </div>
-                    </div>
-                </div>
+    <div class="container mt-5">
+     <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+        <h6 class="text-white text-capitalize ps-3 text-center h5">Iniciar cotización adicional</h6>
+      </div>
+      <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
+      <form id="cotizacionForm" onsubmit="agregarTextoAlFormulario()" >
+          <div class="row">
+          <div class="col-md-4 mb-3">
+              <label for="cliente" class="form-label">Cliente</label>
+              <input type="text" class="form-control form-control-sm" name="cliente" id="cliente">
             </div>
-        </div>
- </main>
+            <div class="col-md-4 mb-3">
+              <label for="origen" class="form-label">Origen</label>
+              <input type="text" class="form-control form-control-sm" name="origen" id="Origen">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="destino" class="form-label">Destino</label>
+              <input type="text" class="form-control form-control-sm" name="destino" id="destino">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="codigo_postal" class="form-label">Código Postal</label>
+              <input type="text" class="form-control form-control-sm" name="codigo_postal" id="codigo_postal">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="peso" class="form-label">Peso</label>
+              <input type="text" class="form-control form-control-sm" name="peso" id="peso">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="dimension" class="form-label">Dimension</label>
+              <input type="text" class="form-control form-control-sm" name="dimension" id="dimension">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="precio" class="form-label">Precio</label>
+              <input type="text" class="form-control form-control-sm" name="precio" id="precio">
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="num_bultos" class="form-label">Número de Bultos</label>
+              <input type="text" class="form-control form-control-sm" name="num_bultos" id="num_bultos">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Guardar cotización</button>
+        </form>
+      </div>
+    </div>
+  </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="../validations/validators.js"></script>
-  <script src="../admin/ajax/notifications.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
-<script>
-  $(document).ready(function() {
-      $('#tablaGenerales').DataTable({
-          "language": {
-              "sProcessing":     "Procesando...",
-              "sLengthMenu":     "Mostrar _MENU_ registros",
-              "sZeroRecords":    "No se encontraron resultados",
-              "sEmptyTable":     "Ningún dato disponible en esta tabla",
-              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-              "sInfoPostFix":    "",
-              "sSearch":         "Buscar:",
-              "sUrl":            "",
-              "sInfoThousands":  ",",
-              "sLoadingRecords": "Cargando...",
-              "oPaginate": {
-                  "sFirst":    "Primero",
-                  "sLast":     "Último",
-                  "sNext":     "Siguiente",
-                  "sPrevious": "Anterior"
-              },
-              "oAria": {
-                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-              }
-          }
-      });
-  });
-</script>
-<script>
-  $(document).ready(function() {
-      $('#tablaNippon').DataTable({
-          "language": {
-              "sProcessing":     "Procesando...",
-              "sLengthMenu":     "Mostrar _MENU_ registros",
-              "sZeroRecords":    "No se encontraron resultados",
-              "sEmptyTable":     "Ningún dato disponible en esta tabla",
-              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-              "sInfoPostFix":    "",
-              "sSearch":         "Buscar:",
-              "sUrl":            "",
-              "sInfoThousands":  ",",
-              "sLoadingRecords": "Cargando...",
-              "oPaginate": {
-                  "sFirst":    "Primero",
-                  "sLast":     "Último",
-                  "sNext":     "Siguiente",
-                  "sPrevious": "Anterior"
-              },
-              "oAria": {
-                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-              }
-          }
-      });
-  });
-</script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -231,6 +173,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script src="app.js"></script>
 </body>
 
 </html>
