@@ -57,7 +57,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-      <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link text-white" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
@@ -75,7 +75,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="cotizacionProceso.php">
+          <a class="nav-link text-white" href="./cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -91,19 +91,19 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./listaFacturas.php">
+          <a class="nav-link text-white" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Lista de facturas</span>
+            <span class="nav-link-text ms-1">Cotización Adicional</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaCanceladas.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./lista-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Facturas canceladas</span>
+            <span class="nav-link-text ms-1">Lista Adicionales</span>
           </a>
         </li>
         <li class="nav-item mt-4">
@@ -135,71 +135,18 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                     <div class="card-body">
                       <div class="table-responsive">
                           <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
-                          <thead class="thead-dark">
-                                  <tr>
-                                      <th scope="col">Factura</th>
-                                      <th scope="col">Fecha</th>
-                                      <th scope="col">Precio Base</th>
-                                      <th scope="col">Iva</th>
-                                      <th scope="col">Retención</th>
-                                      <th scope="col">Precio final</th>
-                                      <th scope="col">Razón social</th>
-                                      <th scope="col">Contacto cliente</th>
-                                      <th scope="col">Servicio</th>
-                                      <th scope="col">Referencia</th>
-                                      <th scope="col">Complemento</th>
-                                      <th scope="col">Fecha de pago</th>
-                                      <th scope="col">Observación</th>
-                                      <th scope="col">Fecha de envio</th>                                      
-                                      <th scope="col">Documento</th>
-                                      <th scope="col">Portal Nippon</th>
-                                  </tr>
-                              </thead>
-                              </thead>
-                              <tbody>
-                                  
-                                  <!-- Más filas de datos aquí -->
-                              </tbody>
-                          </table>
-                      </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Proexi</h6>
-                </div>
-                    <div class="card-header">
-                    <div class="card-body">
-                      <div class="table-responsive">
-                          <table id="tablaNippon" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
-                                      <th scope="col">Factura</th>
-                                      <th scope="col">Fecha</th>
-                                      <th scope="col">Precio Base</th>
-                                      <th scope="col">Iva</th>
-                                      <th scope="col">Retención</th>
-                                      <th scope="col">Precio final</th>
-                                      <th scope="col">Razón social</th>
-                                      <th scope="col">Contacto cliente</th>
-                                      <th scope="col">Servicio</th>
-                                      <th scope="col">Referencia</th>
-                                      <th scope="col">Complemento</th>
-                                      <th scope="col">Fecha de pago</th>
-                                      <th scope="col">Observación</th>
-                                      <th scope="col">Fecha de envio</th>                                      
-                                      <th scope="col">Documento</th>
-                                      <th scope="col">Portal Nippon</th>
+                                      <th scope="col">Cliente</th>
+                                      <th scope="col">Origen</th>
+                                      <th scope="col">Destino</th>
+                                      <th scope="col">Codigo Postal</th>
+                                      <th scope="col">Peso</th>
+                                      <th scope="col">Dimension</th>
+                                      <th scope="col">Precio</th>
+                                      <th scope="col">Numero de bultos</th>
                                   </tr>
                               </thead>
-                              <tbody> 
-                                  <!-- Más filas de datos aquí -->
-                              </tbody>
                           </table>
                       </div>
                     </div>

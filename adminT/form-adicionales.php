@@ -1,3 +1,11 @@
+<?php
+// Mostrar todos los errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -8,8 +16,8 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Trasportes Garcia
-   </title>
+    SIGE | Mi perfil
+  </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css"
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -28,7 +36,8 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-<aside
+  
+    <aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
     <div class="sidenav-header">
@@ -43,12 +52,29 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-info" href="perfil.php">
+            <a class="nav-link text-white" href="./perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
             </a>
+        </li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./form-altaCot.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Alta Cotización</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotización en proceso</span>
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="./listaServicios.php">
@@ -59,15 +85,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaCanceladas.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Facturas canceladas</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="./form-adicionales.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -95,77 +113,46 @@
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <div class="container mt-5">
+     <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+        <h6 class="text-white text-capitalize ps-3 text-center h5">Iniciar cotización adicional</h6>
+      </div>
       <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
-        <h3 class="text-center mb-4">Registro Factura</h3>
-        <form id="servicioForm" onsubmit="agregarTextoAlFormulario()">
+      <form id="cotizacionForm" onsubmit="agregarTextoAlFormulario()" >
           <div class="row">
-            <div class="col-md-4 mb-3">
-              <label for="factura" class="form-label">Factura</label>
-              <input type="text" class="form-control form-control-sm" id="factura" name="factura" required>
+          <div class="col-md-4 mb-3">
+              <label for="cliente" class="form-label">Cliente</label>
+              <input type="text" class="form-control form-control-sm" name="cliente" id="cliente">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="fecha_fac" class="form-label">Fecha</label>
-              <input type="date" class="form-control form-control-sm" id="fecha_fac" name="fecha_fac" required>
+              <label for="origen" class="form-label">Origen</label>
+              <input type="text" class="form-control form-control-sm" name="origen" id="Origen">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="precio_base" class="form-label">Precio Base</label>
-              <input type="text" class="form-control form-control-sm" id="precio_base" name="precio_base" required>
+              <label for="destino" class="form-label">Destino</label>
+              <input type="text" class="form-control form-control-sm" name="destino" id="destino">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="iva" class="form-label">Iva</label>
-              <input type="text" class="form-control form-control-sm" id="iva" name="iva" required>
+              <label for="codigo_postal" class="form-label">Código Postal</label>
+              <input type="text" class="form-control form-control-sm" name="codigo_postal" id="codigo_postal">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="Retención" class="form-label">Retención</label>
-              <input type="text" class="form-control form-control-sm" id="Retención" name="Retención" required>
+              <label for="peso" class="form-label">Peso</label>
+              <input type="text" class="form-control form-control-sm" name="peso" id="peso">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="precio_final" class="form-label">Precio final</label>
-              <input type="text" class="form-control form-control-sm" id="precio_final" name="precio_final" required>
+              <label for="dimension" class="form-label">Dimension</label>
+              <input type="text" class="form-control form-control-sm" name="dimension" id="dimension">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="razonSocial" class="form-label">Razón social</label>
-              <input type="text" class="form-control form-control-sm" id="razonSocial" name="razonSocial" required>
+              <label for="precio" class="form-label">Precio</label>
+              <input type="text" class="form-control form-control-sm" name="precio" id="precio">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="contact_cliente" class="form-label">Contacto cliente</label>
-              <input type="text" class="form-control form-control-sm" id="contact_cliente" name="contact_cliente" required>
+              <label for="num_bultos" class="form-label">Número de Bultos</label>
+              <input type="text" class="form-control form-control-sm" name="num_bultos" id="num_bultos">
             </div>
-            <div class="col-md-4 mb-3">
-              <label for="servicio" class="form-label">Servicio</label>
-              <input type="text" class="form-control form-control-sm" id="servicio" name="servicio" required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="referencia" class="form-label">Referencia</label>
-              <input type="text" class="form-control form-control-sm" id="referencia" name="referencia" required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="complemento" class="form-label">Complemento</label>
-              <input type="text" class="form-control form-control-sm" id="complemento" name="complemento" required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="fecha_pag" class="form-label">Fecha de pago</label>
-              <input type="date" class="form-control form-control-sm" id="fecha_pag" name="fecha_pag"required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="observacion" class="form-label">Observación</label>
-              <input type="text" class="form-control form-control-sm" id="observacion" name="observacion" required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="fecha_envio" class="form-label">Fecha de envio</label>
-              <input type="date" class="form-control form-control-sm" id="fecha_envio" name="fecha_envio"required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="documento" class="form-label">Documento</label>
-              <input type="text" class="form-control form-control-sm" id="documento" name="documento" required>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="portal_nip" class="form-label">Portal Nippon</label>
-              <input type="text" class="form-control form-control-sm" id="portal_nip" name="portal_nip" required>
-            </div>
-            <input type="hidden" name="idcoti" id="idcoti" value="<?php echo htmlspecialchars($id); ?>" required>
           </div>
-          <button type="submit" class="btn btn-danger btn-sm w-100">Registrar</button>
+          <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Guardar cotización</button>
         </form>
       </div>
     </div>
@@ -186,7 +173,7 @@
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <script src="altaServicio.js"></script>
+  <script src="app.js"></script>
 </body>
 
 </html>
