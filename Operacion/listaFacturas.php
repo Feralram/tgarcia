@@ -74,7 +74,7 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./documentos.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./listaFacturas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -127,8 +127,7 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
                                       <th scope="col">Observación</th>
                                       <th scope="col">Fecha de envio</th>                                      
                                       <th scope="col">Documento</th>
-                                      <th scope="col">Portal Nippon</th>
-                                      <th scope="col">Eliminar</th>
+                                      <th scope="col">Portal Nippon</th>                                      
                                   </tr>
                               </thead>
                               </thead>
@@ -151,13 +150,6 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
             <td><?php echo $factura['fecha_envio']; ?></td>
             <td><?php echo $factura['documento']; ?></td>
             <td><?php echo $factura['portal_nippon']; ?></td>
-            <td class="text-center">
-                <form method="POST" onsubmit="return eliminarFactura(<?php echo $factura['id_factura']; ?>);">
-                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarFactura(<?php echo $factura['id_factura']; ?>)">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </form>
-            </td>
         </tr>
         <?php endforeach; ?>
                               </tbody>

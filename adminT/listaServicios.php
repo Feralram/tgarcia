@@ -5,14 +5,8 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-// Obtener las fechas de inicio y fin del rango, si están definidas
-$fechaInicio = isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : null;
-$fechaFin = isset($_GET['fechaFin']) ? $_GET['fechaFin'] : null;
-
-// Obtener servicios con el rango de fechas proporcionado
-$servicios = $usuario->obtenerServicios($fechaInicio, $fechaFin);
-$serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
-
+$servicios = $usuario->obtenerServicios();
+$serviciosXcf = $usuario->obtenerServiciosXcf();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +32,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
   <!-- Nucleo Icons -->
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
+  <!-- Font Awesome Icons -->  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -88,20 +82,13 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <span class="nav-link-text ms-1">Cotización en proceso</span>
           </a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./listaServicios.php">
+          <a class="nav-link text-white" href="./listaCanceladas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Lista de servicios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Lista de facturas</span>
+            <span class="nav-link-text ms-1">Facturas canceladas</span>
           </a>
         </li>
         <li class="nav-item">
@@ -137,26 +124,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
       data-scroll="true">
     </nav>
     <div class="container-fluid px-2 px-md-4">
-    <form method="GET" action="listaServicios.php">
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-            <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" value="<?php echo isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : ''; ?>">
-        </div>
-        <div class="col-md-4">
-            <label for="fechaFin" class="form-label">Fecha de Fin</label>
-            <input type="date" id="fechaFin" name="fechaFin" class="form-control" value="<?php echo isset($_GET['fechaFin']) ? $_GET['fechaFin'] : ''; ?>">
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary mt-4">Filtrar</button>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <a href="../models/descargarCSV.php?fechaInicio=<?php echo isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : ''; ?>&fechaFin=<?php echo isset($_GET['fechaFin']) ? $_GET['fechaFin'] : ''; ?>" class="btn btn-success">Descargar en CSV</a>
-    </div>
-</form>
-
-
       <!-- End Navbar -->
        <!--Lista Operadores-->
         <div class="row">
@@ -171,9 +138,8 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                           <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
-                                      <th scope="col">Cliente</th>
                                       <th scope="col">Fecha recoleccion</th>
-                                      <th scope="col">Servicio</th>
+                                      <th scope="col">Cliente</th>
                                       <th scope="col">Unidad</th>
                                       <th scope="col">Placas</th>
                                       <th scope="col">Econ</th>
@@ -182,7 +148,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Local o Foranea</th>
                                       <th scope="col">Sello</th>
                                       <th scope="col">Operador</th>
-                                      <th scope="col">Ejecutivo</th>
+                                      <th scope="col">Cliente que solicita</th>
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
                                       <th scope="col">Doc-Fiscal</th>                                      
@@ -195,9 +161,8 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                               <tbody>
                               <?php foreach ($servicios as $servicio): ?>
         <tr>
-        <td><?php echo $servicio['cliente']; ?></td>
           <td><?php echo $servicio['fecha_recoleccion']; ?></td>
-            <td><?php echo $servicio['servicio']; ?></td>
+            <td><?php echo $servicio['cliente']; ?></td>
             <td><?php echo $servicio['unidad']; ?></td>
             <td><?php echo $servicio['Placas']; ?></td>
             <td><?php echo $servicio['eco']; ?></td>
@@ -206,7 +171,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servicio['local_foranea']; ?></td>
             <td><?php echo $servicio['sello']; ?></td>
             <td><?php echo $servicio['Nombre_completo']; ?></td>
-            <td><?php echo $servicio['ejecutivo']; ?></td>
+            <td><?php echo $servicio['cliente_solicita']; ?></td>
             <td><?php echo $servicio['referencia']; ?></td>
             <td><?php echo $servicio['bultos']; ?></td>
             <td><?php echo $servicio['doc_fiscal']; ?></td>
@@ -232,7 +197,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                 </div>
             </div>
         </div>
-        <br>
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -245,7 +209,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                           <table id="tablaXcf" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
-                                      <th scope="col">Cliente</th>
                                       <th scope="col">Fecha recoleccion</th>
                                       <th scope="col">cliente</th>
                                       <th scope="col">Unidad</th>
@@ -269,7 +232,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                               <tbody>
                               <?php foreach ($serviciosXcf as $servXcf): ?>
         <tr>
-        <td><?php echo $servXcf['cliente']; ?></td>
           <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
             <td><?php echo $servXcf['cliente']; ?></td>
             <td><?php echo $servXcf['unidad']; ?></td>
@@ -350,7 +312,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
 </script>
 <script>
   $(document).ready(function() {
-      $('#tablaXcf').DataTable({
+      $('#servXcf').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

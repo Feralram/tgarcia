@@ -35,7 +35,7 @@ if ($id) {
      echo "No se encontraron operadores.";
  }
 
- $queryUnidades = "SELECT Uni_id, Unidad, Placas FROM unidades";
+ $queryUnidades = "SELECT Uni_id, Unidad, Placas, candados FROM unidades";
  $result = $usuario->conexion->query($queryUnidades);
 
  $unidades = [];
@@ -103,7 +103,7 @@ if ($id) {
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="./form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -119,19 +119,11 @@ if ($id) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaServicios.php">
+          <a class="nav-link text-white" href="./documentos.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Lista de servicios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="./listaCanceladas.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Facturas canceladas</span>
+            <span class="nav-link-text ms-1">Lista de facturas</span>
           </a>
         </li>
         <li class="nav-item">
@@ -173,7 +165,7 @@ if ($id) {
               <select id="lista_reco" name="lista_reco" class="form-select form-select-sm">
                 <option selected>Selecciona...</option>
                 <option>Lista general</option>
-                <option>Lista XCF</option>
+                <option>Lista Xcf</option>
               </select>
             </div>
             <div class="col-md-4 mb-3">
@@ -181,19 +173,19 @@ if ($id) {
               <input type="date" class="form-control form-control-sm" id="fecha_recoleccion" name="fecha_recoleccion" required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="cliente" class="form-label">Cliente</label>
-              <input type="text" class="form-control form-control-sm" id="cliente" name="cliente" value="<?php echo htmlspecialchars($cotizacion['cliente']); ?>" readonly required>
+              <label for="servicio" class="form-label">Servicio</label>
+              <input type="text" class="form-control form-control-sm" id="servicio" name="servicio" required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="unidad" class="form-label">Unidad</label>
-              <select id="unidad" name="unidad" class="form-select form-select-sm" required>
-                <option selected>Selecciona...</option>
-                <?php foreach ($unidades as $unidad): ?>
-                    <option value="<?php echo htmlspecialchars($unidad['Uni_id']); ?>">
-                        <?php echo htmlspecialchars($unidad['Placas'].' - '.$unidad['Unidad']); ?>
-                    </option>
-                <?php endforeach; ?>              
-              </select>
+                <label for="unidad" class="form-label">Unidad</label>
+                <select id="unidad" name="unidad" class="form-select form-select-sm" required>
+                    <option selected>Selecciona...</option>
+                    <?php foreach ($unidades as $unidad): ?>
+                        <option value="<?php echo htmlspecialchars($unidad['Uni_id']); ?>" data-candados="<?php echo htmlspecialchars($unidad['candados']); ?>">
+                            <?php echo htmlspecialchars($unidad['Placas'].' - '.$unidad['Unidad']); ?>
+                        </option>
+                    <?php endforeach; ?>              
+                </select>
             </div>
             <!-- <div class="col-md-4 mb-3">
               <label for="placas" class="form-label">Placas</label>
@@ -236,8 +228,8 @@ if ($id) {
               <input type="hidden" name="texto_operador" id="texto_operador">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="cliente_solicita" class="form-label">Cliente que solicita</label>
-              <input type="text" class="form-control form-control-sm" id="cliente_solicita" name="cliente_solicita" required>
+              <label for="ejecutivo" class="form-label">Ejecutivo</label>
+              <input type="text" class="form-control form-control-sm" id="ejecutivo" name="ejecutivo" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="referencia" class="form-label">Referencia</label>
@@ -261,7 +253,7 @@ if ($id) {
             </div>
             <div class="col-md-4 mb-3">
               <label for="factura" class="form-label">Numero de candados</label>
-              <input type="number" class="form-control form-control-sm" id="candados" name="candados" required>
+              <input type="number" class="form-control form-control-sm" id="candados" name="candados" readonly required>
             </div>
 
             <div class="col-md-4 mb-3">
@@ -291,7 +283,22 @@ if ($id) {
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const unidadSelect = document.getElementById('unidad');
+        const candadosInput = document.getElementById('candados');
+
+        unidadSelect.addEventListener('change', function() {
+            const selectedOption = unidadSelect.options[unidadSelect.selectedIndex];
+            const numCandados = selectedOption.getAttribute('data-candados');
+            
+            candadosInput.value = numCandados || ''; // Asigna el valor de candados o deja vacío si no hay
+        });
+    });
+</script>
+
   <script src="altaServicio.js"></script>
+  
 </body>
 
 </html>

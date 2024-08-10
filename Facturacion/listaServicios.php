@@ -226,10 +226,10 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                               <tbody>
                               <?php foreach ($serviciosXcf as $servXcf): ?>
         <tr>
-          <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
+            <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
             <td><?php echo $servXcf['cliente']; ?></td>
             <td><?php echo $servXcf['unidad']; ?></td>
-            <td><?php echo $servXcf['placas']; ?></td>
+            <td><?php echo $servXcf['Placas']; ?></td>
             <td><?php echo $servXcf['eco']; ?></td>
             <td><?php echo $servXcf['unid_factura']; ?></td>
             <td><?php echo $servXcf['oriDestino']; ?></td>
@@ -249,12 +249,27 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
             </td>
-            <td class="text-center">
+            
+
+
+<?php $validacion = $usuario->validaFactura($servXcf['id_servicio']);
+ if ($validacion < 3): ?>
+  <td class="text-center">
             <a href="form-registroFact.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">
                 <button type="button" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
                   <i class="fas fa-file-invoice fa-lg"></i>
                 </button>
             </td>
+            <?php else: ?>
+                <td>Límite de facturas alcanzado</td>
+            <?php endif; ?>
+            <td class="text-center">
+            <a href="Inffactura.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                <i class="fas fa-file fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+              </button>
+            </td>
+            
         </tr>
         <?php endforeach; ?>
                                   

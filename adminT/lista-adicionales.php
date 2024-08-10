@@ -5,8 +5,8 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-$servicios = $usuario->obtenerServicios();
-$serviciosXcf = $usuario->obtenerServiciosXcf();
+// Obtener las unidades desde el modelo
+$cotizaciones = $usuario->obtenerCotizacionesAdicionales();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,12 +82,13 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
             <span class="nav-link-text ms-1">Cotización en proceso</span>
           </a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaServicios.php">
+          <a class="nav-link text-white" href="./listaCanceladas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Lista de servicios</span>
+            <span class="nav-link-text ms-1">Facturas canceladas</span>
           </a>
         </li>
         <li class="nav-item">
@@ -129,7 +130,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Generales</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Cotizaciones adicionales</h6>
                 </div>
                     <div class="card-header">
                     <div class="card-body">
@@ -147,6 +148,23 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                                       <th scope="col">Numero de bultos</th>
                                   </tr>
                               </thead>
+                              <tbody>
+                                  <!-- Ejemplo de una fila de datos -->
+                                  <?php foreach ($cotizaciones as $cotizacion): ?>
+        <tr>        
+            <td><?php echo $cotizacion['cliente']; ?></td>
+            <td><?php echo $cotizacion['origen']; ?></td>
+            <td><?php echo $cotizacion['destino']; ?></td>
+            <td><?php echo $cotizacion['codigo_postal']; ?></td>
+            <td>$<?php echo $cotizacion['peso']; ?></td>
+            <td>$<?php echo $cotizacion['dimension']; ?></td>
+            <td>$<?php echo $cotizacion['precio']; ?></td>   
+            <td>$<?php echo $cotizacion['bultos']; ?></td>         
+        </tr>
+        <?php endforeach; ?>
+                                  
+                                  <!-- Más filas de datos aquí -->
+                              </tbody>
                           </table>
                       </div>
                     </div>
@@ -195,7 +213,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
       });
   });
 </script>
-
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

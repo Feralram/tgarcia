@@ -32,7 +32,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
   <!-- Nucleo Icons -->
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
+  <!-- Font Awesome Icons -->  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -80,14 +80,6 @@ $cotizaciones = $usuario->obtenerCotizaciones();
               <span class="material-icons opacity-10">folder</span>
             </div>
             <span class="nav-link-text ms-1">Cotización en proceso</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="listaServicios.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Lista de servicios</span>
           </a>
         </li>
         <li class="nav-item">
@@ -152,6 +144,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
                                       <th scope="col">Dimension</th>
                                       <th scope="col">Costo unidad</th>
                                       <th scope="col">Gastos adicionales</th>
+                                      <th scope="col">Usuario que Genero</th>
                                       <th scope="col">Ver</th>
                                       <th scope="col">Editar</th>
                                   </tr>
@@ -167,6 +160,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
             <td><?php echo $cotizacion['dimension']; ?></td>
             <td>$<?php echo $cotizacion['precio']; ?></td>
             <td>$<?php echo $cotizacion['km_adicionales']; ?></td>
+            <td><?php echo ($cotizacion['usuario_registro'] ? $cotizacion['usuario_registro'] : 'Pendiente'); ?></td>
             <td class="text-center">
             <a href="Infcotizacion.php?cotizacionId=<?php echo $cotizacion['id_cotizacion']; ?>">
               <button type="button" class="btn btn-success btn-icon btn-transparent">

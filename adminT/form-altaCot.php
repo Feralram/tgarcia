@@ -4,6 +4,20 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+include_once('../models/Usuario.php');
+
+$usuario = new Usuario();
+
+$queryClientes = "SELECT id_cliente, cliente FROM clientes";
+$result = $usuario->conexion->query($queryClientes);
+
+$clientes = [];
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $clientes[] = $row;
+    }
+}
 
 ?>
 
@@ -77,14 +91,6 @@ error_reporting(E_ALL);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaServicios.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Lista de servicios</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-white" href="./listaCanceladas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
@@ -129,7 +135,14 @@ error_reporting(E_ALL);
           <div class="row">
           <div class="col-md-4 mb-3">
               <label for="cliente" class="form-label">Cliente</label>
-              <input type="text" class="form-control form-control-sm" name="cliente" id="cliente">
+              <select id="cliente" name="cliente" class="form-select form-select-sm" required>
+                <option selected>Elige...</option>
+                <?php foreach ($clientes as $cliente): ?>
+                    <option value="<?php echo htmlspecialchars($cliente['id_cliente']); ?>">
+                        <?php echo htmlspecialchars($cliente['cliente']); ?>
+                    </option>
+                <?php endforeach; ?>
+              </select>
             </div>
             <div class="col-md-4 mb-3">
               <label for="tarifario" class="form-label">Tarifario</label>

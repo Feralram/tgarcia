@@ -7,7 +7,7 @@ $usuario = new Usuario();
 $id = $_GET['cotizacionId'] ?? null;
 
 if ($id) {
-    $query = "SELECT * FROM cotizaciones WHERE id_cotizacion = '$id'";
+    $query = "SELECT * FROM cotizaciones INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente WHERE id_cotizacion = '$id'";
     $resultado = $usuario->conexion->query($query);
 
     if ($resultado && $resultado->num_rows > 0) {
@@ -98,20 +98,13 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
             <span class="nav-link-text ms-1">Cotización en proceso</span>
           </a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link text-white" href="./documentos.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Lista de servicios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="./listaCanceladas.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Facturas canceladas</span>
+            <span class="nav-link-text ms-1">Lista de facturas</span>
           </a>
         </li>
         <li class="nav-item">
