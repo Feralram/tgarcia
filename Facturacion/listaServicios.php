@@ -129,7 +129,8 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
-                                      <th scope="col">Factura</th>
+                                      <th scope="col">Generar factura</th>
+                                      <th scope="col">Ver facturas</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -145,7 +146,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
             <td><?php echo $servicio['local_foranea']; ?></td>
             <td><?php echo $servicio['sello']; ?></td>
             <td><?php echo $servicio['Nombre_completo']; ?></td>
-            <td><?php echo $servicio['cliente_solicita']; ?></td>
+            <td><?php echo $servicio['ejecutivo']; ?></td>
             <td><?php echo $servicio['referencia']; ?></td>
             <td><?php echo $servicio['bultos']; ?></td>
             <td><?php echo $servicio['doc_fiscal']; ?></td>
@@ -158,6 +159,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
             </td>
+            
 
 
 <?php $validacion = $usuario->validaFactura($servicio['id_servicio']);
@@ -171,6 +173,12 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
             <?php else: ?>
                 <td>Límite de facturas alcanzado</td>
             <?php endif; ?>
+            <td class="text-center">
+            <a href="Inffactura.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                <i class="fas fa-file fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+              </button>
+            </td>
             
         </tr>
         <?php endforeach; ?>
@@ -228,7 +236,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
             <td><?php echo $servXcf['local_foranea']; ?></td>
             <td><?php echo $servXcf['sello']; ?></td>
             <td><?php echo $servXcf['Nombre_completo']; ?></td>
-            <td><?php echo $servXcf['cliente_solicita']; ?></td>
+            <td><?php echo $servXcf['ejecutivo']; ?></td>
             <td><?php echo $servXcf['referencia']; ?></td>
             <td><?php echo $servXcf['bultos']; ?></td>
             <td><?php echo $servXcf['doc_fiscal']; ?></td>
