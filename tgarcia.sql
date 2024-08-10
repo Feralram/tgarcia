@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-07-2024 a las 08:25:45
+-- Tiempo de generación: 10-08-2024 a las 06:53:17
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -24,13 +24,42 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `clientes`
+--
+
+CREATE TABLE `clientes` (
+  `id_cliente` int(11) NOT NULL,
+  `cliente` varchar(255) NOT NULL,
+  `direccion` varchar(255) NOT NULL,
+  `rfc` varchar(100) NOT NULL,
+  `uso_factura` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`id_cliente`, `cliente`, `direccion`, `rfc`, `uso_factura`) VALUES
+(1, 'NIPPON EXPRESS DE MEXICO', 'INSURGENTES SUR No. 1271 No. Int 12, EXTREMADURA INSURGENTES, C.P. 03740, MEXICO, CIUDAD DE MEXICO, MEX', 'NEM901109BC2 ', 'G03 ‐ Gastos en general.'),
+(2, 'PALAZUELOS HERMANOS', 'ENTRONQUE AV. 602 S/N No. S/N, Peñón de los Baños, C.P. 15520, Ciudad de México, Ciudad de México, México', 'PHE660423MU1 ', 'G03 ‐ Gastos en general.'),
+(3, 'AIRMAR TRANSPORTES INTERNACIONALES', 'NORTE 174 No. 549, Pensador Mexicano, C.P. 15510, Ciudad de México, Ciudad de México, México', 'ATI9307029F8 ', 'G03 ‐ Gastos en general.'),
+(4, 'LOGISTICA LOGER', 'circuito del valle No. 105, Valle del Campanario, C.P. 20118, Aguascalientes, Aguascalientes, México', 'LLO180221I75 ', 'G03 ‐ Gastos en general.'),
+(5, 'PLO GLOBAL CARGO', 'GUTIERREZ No. 3430, Nuevo Laredo Centro, C.P. 88000, Nuevo Laredo, Tamaulipas, México', 'PGC1112308U6 ', 'G03 ‐ Gastos en general.'),
+(6, 'BODEGAS LA NEGRITA', 'lago hielmar No. 65, Cuauhtémoc Pensil, C.P. 11490, Ciudad de México, Ciudad de México, México', 'BNE8303291Y4 ', 'G03 ‐ Gastos en general.'),
+(7, 'ALOW FORWARDING MEXICO', 'Agustin Melgar No. 34, Niños Héroes, C.P. 76010, Querétaro, Querétaro, México', 'AFM161125D16 ', 'G03 ‐ Gastos en general.'),
+(8, 'NX TRANSPORT DE MEXICO', 'CUAUTLA No. 96, Condesa, C.P. 06140, Ciudad de México, Ciudad de México, México', 'NTM171005SE4 ', 'G03 ‐ Gastos en general.'),
+(9, 'COMPASS SOLUTIONS', 'Real Mayorazgo No. 130 No. Int Piso 17 No. 1707, Xoco, C.P. 03330, Ciudad de México, Ciudad de México, México', 'CSO1402051F9 ', 'G03 ‐ Gastos en general.');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cotizaciones`
 --
 
 CREATE TABLE `cotizaciones` (
   `id_cotizacion` int(11) NOT NULL,
   `id_especifico` varchar(255) NOT NULL,
-  `cliente` varchar(255) NOT NULL,
+  `cliente` int(11) NOT NULL,
   `tarifario` varchar(255) NOT NULL,
   `origen` varchar(255) NOT NULL,
   `codigo_postal` varchar(255) NOT NULL,
@@ -52,14 +81,72 @@ CREATE TABLE `cotizaciones` (
 --
 
 INSERT INTO `cotizaciones` (`id_cotizacion`, `id_especifico`, `cliente`, `tarifario`, `origen`, `codigo_postal`, `peso`, `dimension`, `precio`, `num_bultos`, `km_adicionales`, `fecha_creacion`, `comentarios`, `ultimaModificacion`, `status`, `usuario_registro`, `contador_modificaciones`) VALUES
-(1, 'C-1', 'pedritoas', '1', 'CDMX - VENUSTIANO CARRANZA - BAJA CALIFORNIA - LOS CABOS', '57850', '50', 'Nissan16', 113203.29, 0, 0.00, '2024-07-17 05:24:52', NULL, '', b'00000000001', '', 1),
-(2, 'C-2', 'Michell', '3', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '57850', '10', '1.5 Ton Refrigerada', 4500.00, 0, 100.00, '2024-07-17 06:14:38', NULL, '', b'00000000001', '', 2),
-(3, 'C-3', 'Michell', '2', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '57850', '50', 'Rabon', 11006.00, 15, 500.00, '2024-07-17 05:24:54', NULL, '', b'00000000000', '', 1),
-(4, 'C-4', 'Fernando', '2', 'ADUANA AICM - MONTERREY', '57850', '10', '3.5 Ton', 32050.00, 15, 350.00, '2024-07-17 05:24:55', NULL, NULL, b'00000000000', '', 1),
-(5, 'C-5', 'pedritoas', '2', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '57850', '50', '3.5 Ton', 4500.00, 15, 0.00, '2024-07-17 05:25:00', NULL, NULL, b'00000000000', '', 1),
-(6, 'C-6', 'Fernando', '2', 'ADUANA AICM - QUERETARO', '57850', '10', '3.5 Ton', 9300.00, 15, 0.00, '2024-07-17 05:29:37', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 3),
-(7, 'C-7', 'Dalia', '2', 'ADUANA AICM - AGUASCALIENTES', '57850', '10', 'Rabon', 25800.00, 15, 0.00, '2024-07-17 05:57:08', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 3),
-(8, 'C-8', 'Cliente prueba', '1', 'CDMX - VENUSTIANO CARRANZA - AGUASCALIENTES - AGUASCALIENTES', '57850', '10', '3.517', 20805.00, 15, 0.00, '2024-07-25 06:14:27', NULL, NULL, b'00000000001', 'Michell Palestina Barrios', 1);
+(1, 'C-1', 2, '4', 'AICM - TOLUCA EDO DE MEXICO', '57850', '50', 'Nissan', 2800.00, 15, 5000.00, '2024-08-09 04:46:25', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 1),
+(2, 'C-2', 3, '4', 'AICM - AREA METROPOLITANA', '57850', '50', 'Nissan', 2500.00, 15, 300.00, '2024-08-09 06:28:07', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cotizacion_adicional`
+--
+
+CREATE TABLE `cotizacion_adicional` (
+  `id_cotadicional` int(11) NOT NULL,
+  `cliente` varchar(255) NOT NULL,
+  `origen` varchar(255) NOT NULL,
+  `destino` varchar(255) NOT NULL,
+  `codigo_postal` varchar(255) NOT NULL,
+  `peso` int(11) NOT NULL,
+  `dimension` varchar(255) NOT NULL,
+  `precio` float(11,2) NOT NULL,
+  `bultos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `cotizacion_adicional`
+--
+
+INSERT INTO `cotizacion_adicional` (`id_cotadicional`, `cliente`, `origen`, `destino`, `codigo_postal`, `peso`, `dimension`, `precio`, `bultos`) VALUES
+(1, 'Cliente prueba', 'Origen prueba', 'Destino prueba', '57850', 50, '10x10', 20805.00, 15),
+(2, 'Cliente prueba', 'Origen prueba', 'Destino prueba', '57850', 50, '10x10', 20805.00, 15),
+(3, 'Michell', 'Origen prueba', 'Destino prueba', '57850', 50, '10x10', 20805.00, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `facturas`
+--
+
+CREATE TABLE `facturas` (
+  `id_factura` int(11) NOT NULL,
+  `id_especifico` varchar(255) NOT NULL,
+  `fecha` datetime NOT NULL,
+  `precio_base` float(11,2) NOT NULL,
+  `iva` float(11,2) NOT NULL,
+  `retencion` float(11,2) NOT NULL,
+  `precio_final` float(11,2) NOT NULL,
+  `razon_social` varchar(255) NOT NULL,
+  `contacto_cliente` varchar(255) NOT NULL,
+  `servicio` varchar(255) NOT NULL,
+  `referencia` varchar(255) NOT NULL,
+  `complemento` varchar(255) NOT NULL,
+  `fecha_pago` datetime NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `fecha_envio` datetime NOT NULL,
+  `documento` varchar(255) NOT NULL,
+  `portal_nippon` varchar(255) NOT NULL,
+  `id_servicio` varchar(255) NOT NULL,
+  `activa` bit(1) NOT NULL DEFAULT b'1',
+  `comentario_eliminacion` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `facturas`
+--
+
+INSERT INTO `facturas` (`id_factura`, `id_especifico`, `fecha`, `precio_base`, `iva`, `retencion`, `precio_final`, `razon_social`, `contacto_cliente`, `servicio`, `referencia`, `complemento`, `fecha_pago`, `observacion`, `fecha_envio`, `documento`, `portal_nippon`, `id_servicio`, `activa`, `comentario_eliminacion`) VALUES
+(4, 'factura', '2024-08-08 00:00:00', 11006.00, 1760.96, 440.24, 12326.72, 'razon socal', 'contacto cliente', 'servicio', 'referencia', 'complemento', '2024-08-08 00:00:00', 'observacion', '2024-08-08 00:00:00', 'Documento', 'Portal Nippon', '1', b'0', 'Ya me voy a dormir'),
+(5, 'factura', '2024-08-22 00:00:00', 2800.00, 448.00, 112.00, 3136.00, 'razon socal', 'contacto cliente', 'servicio', 'referencia', 'complemento', '2024-08-30 00:00:00', 'observacion', '2024-08-14 00:00:00', 'Documento', 'Portal Nippon', '1', b'1', '');
 
 -- --------------------------------------------------------
 
@@ -238,7 +325,7 @@ CREATE TABLE `servicios` (
   `id_especifico` varchar(255) NOT NULL,
   `lista` varchar(255) NOT NULL,
   `fecha_recoleccion` date NOT NULL,
-  `cliente` varchar(255) NOT NULL,
+  `servicio` varchar(255) NOT NULL,
   `unidad` int(11) NOT NULL,
   `placas` varchar(255) DEFAULT NULL,
   `econ` varchar(255) DEFAULT NULL,
@@ -248,14 +335,14 @@ CREATE TABLE `servicios` (
   `sello` varchar(255) NOT NULL,
   `operador` varchar(255) NOT NULL,
   `id_operador` int(11) NOT NULL,
-  `cliente_solicita` varchar(255) NOT NULL,
+  `ejecutivo` varchar(255) NOT NULL,
   `referencia` varchar(255) NOT NULL,
   `bultos` int(11) NOT NULL,
   `doc_fiscal` varchar(255) NOT NULL,
   `costo` float(11,2) NOT NULL,
   `factura` varchar(255) NOT NULL,
   `observaciones` varchar(255) NOT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fecha_creacion` datetime NOT NULL,
   `id_cotizacion` int(11) NOT NULL,
   `num_candados` int(11) NOT NULL,
   `factura_status` bit(11) NOT NULL
@@ -265,12 +352,9 @@ CREATE TABLE `servicios` (
 -- Volcado de datos para la tabla `servicios`
 --
 
-INSERT INTO `servicios` (`id_servicio`, `id_especifico`, `lista`, `fecha_recoleccion`, `cliente`, `unidad`, `placas`, `econ`, `oriDestino`, `unid_factura`, `local_foranea`, `sello`, `operador`, `id_operador`, `cliente_solicita`, `referencia`, `bultos`, `doc_fiscal`, `costo`, `factura`, `observaciones`, `fecha_creacion`, `id_cotizacion`, `num_candados`, `factura_status`) VALUES
-(1, 'S-1', 'Lista Nippon', '2024-07-12', 'Michell', 12, 'test', 'test', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', 'test', 'Foranea', 'test', 'MEJIA ZUÑIGA LUCIA GUADALUPE', 2, 'test', 'test', 15, 'test', 11006.00, 'test', 'testtesttesttesttest', '2024-07-10 04:57:17', 3, 2, b'00000000000'),
-(2, 'S-2', 'Lista general', '2024-08-10', 'Fernando', 2, NULL, NULL, 'ADUANA AICM - MONTERREY', 'uni factura', 'Local', 'sello', 'GARCIA NIETO MARTIN', 14, 'cliente solicita', 'referencia', 15, 'doc fiscal', 32050.00, 'factura', 'Obs ejemplo', '2024-07-10 06:31:23', 4, 10, b'00000000000'),
-(3, 'S-3', 'Lista general', '2024-08-08', 'pedritoas', 3, NULL, NULL, 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', 'uni factura', 'Foranea', 'sello', 'MARTINEZ BARRERA ALEJANDRO', 6, 'test', 'ada', 15, 'asda', 4500.00, 'test', 'awdsa', '2024-07-17 01:49:10', 5, 2, b'00000000000'),
-(4, 'S-4', 'Lista general', '2024-07-31', 'Fernando', 17, NULL, NULL, 'ADUANA AICM - QUERETARO', 'uni factura', 'Local', 'sello', 'ZARAGOZA APARICIO CESAR', 9, 'cliente solicita', 'referencia', 15, 'doc fiscal', 9300.00, 'factura', 'asdasd', '2024-07-17 05:30:28', 6, 1, b'00000000000'),
-(5, 'S-5', 'Lista Nippon', '2024-07-25', 'Dalia', 11, NULL, NULL, 'ADUANA AICM - AGUASCALIENTES', 'uni factura', 'Foranea', 'sello', 'LOPEZ GAYTAN ELIAS', 11, 'cliente solicita', 'referencia', 15, 'doc fiscal', 25800.00, 'factura', 'observaciones Dalia', '2024-07-17 05:59:07', 7, 6, b'00000000000');
+INSERT INTO `servicios` (`id_servicio`, `id_especifico`, `lista`, `fecha_recoleccion`, `servicio`, `unidad`, `placas`, `econ`, `oriDestino`, `unid_factura`, `local_foranea`, `sello`, `operador`, `id_operador`, `ejecutivo`, `referencia`, `bultos`, `doc_fiscal`, `costo`, `factura`, `observaciones`, `fecha_creacion`, `id_cotizacion`, `num_candados`, `factura_status`) VALUES
+(1, 'S-1', 'Lista XFC', '2024-08-30', 'servicio', 4, NULL, NULL, 'AICM - TOLUCA EDO DE MEXICO', 'uni factura', 'Foranea', 'sello', 'MEJIA ZUÑIGA LUCIA GUADALUPE', 2, 'ejecutivo', 'referencia', 15, 'doc fiscal', 2800.00, 'factura', 'asda', '2024-08-08 22:47:08', 1, 2, b'00000000000'),
+(2, 'S-2', 'Lista general', '2024-08-23', 'servicio', 3, NULL, NULL, 'AICM - AREA METROPOLITANA', 'uni factura', 'Local', 'sello', 'MARTINEZ BARRERA ALEJANDRO', 6, 'ejecutivo', 'referencia', 15, 'doc fiscal', 2500.00, 'factura', 'awd', '2024-08-09 00:29:28', 2, 0, b'00000000000');
 
 -- --------------------------------------------------------
 
@@ -569,43 +653,61 @@ CREATE TABLE `tarifario_proexi` (
   `Id_tarifa_proexi` int(11) NOT NULL,
   `origen` varchar(255) NOT NULL,
   `destino` varchar(255) NOT NULL,
+  `courrier_robust` float(11,2) NOT NULL,
   `nissan` float(11,2) NOT NULL,
   `3_5` float(11,2) NOT NULL,
-  `rabon` float(11,2) NOT NULL
+  `rabon` float(11,2) NOT NULL,
+  `torton` float(11,2) NOT NULL,
+  `trailer` float(11,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `tarifario_proexi`
 --
 
-INSERT INTO `tarifario_proexi` (`Id_tarifa_proexi`, `origen`, `destino`, `nissan`, `3_5`, `rabon`) VALUES
-(1, 'AICM', 'LOCAL ARRASTRE CDMX', 1000.00, 1800.00, 3000.00),
-(2, 'AICM', 'LOCAL CDMX', 1800.00, 2800.00, 4000.00),
-(3, 'AICM', 'TOLUCA EDO DE MEXICO', 2800.00, 5100.00, 6100.00),
-(4, 'AICM', 'AREA METROPOLITANA', 2500.00, 3900.00, 5000.00),
-(5, 'AICM', 'AGUASCALIENTES', 15100.00, 21000.00, 24300.00),
-(6, 'AICM', 'APASEO', 7000.00, 9700.00, 11100.00),
-(7, 'AICM', 'CELAYA', 8000.00, 10000.00, 12000.00),
-(8, 'AICM', 'SAN JOSE ITURBIDE', 8000.00, 10000.00, 12100.00),
-(9, 'AICM', 'IRAPUATO', 8700.00, 14200.00, 16600.00),
-(10, 'AICM', 'LEON', 10500.00, 15900.00, 18800.00),
-(11, 'AICM', 'SALAMANCA', 8200.00, 10300.00, 12100.00),
-(12, 'AICM', 'SILAO', 8700.00, 14200.00, 16600.00),
-(13, 'AICM', 'SAN LUIS POTOSI', 10500.00, 15400.00, 17700.00),
-(14, 'AICM', 'QUERETARO', 6200.00, 8600.00, 10000.00),
-(15, 'AICM', 'SALTILLO', 19000.00, 25000.00, 33000.00),
-(16, 'AICM', 'RAMOS', 19000.00, 25000.00, 33000.00),
-(17, 'AICM', 'ARTEAGA', 19000.00, 25000.00, 33000.00),
-(18, 'AICM', 'MONTERREY', 23000.00, 30500.00, 36000.00),
-(19, 'AICM', 'TIZAYUCA', 3500.00, 5000.00, 6000.00),
-(20, 'AICM', 'PUEBLA', 4800.00, 6700.00, 8500.00),
-(21, 'AICM', 'TLAXCALA', 5000.00, 7100.00, 8900.00),
-(22, 'AICM', 'CIUDAD SAHAGUN', 4000.00, 6000.00, 7200.00),
-(23, 'AICM', 'TEZONTEPEC', 4000.00, 6000.00, 7200.00),
-(24, 'AICM', 'GUADALAJARA', 17900.00, 24000.00, 28700.00),
-(25, 'AICM', 'LAGOS DE MORENO', 11000.00, 16300.00, 19800.00),
-(26, 'AICM', 'NUEVO LAREDO', 25000.00, 32000.00, 45000.00),
-(27, 'AICM', 'SAN JUAN DEL RIO', 6200.00, 8600.00, 10000.00);
+INSERT INTO `tarifario_proexi` (`Id_tarifa_proexi`, `origen`, `destino`, `courrier_robust`, `nissan`, `3_5`, `rabon`, `torton`, `trailer`) VALUES
+(1, 'AICM', 'LOCAL ARRASTRE CDMX', 0.00, 1000.00, 1800.00, 3000.00, 8500.00, 13000.00),
+(2, ' AICM ', ' LOCAL CDMX ', 0.00, 1800.00, 2800.00, 4000.00, 0.00, 0.00),
+(3, ' AICM ', ' TOLUCA EDO DE MEXICO ', 0.00, 2800.00, 5100.00, 6100.00, 0.00, 0.00),
+(4, ' AICM ', ' AREA METROPOLITANA ', 0.00, 2500.00, 3900.00, 5000.00, 0.00, 0.00),
+(5, ' AICM ', ' AGUASCALIENTES ', 0.00, 15100.00, 21000.00, 24300.00, 0.00, 0.00),
+(6, ' AICM ', ' APASEO ', 0.00, 7000.00, 9700.00, 11100.00, 0.00, 0.00),
+(7, ' AICM ', ' CELAYA ', 0.00, 8000.00, 10000.00, 12000.00, 0.00, 0.00),
+(8, ' AICM ', ' SAN JOSE ITURBIDE ', 0.00, 8000.00, 10000.00, 12100.00, 0.00, 0.00),
+(9, ' AICM ', ' IRAPUATO ', 0.00, 8700.00, 14200.00, 16600.00, 0.00, 0.00),
+(10, ' AICM ', ' LEON ', 0.00, 10500.00, 15900.00, 18800.00, 0.00, 0.00),
+(11, ' AICM ', ' SALAMANCA ', 7000.00, 7500.00, 10300.00, 12100.00, 0.00, 0.00),
+(12, ' AICM ', ' SILAO ', 0.00, 8700.00, 14200.00, 16600.00, 0.00, 0.00),
+(13, ' AICM ', ' SAN LUIS POTOSI ', 0.00, 10500.00, 15400.00, 17700.00, 0.00, 0.00),
+(14, ' AICM ', ' QUERETARO ', 0.00, 6200.00, 8600.00, 10000.00, 0.00, 0.00),
+(15, ' AICM ', ' SALTILLO ', 0.00, 19000.00, 25000.00, 33000.00, 0.00, 0.00),
+(16, ' AICM ', ' RAMOS ', 0.00, 19000.00, 25000.00, 33000.00, 0.00, 0.00),
+(17, ' AICM ', ' ARTEAGA ', 0.00, 19000.00, 25000.00, 33000.00, 0.00, 0.00),
+(18, ' AICM ', ' MONTERREY ', 0.00, 23000.00, 30500.00, 36000.00, 0.00, 0.00),
+(19, ' AICM ', ' TIZAYUCA ', 0.00, 3500.00, 5000.00, 6000.00, 0.00, 0.00),
+(20, ' AICM ', ' PUEBLA ', 0.00, 4800.00, 6700.00, 8500.00, 0.00, 0.00),
+(21, ' AICM ', ' TLAXCALA ', 0.00, 5000.00, 7100.00, 8900.00, 0.00, 0.00),
+(22, ' AICM ', ' CIUDAD SAHAGUN ', 0.00, 4000.00, 6000.00, 7200.00, 0.00, 0.00),
+(23, ' AICM ', ' TEZONTEPEC ', 0.00, 4000.00, 6000.00, 7200.00, 0.00, 0.00),
+(24, ' AICM ', ' GUADALAJARA ', 0.00, 17900.00, 24000.00, 28700.00, 0.00, 0.00),
+(25, ' AICM ', ' LAGOS DE MORENO ', 0.00, 11000.00, 16300.00, 19800.00, 0.00, 0.00),
+(26, ' AICM ', ' NUEVO LAREDO ', 0.00, 25000.00, 32000.00, 45000.00, 0.00, 0.00),
+(27, ' AICM ', ' SAN JUAN DEL RIO ', 0.00, 6200.00, 8600.00, 10000.00, 0.00, 0.00),
+(28, ' AICM ', ' HIDALGO ', 3700.00, 4000.00, 5700.00, 7500.00, 0.00, 0.00),
+(29, 'AIFA', 'AGUASCALIENTES', 13000.00, 14500.00, 20500.00, 22500.00, 25500.00, 31000.00),
+(30, 'AIFA', 'APASEO', 7300.00, 8200.00, 11000.00, 13000.00, 15500.00, 22000.00),
+(31, 'AIFA', 'CELAYA', 7300.00, 8200.00, 11000.00, 13000.00, 15500.00, 22000.00),
+(32, 'AIFA', 'SAN JOSE ITURBIDE', 7300.00, 8200.00, 11000.00, 13000.00, 15500.00, 22000.00),
+(33, 'AIFA', 'IRAPUATO', 8300.00, 9000.00, 13500.00, 15000.00, 17500.00, 24000.00),
+(34, 'AIFA', 'LEON', 10000.00, 11000.00, 15500.00, 18000.00, 20000.00, 26000.00),
+(35, 'AIFA', 'LAGOS DE MORENO', 10500.00, 11500.00, 16500.00, 19000.00, 21000.00, 27000.00),
+(36, 'AIFA', 'SALAMANCA', 7800.00, 8700.00, 11500.00, 13500.00, 16300.00, 23000.00),
+(37, 'AIFA', 'SILAO', 8500.00, 9600.00, 14500.00, 16000.00, 18500.00, 25000.00),
+(38, 'AIFA', 'SAN LUIS POTOSI', 10000.00, 11000.00, 15500.00, 18000.00, 20000.00, 26000.00),
+(39, 'AIFA', 'QUERETARO', 7000.00, 7500.00, 10000.00, 12500.00, 14000.00, 19500.00),
+(40, 'AIFA', 'SAN JUAN DEL RIO', 6700.00, 6700.00, 9700.00, 11200.00, 12700.00, 0.00),
+(41, 'AIFA', 'GUADALAJARA', 17500.00, 18200.00, 25000.00, 28500.00, 31000.00, 35000.00),
+(42, 'ESTADIAS', 'ESTADIAS', 500.00, 500.00, 1000.00, 1500.00, 2000.00, 0.00);
 
 -- --------------------------------------------------------
 
@@ -619,57 +721,50 @@ CREATE TABLE `unidades` (
   `Placas` varchar(255) NOT NULL,
   `Marca` varchar(255) NOT NULL,
   `Unidad` varchar(255) NOT NULL,
-  `Largo` varchar(255) NOT NULL,
-  `Ancho` varchar(255) NOT NULL,
-  `Alto` varchar(255) NOT NULL,
   `Peso` varchar(255) NOT NULL,
   `Tipo` varchar(255) NOT NULL,
   `Modelo` varchar(255) NOT NULL,
   `No_Serie` varchar(255) NOT NULL,
   `Color` varchar(255) NOT NULL,
-  `Placas_anteriores` varchar(255) NOT NULL,
-  `Poliza` varchar(255) NOT NULL,
-  `Vigencia_Poliza` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Verificacion` varchar(255) NOT NULL,
-  `Columna` varchar(255) NOT NULL,
-  `candados` int(11) NOT NULL
+  `candados` int(11) NOT NULL,
+  `caat` varchar(50) NOT NULL DEFAULT '12DT',
+  `poliza` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `unidades`
 --
 
-INSERT INTO `unidades` (`Uni_id`, `eco`, `Placas`, `Marca`, `Unidad`, `Largo`, `Ancho`, `Alto`, `Peso`, `Tipo`, `Modelo`, `No_Serie`, `Color`, `Placas_anteriores`, `Poliza`, `Vigencia_Poliza`, `Verificacion`, `Columna`, `candados`) VALUES
-(1, '1', '16-06-ZR', 'VOLKSWAGEN', 'ROBUST', '1.68 / 1.63', '1.02', '1.54 / 1.61', '700 KG', 'AUTOMOVIL', '2021', '9BWKB45UXMP040210', 'BLANCA', 'NAU-83-71', '1000124970', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(2, '2', 'LF-46-644', 'NISSAN', 'NP 300', '2.74', '1.76 / 1.82', '1.71 / 1.78', '700 KG', 'AUTOMOVIL', '2016', '3N6AD35C2GK856669', 'BLANCA', 'NJM-17-64', '7060013046', '0000-00-00 00:00:00', 'SEPT / OCT', '', 0),
-(3, '3', '31-AT-9E', 'CHRYSLER DODGE', 'RAM BLANCA PLATAFORMA', '5.94', '2.6', 'PLATAFORMA', '3.5 TON', '2 EJES', '2007', '3D6WN56D67G744933', 'BLANCA', '61-AJ-9F', '1000125010', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(4, '4', 'LE-13-225', 'NISSAN', 'NP 300', '2.62', '1.66 / 1.72', '1.69 / 1.76', '700 KG', 'AUTOMOVIL', '2012', '3N6DD25T0CK025138', 'BLANCA', '', '1000123285', '0000-00-00 00:00:00', 'JUL / AGOS', '', 0),
-(5, '5', '27-AT-9E', 'FORD', 'SUPER DUTY F350', '5.85', '2.6', 'PLATAFORMA', '3.5  TON', '2 EJES', '2007', '3FEKF36L57MA22035', 'ROJA', '64-AH-4K', '7060014837', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(6, '6', '30-AT-9E', 'CHEVROLET', 'SILVERADOR THERMO', '3.96', '2.10 / 2.13', '1.74 / 1.80', '2.8 TON', '2 EJES', '2006', '3GBJC34R36M102828', 'ROJA', '17-AK-1A', '1000125011', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(7, '7', '58-98-ZR', 'FORD', 'FORD F-450', '3.68/3.65', '2.47/2.51', '2.21/2.30', '3.5 TON', '2 EJES', '2016', '1FDGF4GY5GEA77147', 'BLANCA', '', '7060014363', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(8, '8', '57-BB-9H', 'KENWORTH', 'THORTON', '8.71 / 8.67', '2.44 / 2.50', '2.78 / 2.82', '12 TON', '3 EJES', '2011', '3BKHLN9X4BF376427', 'BLANCA', '', '1000124968', '0000-00-00 00:00:00', 'FEDERAL', 'SI', 0),
-(9, '9', '97-77-ZP', 'NISSAN', 'NP 300', '2.76', '1.75 / 1.81', '1.70 / 1.77', '700 KG', 'AUTOMOVIL', '2019', '3N6AD35A2KK843329', 'GRIS  ', 'LE-04-895', '7060013106', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(10, '10', '68-44-ZR', 'VOLKSWAGEN', 'ROBUST', '1.68/ 1.63', '1.02', '1.54 / 1.61', '700 KG', 'AUTOMOVIL', '', '', '', '', '', '0000-00-00 00:00:00', '', '', 0),
-(11, '11', 'LF-59-097', 'VOLKSWAGEN', 'ROBUST', '1.60 / 1.65', '1.03', '1.07 / 1.30', '700 KG', 'AUTOMOVIL', '2020', '9BWKB45U5LP028531', 'BLANCA', 'NSV-38-84', '7060013091', '0000-00-00 00:00:00', 'AGOS / SEPT', '', 0),
-(12, '12', '57-BA-9U', 'DODGE', 'RAM BLANCA CAJA SECA', '3.51', '2.35 / 2.42', '2.10 / 2.21', '3 TON', '2 EJES', '2012', '3C7WDAKT5CG178145', 'BLANCA', '29-AT-6W', '310023717', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(13, '14', 'LF-59-075', 'VOLKSWAGEN', 'ROBUST', '1.68 / 1.63', '1.02', '1.54 / 1.61', '700 KG', 'AUTOMOVIL', '2020', '9BWKB45U5LP005525', 'BLANCA', 'NKK-46-06', '7060011749', '0000-00-00 00:00:00', 'JUL / AGOS', '', 0),
-(14, '15', '59-10-ZR', 'CHEVROLET', 'S 10', '2.23/2.26', '1.66/1.63', '1.56/1.48', '700 KG', 'AUTOMOVIL', '2023', 'LSFAM2AB1PA078918', 'GRIS', '', '0310023715', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(15, '16', '67-AT-7W', 'FORD', 'SUPER DUTY / CAMION', '5.02', '2.22 / 2.30', '2.15/2.25', '3 TON', '2 EJES', '2008', '3FEKF36L88MA02315', 'BLANCA', '091-DG-4', '310023907', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(16, '17', 'LG-19-321', 'VOLKSWAGEN', 'ROBUST', '1.68 / 1.63', '1.02', '1.30 / 1.07', '700 KG', 'AUTOMOVIL', '', '', '', '', '', '0000-00-00 00:00:00', '', '', 0),
-(17, '18', '50-63-ZR', 'NISSAN', 'NP 300 THERMO', '2.35', '1.65', '1.26/1.39', '700 KG', 'AUTOMOVIL', '2021', '3N6AD35A2MK822564', 'GRIS', '', '1000124971', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(18, '19', '67-53-ZR', 'PEUGEOT PARTNER', 'PARTNER', '1.85', '1.23', '1.1', '700 KG', 'AUTOMOVIL', '', '', '', '', '', '0000-00-00 00:00:00', '', '', 0),
-(19, '20', '54-AS-5M', 'INTERNATIONAL', '4900 / RABON REFRIGERADO', '16', '2.23 / 2.38', '2.83', '6 TON', '2 EJES', '1999', '3HTSCAAR6XN120294', 'BLANCA', '92-AH-8M', '7060012439', '0000-00-00 00:00:00', 'FEDERAL', 'SI', 0),
-(20, '21', '44-AV-4E', 'FREIGHTLINER', 'M2 / RABON REFRIGERADO', '6.7', '2.42', '2.4', '6 TON', '2 EJES', '2012', '3ALACWDG3CDBK6278', 'BLANCA', '', '7060012557', '0000-00-00 00:00:00', 'FEDERAL', 'SI', 0),
-(21, '101', '21-UM-1D', 'STRICK', 'CAJA SECA', '16', '3.6', '2.83', '18 TON', '', '1999', '1S12E9535XE445469', 'BLANCA', '406-XB-1', '1000123459', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(22, '102', '463-WM-7', 'GRANT DANE', 'CAJA REFRIGERADA', '15.8', '2.47', '2.6', '18 TON', '', '2005', '1GRAA06285W706184', 'BLANCA', '', '1000123462', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(23, '103', '821-WN-3', 'GRANT DANE', 'CAJA REFRIGERADA', '15.8', '2.47', '2.6', '18 TON', '', '2005', '1GRAA06295W706212', 'BLANCA', '', '1000123460', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(24, '104', '04-UT-8J', 'PINES', 'CAJA SECA', '15.8', '2.5', '2.75', '18 TON', '', '1996', '1PNV532B3TH203260', 'BLANCA', '37-4U-L8', '1000124228', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(25, '140', '85-BB-6Y', 'VOLVO', 'TRAILER', '8.0', '2.5', '3.6', '18 TON', '5 EJES', '2014', '4V4NC9THXEN156399', 'BLANCA', '', '7060014895', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(26, '141', '06-AY-1C', 'KENWORTH', 'TRAILER', '7.5', '2.6', '3.8', '18 TON', '5 EJES', '2003', '3WKADB0X53F608895', 'ROJO', 'NW-68-629', '7060013855', '0000-00-00 00:00:00', 'FEDERAL', 'SI', 0),
-(27, '147', '77-BA-7B', 'VOLVO', 'TRAILER', '8.5', '2.5', '4.1', '18 TON', '5 EJES', '2008', '4VANC9TG28N494732', 'AZUL', '79-AH-5G', '1000115995', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(28, '150', '78-BA-7B', 'VOLVO', 'TRAILER', '9.0', '2.6', '3.9', '18 TON', '5 EJES', '2009', '4V4NC9TH49N280061', 'NEGRO', '', '7060012201', '0000-00-00 00:00:00', 'FEDERAL', '', 0),
-(29, '151', '41-BA-3B', 'VOLVO', 'TRAILER', '9.0', '2.6', '3.9', '18 TON', '5 EJES', '2009', '4V4NC9TH59N280067', 'NEGRO', '', '7060012958', '0000-00-00 00:00:00', 'FEDERAL', 'SI', 0),
-(30, 'R004', '261-WN-1', 'GRANT DANE', 'CAJA SECA', '15.8', '2.47', '2.6', '18 TON', '', '2005', '1GRAA062X5W706204', 'BLANCA', '', '', '0000-00-00 00:00:00', 'FEDERAL', '', 0);
+INSERT INTO `unidades` (`Uni_id`, `eco`, `Placas`, `Marca`, `Unidad`, `Peso`, `Tipo`, `Modelo`, `No_Serie`, `Color`, `candados`, `caat`, `poliza`) VALUES
+(1, '1', '16-06-ZR', 'VOLKSWAGEN', 'ROBUST', '700 KG', 'AUTOMOVIL', '2021', '9BWKB45UXMP040210', 'BLANCA', 2, '12DT', '1000124970'),
+(2, '2', 'LF-46-644', 'NISSAN', 'NP 300', '700 KG', 'AUTOMOVIL', '2016', '3N6AD35C2GK856669', 'BLANCA', 2, '12DT', '7060013046'),
+(3, '3', '31-AT-9E', 'CHRYSLER DODGE', 'RAM BLANCA PLATAFORMA', '3.5 TON', '2 EJES', '2007', '3D6WN56D67G744933', 'BLANCA', 0, '12DT', '1000125010'),
+(4, '4', '83-16-ZR', 'NISSAN', 'NISSAN', '700 KG', 'AUTOMOVIL', '2024', '3N6AD35A1RK824362', '', 2, '12DT', '1000127158'),
+(5, '5', '27-AT-9E', 'FORD', 'SUPER DUTY F350 / PLATAFORMA', '3.5  TON', '2 EJES', '2007', '3FEKF36L57MA22035', 'ROJA', 0, '12DT', '1000127174'),
+(6, '6', '30-AT-9E', 'CHEVROLET', 'SILVERADOR THERMO', '2.8 TON', '2 EJES', '2006', '3GBJC34R36M102828', 'ROJA', 2, '12DT', '1000125011'),
+(7, '7', '58-98-ZR', 'FORD', 'FORD F-450', '3.5 TON', '2 EJES', '2016', '1FDGF4GY5GEA77147', 'BLANCA', 2, '12DT', '7060014363'),
+(8, '8', '57-BB-9H', 'KENWORTH', 'THORTON', '12 TON', '3 EJES', '2011', '3BKHLN9X4BF376427', 'BLANCA', 2, '12DT', '1000124968'),
+(9, '9', '97-77-ZP', 'NISSAN', 'NP 300', '700 KG', 'AUTOMOVIL', '2019', '3N6AD35A2KK843329', 'GRIS  ', 2, '12DT', '7060013106'),
+(10, '10', '68-44-ZR', 'VOLKSWAGEN', 'ROBUST', '700 KG', 'AUTOMOVIL', '2024', '9BWKL45U5RP008706', '', 2, '12DT', '00000593869639'),
+(11, '11', 'LF-59-097', 'VOLKSWAGEN', 'ROBUST', '700 KG', 'AUTOMOVIL', '2020', '9BWKB45U5LP028531', 'BLANCA', 0, '12DT', '7060013091'),
+(12, '12', '57-BA-9U', 'DODGE', 'RAM BLANCA CAJA SECA', '3 TON', '2 EJES', '2012', '3C7WDAKT5CG178145', 'BLANCA', 2, '12DT', '1000127659'),
+(13, '14', 'LF-59-075', 'VOLKSWAGEN', 'ROBUST', '700 KG', 'AUTOMOVIL', '2020', '9BWKB45U5LP005525', 'BLANCA', 0, '12DT', '7060011749'),
+(14, '15', '59-10-ZR', 'CHEVROLET', 'S 10', '700 KG', 'AUTOMOVIL', '2023', 'LSFAM2AB1PA078918', 'GRIS', 2, '12DT', '1000127662'),
+(15, '16', '67-AT-7W', 'FORD', 'SUPER DUTY / CAMION', '3 TON', '2 EJES', '2008', '3FEKF36L88MA02315', 'BLANCA', 2, '12DT', '1000127664'),
+(16, '17', 'LG-19-321', 'VOLKSWAGEN', 'ROBUST', '700 KG', 'AUTOMOVIL', '2024', '9BWKL45U0RP009049', '', 1, '12DT', '00000593872070'),
+(17, '18', '50-63-ZR', 'NISSAN', 'NP 300 THERMO', '700 KG', 'AUTOMOVIL', '2021', '3N6AD35A2MK822564', 'GRIS', 2, '12DT', '1000124971'),
+(18, '19', '67-53-ZR', 'PEUGEOT PARTNER', 'PARTNER', '700 KG', 'AUTOMOVIL', '2024', 'VR3EUHNPXRJ520968', '', 2, '12DT', '61590590'),
+(19, '20', '54-AS-5M', 'INTERNATIONAL', '4900 / RABON REFRIGERADO', '6 TON', '2 EJES', '1999', '3HTSCAAR6XN120294', 'BLANCA', 2, '12DT', '7060012439'),
+(20, '21', '44-AV-4E', 'FREIGHTLINER', 'M2 / RABON REFRIGERADO', '6 TON', '2 EJES', '2012', '3ALACWDG3CDBK6278', 'BLANCA', 1, '12DT', '7060012557'),
+(21, '102', '62-UW-7C', 'GRANT DANE', 'CAJA REFRIGERADA', '18 TON', 'CAJA', '2005', '1GRAA06285W706184', 'BLANCA', 2, '12DT', '1000123462'),
+(22, '103', '61-UW-7C', 'GRANT DANE', 'CAJA REFRIGERADA', '18 TON', 'CAJA', '2005', '1GRAA06295W706212', 'BLANCA', 2, '12DT', '1000123460'),
+(23, '104', '04-UT-8J', 'PINES', 'CAJA SECA', '18 TON', 'CAJA', '1996', '1PNV532B3TH203260', 'BLANCA', 2, '12DT', '1000124228'),
+(24, '140', '85-BB-6Y', 'VOLVO', 'TRAILER', '18 TON', '5 EJES', '2014', '4V4NC9THXEN156399', 'BLANCA', 0, '12DT', '7060014895'),
+(25, '141', '06-AY-1C', 'KENWORTH', 'TRAILER', '18 TON', '5 EJES', '2003', '3WKADB0X53F608895', 'ROJO', 0, '12DT', '7060013855'),
+(26, '147', '77-BA-7B', 'VOLVO', 'TRAILER', '18 TON', '5 EJES', '2008', '4VANC9TG28N494732', 'AZUL', 0, '12DT', '1000115995'),
+(27, '151', '41-BA-3B', 'VOLVO', 'TRAILER', '18 TON', '5 EJES', '2009', '4V4NC9TH59N280067', 'NEGRO', 0, '12DT', '7060012958'),
+(28, 'J02', 'LE-76-753', 'CHEVROLET', 'NISSAN', '1 TON', 'AUTOMOVIL', '2003', '', 'GRIS', 0, '3PTH', '3101-02642417-00'),
+(29, 'J03', 'LG-30-417', 'NISSAN', 'NISSAN', '1 TON', 'AUTOMOVIL', '2012', '', 'BLANCA', 2, '3PTH', '1000123285');
 
 -- --------------------------------------------------------
 
@@ -702,10 +797,28 @@ INSERT INTO `usuario` (`Usu_id`, `Nombre`, `ApellidoP`, `ApellidoM`, `Puesto_id`
 --
 
 --
+-- Indices de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`id_cliente`);
+
+--
 -- Indices de la tabla `cotizaciones`
 --
 ALTER TABLE `cotizaciones`
   ADD PRIMARY KEY (`id_cotizacion`);
+
+--
+-- Indices de la tabla `cotizacion_adicional`
+--
+ALTER TABLE `cotizacion_adicional`
+  ADD PRIMARY KEY (`id_cotadicional`);
+
+--
+-- Indices de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD PRIMARY KEY (`id_factura`);
 
 --
 -- Indices de la tabla `operadores`
@@ -768,6 +881,24 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `cotizacion_adicional`
+--
+ALTER TABLE `cotizacion_adicional`
+  MODIFY `id_cotadicional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `operadores`
 --
 ALTER TABLE `operadores`
@@ -783,7 +914,7 @@ ALTER TABLE `puestos`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_servicio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tarifario_comunes`
@@ -807,7 +938,7 @@ ALTER TABLE `tarifario_general`
 -- AUTO_INCREMENT de la tabla `tarifario_proexi`
 --
 ALTER TABLE `tarifario_proexi`
-  MODIFY `Id_tarifa_proexi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `Id_tarifa_proexi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de la tabla `unidades`
