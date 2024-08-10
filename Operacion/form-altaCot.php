@@ -4,6 +4,20 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+include_once('../models/Usuario.php');
+
+$usuario = new Usuario();
+
+$queryClientes = "SELECT id_cliente, cliente FROM clientes";
+$result = $usuario->conexion->query($queryClientes);
+
+$clientes = [];
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $clientes[] = $row;
+    }
+}
 
 ?>
 
@@ -25,7 +39,7 @@ error_reporting(E_ALL);
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -129,7 +143,14 @@ error_reporting(E_ALL);
           <div class="row">
           <div class="col-md-4 mb-3">
               <label for="cliente" class="form-label">Cliente</label>
-              <input type="text" class="form-control form-control-sm" name="cliente" id="cliente">
+              <select id="cliente" name="cliente" class="form-select form-select-sm" required>
+                <option selected>Elige...</option>
+                <?php foreach ($clientes as $cliente): ?>
+                    <option value="<?php echo htmlspecialchars($cliente['id_cliente']); ?>">
+                        <?php echo htmlspecialchars($cliente['cliente']); ?>
+                    </option>
+                <?php endforeach; ?>
+              </select>
             </div>
             <div class="col-md-4 mb-3">
               <label for="tarifario" class="form-label">Tarifario</label>

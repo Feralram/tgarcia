@@ -5,8 +5,14 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-$servicios = $usuario->obtenerServicios();
-$serviciosNippon = $usuario->obtenerServiciosNippon();
+// Obtener las fechas de inicio y fin del rango, si están definidas
+$fechaInicio = isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : null;
+$fechaFin = isset($_GET['fechaFin']) ? $_GET['fechaFin'] : null;
+
+// Obtener servicios con el rango de fechas proporcionado
+$servicios = $usuario->obtenerServicios($fechaInicio, $fechaFin);
+$serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +39,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -91,11 +97,11 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaCanceladas.php">
+          <a class="nav-link text-white" href="./documentos.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Facturas canceladas</span>
+            <span class="nav-link-text ms-1">Lista de facturas</span>
           </a>
         </li>
         <li class="nav-item">
@@ -131,6 +137,26 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
       data-scroll="true">
     </nav>
     <div class="container-fluid px-2 px-md-4">
+    <form method="GET" action="listaServicios.php">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+            <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" value="<?php echo isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : ''; ?>">
+        </div>
+        <div class="col-md-4">
+            <label for="fechaFin" class="form-label">Fecha de Fin</label>
+            <input type="date" id="fechaFin" name="fechaFin" class="form-control" value="<?php echo isset($_GET['fechaFin']) ? $_GET['fechaFin'] : ''; ?>">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary mt-4">Filtrar</button>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <a href="../models/descargarCSV.php?fechaInicio=<?php echo isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : ''; ?>&fechaFin=<?php echo isset($_GET['fechaFin']) ? $_GET['fechaFin'] : ''; ?>" class="btn btn-success">Descargar en CSV</a>
+    </div>
+</form>
+
+
       <!-- End Navbar -->
        <!--Lista Operadores-->
         <div class="row">
@@ -145,8 +171,9 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                           <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
-                                      <th scope="col">Fecha recoleccion</th>
                                       <th scope="col">Cliente</th>
+                                      <th scope="col">Fecha recoleccion</th>
+                                      <th scope="col">Servicio</th>
                                       <th scope="col">Unidad</th>
                                       <th scope="col">Placas</th>
                                       <th scope="col">Econ</th>
@@ -155,7 +182,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                       <th scope="col">Local o Foranea</th>
                                       <th scope="col">Sello</th>
                                       <th scope="col">Operador</th>
-                                      <th scope="col">Cliente que solicita</th>
+                                      <th scope="col">Ejecutivo</th>
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
                                       <th scope="col">Doc-Fiscal</th>                                      
@@ -163,14 +190,14 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
-                                      <th scope="col">Ver factura</th>
                                   </tr>
                               </thead>
                               <tbody>
                               <?php foreach ($servicios as $servicio): ?>
         <tr>
+        <td><?php echo $servicio['cliente']; ?></td>
           <td><?php echo $servicio['fecha_recoleccion']; ?></td>
-            <td><?php echo $servicio['cliente']; ?></td>
+            <td><?php echo $servicio['servicio']; ?></td>
             <td><?php echo $servicio['unidad']; ?></td>
             <td><?php echo $servicio['Placas']; ?></td>
             <td><?php echo $servicio['eco']; ?></td>
@@ -179,7 +206,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
             <td><?php echo $servicio['local_foranea']; ?></td>
             <td><?php echo $servicio['sello']; ?></td>
             <td><?php echo $servicio['Nombre_completo']; ?></td>
-            <td><?php echo $servicio['cliente_solicita']; ?></td>
+            <td><?php echo $servicio['ejecutivo']; ?></td>
             <td><?php echo $servicio['referencia']; ?></td>
             <td><?php echo $servicio['bultos']; ?></td>
             <td><?php echo $servicio['doc_fiscal']; ?></td>
@@ -205,6 +232,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                 </div>
             </div>
         </div>
+        <br>
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -214,9 +242,10 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
-                          <table id="tablaNippon" class="table table-bordered table-striped table-hover">
+                          <table id="tablaXcf" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
+                                      <th scope="col">Cliente</th>
                                       <th scope="col">Fecha recoleccion</th>
                                       <th scope="col">cliente</th>
                                       <th scope="col">Unidad</th>
@@ -238,27 +267,28 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                   </tr>
                               </thead>
                               <tbody>
-                              <?php foreach ($serviciosNippon as $servNippon): ?>
+                              <?php foreach ($serviciosXcf as $servXcf): ?>
         <tr>
-          <td><?php echo $servNippon['fecha_recoleccion']; ?></td>
-            <td><?php echo $servNippon['cliente']; ?></td>
-            <td><?php echo $servNippon['unidad']; ?></td>
-            <td><?php echo $servNippon['placas']; ?></td>
-            <td><?php echo $servNippon['eco']; ?></td>
-            <td><?php echo $servNippon['unid_factura']; ?></td>
-            <td><?php echo $servNippon['oriDestino']; ?></td>
-            <td><?php echo $servNippon['local_foranea']; ?></td>
-            <td><?php echo $servNippon['sello']; ?></td>
-            <td><?php echo $servNippon['Nombre_completo']; ?></td>
-            <td><?php echo $servNippon['cliente_solicita']; ?></td>
-            <td><?php echo $servNippon['referencia']; ?></td>
-            <td><?php echo $servNippon['bultos']; ?></td>
-            <td><?php echo $servNippon['doc_fiscal']; ?></td>
-            <td><?php echo $servNippon['factura']; ?></td>
-            <td><?php echo $servNippon['costo']; ?></td>
-            <td><?php echo $servNippon['observaciones']; ?></td>
+        <td><?php echo $servXcf['cliente']; ?></td>
+          <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
+            <td><?php echo $servXcf['cliente']; ?></td>
+            <td><?php echo $servXcf['unidad']; ?></td>
+            <td><?php echo $servXcf['placas']; ?></td>
+            <td><?php echo $servXcf['eco']; ?></td>
+            <td><?php echo $servXcf['unid_factura']; ?></td>
+            <td><?php echo $servXcf['oriDestino']; ?></td>
+            <td><?php echo $servXcf['local_foranea']; ?></td>
+            <td><?php echo $servXcf['sello']; ?></td>
+            <td><?php echo $servXcf['Nombre_completo']; ?></td>
+            <td><?php echo $servXcf['cliente_solicita']; ?></td>
+            <td><?php echo $servXcf['referencia']; ?></td>
+            <td><?php echo $servXcf['bultos']; ?></td>
+            <td><?php echo $servXcf['doc_fiscal']; ?></td>
+            <td><?php echo $servXcf['factura']; ?></td>
+            <td><?php echo $servXcf['costo']; ?></td>
+            <td><?php echo $servXcf['observaciones']; ?></td>
             <td class="text-center">
-            <a href="Infservicio.php?servicioId=<?php echo $servNippon['id_servicio']; ?>">
+            <a href="Infservicio.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">
               <button type="button" class="btn btn-success btn-icon btn-transparent">
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
@@ -320,7 +350,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
 </script>
 <script>
   $(document).ready(function() {
-      $('#tablaNippon').DataTable({
+      $('#tablaXcf').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

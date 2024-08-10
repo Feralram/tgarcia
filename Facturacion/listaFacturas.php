@@ -5,8 +5,8 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-$servicios = $usuario->obtenerServicios();
-$serviciosNippon = $usuario->obtenerServiciosNippon();
+$facturas = $usuario->obtenerFacturas();
+$facturasOtros = $usuario->obtenerFacturasOtro();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -128,12 +128,38 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                       <th scope="col">Fecha de envio</th>                                      
                                       <th scope="col">Documento</th>
                                       <th scope="col">Portal Nippon</th>
+                                      <th scope="col">Eliminar</th>
                                   </tr>
                               </thead>
                               </thead>
                               <tbody>
-                                  
-                                  <!-- Más filas de datos aquí -->
+                              <?php foreach ($facturas as $factura): ?>
+        <tr>
+            <td><?php echo $factura['id_especifico']; ?></td>
+            <td><?php echo $factura['fecha']; ?></td>
+            <td><?php echo $factura['precio_base']; ?></td>
+            <td><?php echo $factura['iva']; ?></td>
+            <td><?php echo $factura['retencion']; ?></td>
+            <td><?php echo $factura['precio_final']; ?></td>
+            <td><?php echo $factura['razon_social']; ?></td>
+            <td><?php echo $factura['contacto_cliente']; ?></td>
+            <td><?php echo $factura['servicio']; ?></td>
+            <td><?php echo $factura['referencia']; ?></td>
+            <td><?php echo $factura['complemento']; ?></td>
+            <td><?php echo $factura['fecha_pago']; ?></td>
+            <td><?php echo $factura['observacion']; ?></td>
+            <td><?php echo $factura['fecha_envio']; ?></td>
+            <td><?php echo $factura['documento']; ?></td>
+            <td><?php echo $factura['portal_nippon']; ?></td>
+            <td class="text-center">
+                <form method="POST" onsubmit="return eliminarFactura(<?php echo $factura['id_factura']; ?>);">
+                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarFactura(<?php echo $factura['id_factura']; ?>)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <?php endforeach; ?>
                               </tbody>
                           </table>
                       </div>
@@ -151,7 +177,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
-                          <table id="tablaNippon" class="table table-bordered table-striped table-hover">
+                          <table id="tablaXcf" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
                                       <th scope="col">Factura</th>
@@ -173,7 +199,33 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                   </tr>
                               </thead>
                               <tbody> 
-                                  <!-- Más filas de datos aquí -->
+                              <?php foreach ($facturasOtros as $factotros): ?>
+        <tr>
+            <td><?php echo $factotros['id_especifico']; ?></td>
+            <td><?php echo $factotros['fecha']; ?></td>
+            <td><?php echo $factotros['precio_base']; ?></td>
+            <td><?php echo $factotros['iva']; ?></td>
+            <td><?php echo $factotros['retencion']; ?></td>
+            <td><?php echo $factotros['precio_final']; ?></td>
+            <td><?php echo $factotros['razon_social']; ?></td>
+            <td><?php echo $factotros['contacto_cliente']; ?></td>
+            <td><?php echo $factotros['servicio']; ?></td>
+            <td><?php echo $factotros['referencia']; ?></td>
+            <td><?php echo $factotros['complemento']; ?></td>
+            <td><?php echo $factotros['fecha_pago']; ?></td>
+            <td><?php echo $factotros['observacion']; ?></td>
+            <td><?php echo $factotros['fecha_envio']; ?></td>
+            <td><?php echo $factotros['documento']; ?></td>
+            <td><?php echo $factotros['portal_nippon']; ?></td>
+            <td class="text-center">
+                <form method="POST" onsubmit="return eliminarFactura(<?php echo $factotros['id_factura']; ?>);">
+                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarFactura(<?php echo $factotros['id_factura']; ?>)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <?php endforeach; ?>
                               </tbody>
                           </table>
                       </div>
@@ -225,7 +277,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
 </script>
 <script>
   $(document).ready(function() {
-      $('#tablaNippon').DataTable({
+      $('#tablaXcf').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -264,6 +316,42 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script>
+function eliminarFactura(id_factura) {
+    var comentario = prompt('Motivo por el que quiere cancelar la factura:');
+    if (comentario === null) {
+        return false; // Cancela la eliminación si no se ingresa comentario
+    }
+
+    if (confirm('¿Estás seguro de que deseas eliminar esta factura?')) {
+        fetch('../controllers/Usuario/controllerUsuario.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accion: 'eliminarFactura',
+                id_factura: id_factura,
+                comentario: comentario
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Factura eliminada con éxito');
+                location.reload(); // Recarga la página para actualizar la lista de facturas
+            } else {
+                alert('Error al eliminar la factura');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    return false; // Evita la recarga de la página
+}
+</script>
+
 </body>
 
 </html>

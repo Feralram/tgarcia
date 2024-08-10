@@ -51,7 +51,7 @@ class Usuario extends Connect {
     }
 
     public function obtenerUnidades() {
-        $query = "SELECT Eco, Placas, Marca, Unidad, Largo, Ancho, Alto, Peso, Tipo, Modelo, No_Serie, Color, Placas_Anteriores, Poliza, Vigencia_Poliza, Verificacion FROM unidades ORDER BY Uni_id ASC";
+        $query = "SELECT Eco, Placas, Marca, Unidad, Peso, Tipo, Modelo, No_Serie, Color FROM unidades ORDER BY Uni_id ASC";
         $resultado = $this->conexion->query($query);
 
         $unidades = array();
@@ -98,14 +98,21 @@ class Usuario extends Connect {
         return $operadores;
     }
 
-    public function obtenerServicios() {
-        $query = "SELECT *
-        FROM servicios  
-        INNER JOIN operadores ON servicios.id_operador = operadores.id
-        INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
-        INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
-        WHERE lista != 'Lista Proexi'
-        ORDER BY id_servicio ASC";
+    public function eliminarFactura($id_factura, $comentario) {
+        $query = "UPDATE facturas SET activa = 0, comentario_eliminacion = ? WHERE id_factura = ?";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param('si', $comentario, $id_factura);
+    
+        return $stmt->execute();
+    }
+    
+
+    public function obtenerFacturas() {
+        $query = "SELECT fc.*
+        FROM facturas fc  
+        INNER JOIN servicios sv ON sv.id_servicio = fc.id_servicio
+        WHERE sv.lista != 'Lista Xcf' AND activa = 1
+        ORDER BY fc.id_servicio ASC";
         $resultado = $this->conexion->query($query);
 
         $operadores = array();
@@ -115,14 +122,13 @@ class Usuario extends Connect {
 
         return $operadores;
     }
-    public function obtenerServiciosNippon() {
+
+    public function obtenerFacturasOtro() {
         $query = "SELECT *
-        FROM servicios  
-        INNER JOIN operadores ON servicios.id_operador = operadores.id
-        INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
-        INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
-        WHERE lista = 'Lista Proexi'
-        ORDER BY id_servicio ASC";
+        FROM facturas  
+        INNER JOIN servicios ON servicios.id_servicio = facturas.id_servicio
+        WHERE servicios.lista = 'Lista Xcf'
+        ORDER BY facturas.id_servicio ASC";
         $resultado = $this->conexion->query($query);
 
         $operadores = array();
@@ -132,6 +138,56 @@ class Usuario extends Connect {
 
         return $operadores;
     }
+
+    public function obtenerServicios($fechaInicio = null, $fechaFin = null) {
+        $fechaCondicion = "";
+        if ($fechaInicio && $fechaFin) {
+            $fechaCondicion = "AND servicios.fecha_creacion >= '" . $this->conexion->real_escape_string($fechaInicio) . "' AND servicios.fecha_creacion <= '" . $this->conexion->real_escape_string($fechaFin) . "'";
+        }
+        
+    
+        $query = "SELECT *
+            FROM servicios  
+            INNER JOIN operadores ON servicios.id_operador = operadores.id
+            INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
+            INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+            INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
+            WHERE lista != 'Lista Proexi' $fechaCondicion
+            ORDER BY id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+    
+        $servicios = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $servicios[] = $fila;
+        }
+    
+        return $servicios;
+    }
+    
+    public function obtenerServiciosXcf($fechaInicio = null, $fechaFin = null) {
+        $fechaCondicion = "";
+        if ($fechaInicio && $fechaFin) {
+            $fechaCondicion = "AND servicios.fecha_creacion BETWEEN '" . $this->conexion->real_escape_string($fechaInicio) . "' AND '" . $this->conexion->real_escape_string($fechaFin) . "'";
+        }
+    
+        $query = "SELECT *
+            FROM servicios  
+            INNER JOIN operadores ON servicios.id_operador = operadores.id
+            INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
+            INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+            INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
+            WHERE lista = 'Lista Proexi' $fechaCondicion
+            ORDER BY id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+    
+        $servicios = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $servicios[] = $fila;
+        }
+    
+        return $servicios;
+    }
+    
 
 
     public function CerrarSesion(){
@@ -244,11 +300,17 @@ class Usuario extends Connect {
     public function obtenerDimensionesProexi($idOrigen) {
         $idOrigen = $this->conexion->real_escape_string($idOrigen); // Evita SQL Injection
 
-        $query = "SELECT Id_tarifa_proexi, 'Nissan' AS tipo_unidad, nissan AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
+        $query = "SELECT Id_tarifa_proexi, 'Courrier/Robust' AS tipo_unidad, courrier_robust AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifa_proexi, 'Nissan' AS tipo_unidad, nissan AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
         UNION ALL
         SELECT Id_tarifa_proexi, '3.5' AS tipo_unidad, 3_5 AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
         UNION ALL
         SELECT Id_tarifa_proexi, 'Rabon' AS tipo_unidad, rabon AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifa_proexi, 'Torton' AS tipo_unidad, torton AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
+        UNION ALL
+        SELECT Id_tarifa_proexi, 'Trailer' AS tipo_unidad, trailer AS monto FROM tarifario_proexi WHERE Id_tarifa_proexi = '$idOrigen'
         ORDER BY Id_tarifa_proexi, tipo_unidad;";
         $statement = $this->conexion->prepare($query);
         
@@ -491,7 +553,7 @@ class Usuario extends Connect {
     public function insertaServicio($datos) {
         $lista_reco = $this->conexion->real_escape_string($datos['lista_reco']);
         $fecha_recoleccion = $this->conexion->real_escape_string($datos['fecha_recoleccion']);
-        $cliente = $this->conexion->real_escape_string($datos['cliente']);
+        $servicio = $this->conexion->real_escape_string($datos['servicio']);
         $unidad = $this->conexion->real_escape_string($datos['unidad']);
         $origen_destino = $this->conexion->real_escape_string($datos['origen_destino']);
         $unid_factura = $this->conexion->real_escape_string($datos['unid_factura']);
@@ -499,7 +561,7 @@ class Usuario extends Connect {
         $sello = $this->conexion->real_escape_string($datos['sello']);
         $operador = $this->conexion->real_escape_string($datos['operador']);
         $texto_operador = $this->conexion->real_escape_string($datos['texto_operador']);
-        $cliente_solicita = $this->conexion->real_escape_string($datos['cliente_solicita']);
+        $ejecutivo = $this->conexion->real_escape_string($datos['ejecutivo']);
         $referencia = $this->conexion->real_escape_string($datos['referencia']);
         $bultos = $this->conexion->real_escape_string($datos['bultos']);
         $doc_fiscal = $this->conexion->real_escape_string($datos['doc_fiscal']);
@@ -512,10 +574,10 @@ class Usuario extends Connect {
         $id = $this->contarServicios();
         $id_especifico = 'S-'.$id;
     
-        $query = "INSERT INTO servicios (id_servicio, id_especifico, lista, fecha_recoleccion, cliente, unidad, oriDestino
-        , unid_factura, local_foranea, sello, operador, id_operador, cliente_solicita, referencia, bultos, doc_fiscal, costo, factura, observaciones, fecha_creacion, id_cotizacion, num_candados )
-                  VALUES ('$id', '$id_especifico', '$lista_reco', '$fecha_recoleccion', '$cliente', '$unidad', '$origen_destino', '$unid_factura', '$local_foranea',
-                  '$sello','$texto_operador','$operador','$cliente_solicita','$referencia','$bultos','$doc_fiscal','$costo','$factura','$observaciones', now(), '$idcoti', '$candados')";
+        $query = "INSERT INTO servicios (id_servicio, id_especifico, lista, fecha_recoleccion, servicio, unidad, oriDestino
+        , unid_factura, local_foranea, sello, operador, id_operador, ejecutivo, referencia, bultos, doc_fiscal, costo, factura, observaciones, fecha_creacion, id_cotizacion, num_candados )
+                  VALUES ('$id', '$id_especifico', '$lista_reco', '$fecha_recoleccion', '$servicio', '$unidad', '$origen_destino', '$unid_factura', '$local_foranea',
+                  '$sello','$texto_operador','$operador','$ejecutivo','$referencia','$bultos','$doc_fiscal','$costo','$factura','$observaciones', now(), '$idcoti', '$candados')";
     
         
         if ($this->conexion->query($query)) {
@@ -525,32 +587,55 @@ class Usuario extends Connect {
         }
     }
 
-    public function insertaFactura($factura) {
-        // Prepara los datos para la inserción
-        $servicioId = $this->conexion->real_escape_string($factura['servicioId']);
-        $otroCampo = $this->conexion->real_escape_string($factura['otro_campo']); // Reemplaza con los campos necesarios
-
-        // Inserta el registro inicial
-        $query = "INSERT INTO facturas (servicioId, otroCampo) VALUES ('$servicioId', '$otroCampo')";
-        if ($this->conexion->query($query)) {
-            // Obtiene el ID auto-incrementado
-            $id = $this->conexion->insert_id;
-
-            // Genera el ID personalizado
-            $idPersonalizado = 'FACT-' . str_pad($id, 6, '0', STR_PAD_LEFT); // Ejemplo: FACT-000001
-
-            // Actualiza el registro con el ID personalizado
-            $updateQuery = "UPDATE facturas SET id_personalizado = '$idPersonalizado' WHERE id = $id";
-            return $this->conexion->query($updateQuery);
+    public function insertarFactura($factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio) {
+        $query = "INSERT INTO facturas (id_especifico, fecha, precio_base, iva, retencion, precio_final, razon_social, contacto_cliente, servicio, referencia, complemento, fecha_pago, observacion, fecha_envio, documento, portal_nippon, id_servicio)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+        $statement = $this->conexion->prepare($query);
+        $statement->bind_param('sssssssssssssssss', $factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio);
+    
+        if ($statement->execute()) {
+            return true;
         } else {
             return false;
         }
     }
     
     
+    function validaFactura($id_servicio) {
+        $sql = "SELECT COUNT(*) as count FROM facturas WHERE id_servicio = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param("i", $id_servicio);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
 
+    public function guardarCotizacionAdicional($cliente, $origen, $destino, $codigo_postal, $peso, $dimension, $precio, $num_bultos) {
+        $query = "INSERT INTO cotizacion_adicional (cliente, origen, destino, codigo_postal, peso, dimension, precio, bultos)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param('ssssssss', $cliente, $origen, $destino, $codigo_postal, $peso, $dimension, $precio, $num_bultos);
+    
+        return $stmt->execute();
+    }
 
+    public function obtenerCotizacionesAdicionales() {
+        $query = "SELECT *
+        FROM cotizacion_adicional
+        ORDER BY id_cotadicional ASC";
+        $resultado = $this->conexion->query($query);
 
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+    
+    
     
     
 

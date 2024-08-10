@@ -4,7 +4,7 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
     // Obtener los valores del formulario
     const lista_reco = document.getElementById('lista_reco').value;
     const fecha_recoleccion = document.getElementById('fecha_recoleccion').value;
-    const cliente = document.getElementById('cliente').value;
+    const servicio = document.getElementById('servicio').value;
     const unidad = document.getElementById('unidad').value;
 
     const origen_destino = document.getElementById('origen_destino').value;
@@ -13,7 +13,7 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
     const sello = document.getElementById('sello').value;
     const operador = document.getElementById('operador').value;
     const texto_operador = document.getElementById('texto_operador').value;
-    const cliente_solicita = document.getElementById('cliente_solicita').value;
+    const ejecutivo = document.getElementById('ejecutivo').value;
     const referencia = document.getElementById('referencia').value;
     const bultos = document.getElementById('bultos').value;
     const doc_fiscal = document.getElementById('doc_fiscal').value;
@@ -29,7 +29,7 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
         datos: {
             lista_reco: lista_reco,
             fecha_recoleccion: fecha_recoleccion,
-            cliente: cliente,
+            servicio: servicio,
             unidad: unidad,
             origen_destino: origen_destino,                
             unid_factura: unid_factura,
@@ -37,7 +37,7 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
             sello: sello,
             operador: operador,
             texto_operador: texto_operador,
-            cliente_solicita: cliente_solicita,
+            ejecutivo: ejecutivo,
             referencia: referencia,
             bultos: bultos,
             doc_fiscal: doc_fiscal,

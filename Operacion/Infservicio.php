@@ -8,7 +8,7 @@ $id = $_GET['servicioId'] ?? null;
 
 if ($id) {
   $stmt = $usuario->conexion->prepare(
-  "SELECT servicios.id_especifico, servicios.cliente, servicios.operador, servicios.num_candados,
+  "SELECT servicios.id_especifico, servicios.servicio, servicios.operador, servicios.num_candados,
   servicios.oriDestino, cotizaciones.dimension, operadores.rfc, operadores.celular
   , unidades.placas, unidades.modelo, unidades.unidad, unidades.eco
   FROM servicios  
@@ -58,7 +58,7 @@ if ($id) {
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -177,7 +177,7 @@ if ($id) {
                       <tbody>
                         <tr>
                           <td>Cliente:</td>
-                          <td><?php echo htmlspecialchars($servicio['cliente']); ?></td>
+                          <td><?php echo htmlspecialchars($servicio['servicio']); ?></td>
                         </tr>
                         <tr>
                           <td>ECO:</td>

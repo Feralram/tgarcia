@@ -34,7 +34,7 @@ $operadores = $usuario->obtenerOperadores();
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -155,43 +155,29 @@ $operadores = $usuario->obtenerOperadores();
                             <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col">Eco</th>
+                                    <th scope="col">Eco</th>
                                         <th scope="col">Placa</th>
                                         <th scope="col">Marca</th>
-                                        <th scope="col">Unidad</th>
-                                        <th scope="col">Largo</th>
-                                        <th scope="col">Ancho</th>
-                                        <th scope="col">Alto</th>
+                                        <th scope="col">Unidad</th>                                        
                                         <th scope="col">Peso</th>
                                         <th scope="col">Tipo</th>
                                         <th scope="col">Modelo</th>
                                         <th scope="col">No. Serie</th>
-                                        <th scope="col">Color</th>
-                                        <th scope="col">Placas Anteriores</th>
-                                        <th scope="col">Poliza</th>
-                                        <th scope="col">Vigencia de poliza</th>
-                                        <th scope="col">Verificación</th>
+                                        <th scope="col">Color</th>       
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($unidades as $unidad): ?>
         <tr>
-            <td><?php echo $unidad['Eco']; ?></td>
+        <td><?php echo $unidad['Eco']; ?></td>
             <td><?php echo $unidad['Placas']; ?></td>
             <td><?php echo $unidad['Marca']; ?></td>
             <td><?php echo $unidad['Unidad']; ?></td>
-            <td><?php echo $unidad['Largo']; ?></td>
-            <td><?php echo $unidad['Ancho']; ?></td>
-            <td><?php echo $unidad['Alto']; ?></td>
             <td><?php echo $unidad['Peso']; ?></td>
             <td><?php echo $unidad['Tipo']; ?></td>
             <td><?php echo $unidad['Modelo']; ?></td>
             <td><?php echo $unidad['No_Serie']; ?></td>
-            <td><?php echo $unidad['Color']; ?></td>
-            <td><?php echo $unidad['Placas_Anteriores']; ?></td>
-            <td><?php echo $unidad['Poliza']; ?></td>
-            <td><?php echo $unidad['Vigencia_Poliza']; ?></td>
-            <td><?php echo $unidad['Verificacion']; ?></td>
+            <td><?php echo $unidad['Color']; ?></td>  
         </tr>
         <?php endforeach; ?>
                                 </tbody>

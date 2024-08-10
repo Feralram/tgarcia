@@ -7,7 +7,7 @@ $usuario = new Usuario();
 $id = $_GET['cotizacionId'] ?? null;
 
 if ($id) {
-    $query = "SELECT * FROM cotizaciones WHERE id_cotizacion = '$id'";
+    $query = "SELECT * FROM cotizaciones INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente WHERE id_cotizacion = '$id'";
     $resultado = $usuario->conexion->query($query);
 
     if ($resultado && $resultado->num_rows > 0) {
@@ -49,7 +49,7 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"

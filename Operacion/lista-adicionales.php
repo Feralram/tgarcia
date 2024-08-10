@@ -5,8 +5,8 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-$servicios = $usuario->obtenerServicios();
-$serviciosNippon = $usuario->obtenerServiciosNippon();
+// Obtener las unidades desde el modelo
+$cotizaciones = $usuario->obtenerCotizacionesAdicionales();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -137,7 +137,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Generales</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Cotizaciones adicionales</h6>
                 </div>
                     <div class="card-header">
                     <div class="card-body">
@@ -155,6 +155,23 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                       <th scope="col">Numero de bultos</th>
                                   </tr>
                               </thead>
+                              <tbody>
+                                  <!-- Ejemplo de una fila de datos -->
+                                  <?php foreach ($cotizaciones as $cotizacion): ?>
+        <tr>        
+            <td><?php echo $cotizacion['cliente']; ?></td>
+            <td><?php echo $cotizacion['origen']; ?></td>
+            <td><?php echo $cotizacion['destino']; ?></td>
+            <td><?php echo $cotizacion['codigo_postal']; ?></td>
+            <td>$<?php echo $cotizacion['peso']; ?></td>
+            <td>$<?php echo $cotizacion['dimension']; ?></td>
+            <td>$<?php echo $cotizacion['precio']; ?></td>   
+            <td>$<?php echo $cotizacion['bultos']; ?></td>         
+        </tr>
+        <?php endforeach; ?>
+                                  
+                                  <!-- Más filas de datos aquí -->
+                              </tbody>
                           </table>
                       </div>
                     </div>
@@ -176,36 +193,6 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
 <script>
   $(document).ready(function() {
       $('#tablaGenerales').DataTable({
-          "language": {
-              "sProcessing":     "Procesando...",
-              "sLengthMenu":     "Mostrar _MENU_ registros",
-              "sZeroRecords":    "No se encontraron resultados",
-              "sEmptyTable":     "Ningún dato disponible en esta tabla",
-              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-              "sInfoPostFix":    "",
-              "sSearch":         "Buscar:",
-              "sUrl":            "",
-              "sInfoThousands":  ",",
-              "sLoadingRecords": "Cargando...",
-              "oPaginate": {
-                  "sFirst":    "Primero",
-                  "sLast":     "Último",
-                  "sNext":     "Siguiente",
-                  "sPrevious": "Anterior"
-              },
-              "oAria": {
-                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-              }
-          }
-      });
-  });
-</script>
-<script>
-  $(document).ready(function() {
-      $('#tablaNippon').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

@@ -25,7 +25,7 @@ error_reporting(E_ALL);
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -125,7 +125,7 @@ error_reporting(E_ALL);
         <h6 class="text-white text-capitalize ps-3 text-center h5">Iniciar cotización adicional</h6>
       </div>
       <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
-      <form id="cotizacionForm" onsubmit="agregarTextoAlFormulario()" >
+      <form id="cotizacionForm">
           <div class="row">
           <div class="col-md-4 mb-3">
               <label for="cliente" class="form-label">Cliente</label>
@@ -133,7 +133,7 @@ error_reporting(E_ALL);
             </div>
             <div class="col-md-4 mb-3">
               <label for="origen" class="form-label">Origen</label>
-              <input type="text" class="form-control form-control-sm" name="origen" id="Origen">
+              <input type="text" class="form-control form-control-sm" name="origen" id="origen">
             </div>
             <div class="col-md-4 mb-3">
               <label for="destino" class="form-label">Destino</label>
@@ -181,7 +181,67 @@ error_reporting(E_ALL);
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <script src="app.js"></script>
+
+  <script>
+document.getElementById('cotizacionForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevenir el envío tradicional del formulario
+    
+    // Obtener los valores del formulario
+    const cliente = document.getElementById('cliente').value;
+    const origen = document.getElementById('origen').value;
+    const destino = document.getElementById('destino').value;
+    const codigo_postal = document.getElementById('codigo_postal').value;
+    const peso = document.getElementById('peso').value;
+    const dimension = document.getElementById('dimension').value;
+    const precio = document.getElementById('precio').value;
+    const num_bultos = document.getElementById('num_bultos').value;
+
+    // Construir el objeto JSON a enviar
+    const datos = {
+        accion: 'guardarCotizacionAdicional',
+        datos: {
+            cliente: cliente,
+            origen: origen,
+            destino: destino,
+            codigo_postal: codigo_postal,
+            peso: peso,
+            dimension: dimension,
+            precio: precio,
+            num_bultos: num_bultos
+        }
+    };
+
+    // Enviar la solicitud POST usando fetch
+    fetch('../controllers/Usuario/controllerUsuario.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la solicitud');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Manejar la respuesta del servidor
+        if (data.success) {
+            alert('Cotización guardada correctamente');
+            // Redirigir a la página de lista de adicionales
+            window.location.href = data.redirectUrl;
+        } else {
+            alert('Error al guardar la cotización');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error en la solicitud');
+    });
+});
+
+  </script>
 </body>
 
 </html>

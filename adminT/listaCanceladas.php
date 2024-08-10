@@ -6,7 +6,7 @@ include_once('../models/Usuario.php');
 $usuario = new Usuario();
 
 $servicios = $usuario->obtenerServicios();
-$serviciosNippon = $usuario->obtenerServiciosNippon();
+$serviciosXcf = $usuario->obtenerServiciosXcf();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link rel="stylesheet"
@@ -190,36 +190,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
       });
   });
 </script>
-<script>
-  $(document).ready(function() {
-      $('#tablaNippon').DataTable({
-          "language": {
-              "sProcessing":     "Procesando...",
-              "sLengthMenu":     "Mostrar _MENU_ registros",
-              "sZeroRecords":    "No se encontraron resultados",
-              "sEmptyTable":     "Ningún dato disponible en esta tabla",
-              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-              "sInfoPostFix":    "",
-              "sSearch":         "Buscar:",
-              "sUrl":            "",
-              "sInfoThousands":  ",",
-              "sLoadingRecords": "Cargando...",
-              "oPaginate": {
-                  "sFirst":    "Primero",
-                  "sLast":     "Último",
-                  "sNext":     "Siguiente",
-                  "sPrevious": "Anterior"
-              },
-              "oAria": {
-                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-              }
-          }
-      });
-  });
-</script>
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

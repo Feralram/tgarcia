@@ -68,25 +68,6 @@ if (isset($request)) {
             echo json_encode($tarifagen);
             break;
             
-        case 'insertarYRedirigir':
-            $servicioId = $_POST['servicioId'];
-            
-            // Insertar en la base de datos (reemplaza con tu lógica de inserción)
-            $data = [
-                'servicioId' => $servicioId,
-                'otro_campo' => 'valor_predeterminado' // Reemplaza con los datos necesarios
-            ];
-            
-            $id = $usuario->insertaFactura($data); // Usa tu método de inserción adecuado
-
-            if ($id) {
-                // Redirigir después del insert
-                header("Location: form-registroFact.php?servicioId=" . $servicioId);
-                exit();
-            } else {
-                echo "Error al insertar en la base de datos.";
-            }
-            break; 
         
         case 'altacotizacion':
             $datoscoti = $request['datos'];
@@ -117,6 +98,39 @@ if (isset($request)) {
             } else {
                 http_response_code(500);
                 echo json_encode(['success' => false, 'message' => 'Error al guardar la cotización.']);
+            }
+
+            break;
+            
+        case 'insertarFactura':
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+            // Obtener los datos del JSON
+            $factura = $data['factura'];
+            $fecha_fac = $data['fecha_fac'];
+            $precio_base = $data['precio_base'];
+            $iva = $data['iva'];
+            $retencion = $data['Retención'];
+            $precio_final = $data['precio_final'];
+            $razonSocial = $data['razonSocial'];
+            $contact_cliente = $data['contact_cliente'];
+            $servicio = $data['servicio'];
+            $referencia = $data['referencia'];
+            $complemento = $data['complemento'];
+            $fecha_pag = $data['fecha_pag'];
+            $observacion = $data['observacion'];
+            $fecha_envio = $data['fecha_envio'];
+            $documento = $data['documento'];
+            $portal_nip = $data['portal_nip'];
+            $idservicio = $data['idservicio'];
+
+
+            $resultado  = $usuario->insertarFactura($factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio);
+
+            if ($resultado) {
+                echo json_encode(['success' => true, 'message' => 'Factura insertada con éxito']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al insertar la factura']);
             }
 
             break;
@@ -151,13 +165,31 @@ if (isset($request)) {
             }
             break;
 
+            case 'eliminarFactura':
+                $id_factura = $request['id_factura'];
+                $comentario = isset($request['comentario']) ? $request['comentario'] : '';
+            
+                // Llamada al método del modelo para eliminar la factura con comentario
+                $resultado = $usuario->eliminarFactura($id_factura, $comentario);
+            
+                if ($resultado) {
+                    http_response_code(200);
+                    echo json_encode(['success' => true, 'message' => 'Factura eliminada con éxito']);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['success' => false, 'message' => 'Error al eliminar la factura']);
+                }
+            
+                break;
+            
+
         case 'altaservicio':
             $datosServi = $request['datos'];
 
             $data = [
                 'lista_reco' => $datosServi['lista_reco'],
                 'fecha_recoleccion' => $datosServi['fecha_recoleccion'],
-                'cliente' => $datosServi['cliente'],
+                'servicio' => $datosServi['servicio'],
                 'unidad' => $datosServi['unidad'],
                 'origen_destino' => $datosServi['origen_destino'],
                 'unid_factura' => $datosServi['unid_factura'],
@@ -165,7 +197,7 @@ if (isset($request)) {
                 'sello' => $datosServi['sello'],
                 'operador' => $datosServi['operador'],
                 'texto_operador' => $datosServi['texto_operador'],
-                'cliente_solicita' => $datosServi['cliente_solicita'],
+                'ejecutivo' => $datosServi['ejecutivo'],
                 'referencia' => $datosServi['referencia'],
                 'bultos' => $datosServi['bultos'],
                 'doc_fiscal' => $datosServi['doc_fiscal'],
@@ -191,6 +223,40 @@ if (isset($request)) {
             }
 
             break;
+
+            case 'guardarCotizacionAdicional':
+                // Decodificar el JSON recibido
+                $requestData = json_decode(file_get_contents('php://input'), true);
+                
+                // Extraer los datos del array 'datos'
+                $cliente = $requestData['datos']['cliente'];
+                $origen = $requestData['datos']['origen'];
+                $destino = $requestData['datos']['destino'];
+                $codigo_postal = $requestData['datos']['codigo_postal'];
+                $peso = $requestData['datos']['peso'];
+                $dimension = $requestData['datos']['dimension'];
+                $precio = $requestData['datos']['precio'];
+                $num_bultos = $requestData['datos']['num_bultos'];
+            
+                // Llamada al método del modelo para guardar la cotización adicional
+                $resultado = $usuario->guardarCotizacionAdicional($cliente, $origen, $destino, $codigo_postal, $peso, $dimension, $precio, $num_bultos);
+            
+                // Responder según el resultado de la operación
+                if ($resultado) {
+                    http_response_code(200);
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Cotización guardada con éxito',
+                        'redirectUrl' => 'lista-adicionales.php' // URL de redirección
+                    ]);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['success' => false, 'message' => 'Error al guardar la cotización']);
+                }
+            
+                break;
+            
+            
 
             
 
@@ -225,9 +291,3 @@ if (isset($request)) {
             break;            
     }
 }
-
-
-
-
-
-

@@ -6,7 +6,7 @@ include_once('../models/Usuario.php');
 $usuario = new Usuario();
 
 $servicios = $usuario->obtenerServicios();
-$serviciosNippon = $usuario->obtenerServiciosNippon();
+$serviciosXcf = $usuario->obtenerServiciosXcf();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,12 +32,11 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
   <!-- Nucleo Icons -->
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Font Awesome Icons -->  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
 </head>
@@ -160,26 +159,21 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
               </button>
             </td>
 
-            <td class="text-center">
+
+<?php $validacion = $usuario->validaFactura($servicio['id_servicio']);
+ if ($validacion < 3): ?>
+  <td class="text-center">
             <a href="form-registroFact.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
                 <button type="button" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
                   <i class="fas fa-file-invoice fa-lg"></i>
                 </button>
             </td>
-             <!-- Coloca aquí tus otras columnas -->
-        <!-- <td class="text-center">
-          <form method="post" action="../controllers/Usuario/controllerUsuario.php">
-            <input type="hidden" name="accion" value="insertarYRedirigir">
-            <input type="hidden" name="servicioId" value="">
-            <button type="submit" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
-              <i class="fas fa-file-invoice fa-lg"></i>
-            </button>
-          </form>
-        </td> -->
+            <?php else: ?>
+                <td>Límite de facturas alcanzado</td>
+            <?php endif; ?>
+            
         </tr>
         <?php endforeach; ?>
-                                  
-                                  <!-- Más filas de datos aquí -->
                               </tbody>
                           </table>
                       </div>
@@ -197,7 +191,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
-                          <table id="tablaNippon" class="table table-bordered table-striped table-hover">
+                          <table id="tablaXcf" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
                                       <th scope="col">Fecha recoleccion</th>
@@ -222,33 +216,33 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
                                   </tr>
                               </thead>
                               <tbody>
-                              <?php foreach ($serviciosNippon as $servNippon): ?>
+                              <?php foreach ($serviciosXcf as $servXcf): ?>
         <tr>
-          <td><?php echo $servNippon['fecha_recoleccion']; ?></td>
-            <td><?php echo $servNippon['cliente']; ?></td>
-            <td><?php echo $servNippon['unidad']; ?></td>
-            <td><?php echo $servNippon['placas']; ?></td>
-            <td><?php echo $servNippon['eco']; ?></td>
-            <td><?php echo $servNippon['unid_factura']; ?></td>
-            <td><?php echo $servNippon['oriDestino']; ?></td>
-            <td><?php echo $servNippon['local_foranea']; ?></td>
-            <td><?php echo $servNippon['sello']; ?></td>
-            <td><?php echo $servNippon['Nombre_completo']; ?></td>
-            <td><?php echo $servNippon['cliente_solicita']; ?></td>
-            <td><?php echo $servNippon['referencia']; ?></td>
-            <td><?php echo $servNippon['bultos']; ?></td>
-            <td><?php echo $servNippon['doc_fiscal']; ?></td>
-            <td><?php echo $servNippon['factura']; ?></td>
-            <td><?php echo $servNippon['costo']; ?></td>
-            <td><?php echo $servNippon['observaciones']; ?></td>
+          <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
+            <td><?php echo $servXcf['cliente']; ?></td>
+            <td><?php echo $servXcf['unidad']; ?></td>
+            <td><?php echo $servXcf['placas']; ?></td>
+            <td><?php echo $servXcf['eco']; ?></td>
+            <td><?php echo $servXcf['unid_factura']; ?></td>
+            <td><?php echo $servXcf['oriDestino']; ?></td>
+            <td><?php echo $servXcf['local_foranea']; ?></td>
+            <td><?php echo $servXcf['sello']; ?></td>
+            <td><?php echo $servXcf['Nombre_completo']; ?></td>
+            <td><?php echo $servXcf['cliente_solicita']; ?></td>
+            <td><?php echo $servXcf['referencia']; ?></td>
+            <td><?php echo $servXcf['bultos']; ?></td>
+            <td><?php echo $servXcf['doc_fiscal']; ?></td>
+            <td><?php echo $servXcf['factura']; ?></td>
+            <td><?php echo $servXcf['costo']; ?></td>
+            <td><?php echo $servXcf['observaciones']; ?></td>
             <td class="text-center">
-            <a href="Infservicio.php?servicioId=<?php echo $servNippon['id_servicio']; ?>">
+            <a href="Infservicio.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">
               <button type="button" class="btn btn-success btn-icon btn-transparent">
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
             </td>
             <td class="text-center">
-            <a href="form-registroFact.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
+            <a href="form-registroFact.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">
                 <button type="button" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
                   <i class="fas fa-file-invoice fa-lg"></i>
                 </button>
@@ -309,7 +303,7 @@ $serviciosNippon = $usuario->obtenerServiciosNippon();
 </script>
 <script>
   $(document).ready(function() {
-      $('#tablaNippon').DataTable({
+      $('#tablaXcf').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
