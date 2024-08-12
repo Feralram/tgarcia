@@ -238,18 +238,18 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                               </thead>
                               <tbody>
                               <?php foreach ($serviciosXcf as $servXcf): ?>
-        <tr>
+                                <tr>
           <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
             <td><?php echo $servXcf['cliente']; ?></td>
             <td><?php echo $servXcf['unidad']; ?></td>
-            <td><?php echo $servXcf['placas']; ?></td>
+            <td><?php echo $servXcf['Placas']; ?></td>
             <td><?php echo $servXcf['eco']; ?></td>
             <td><?php echo $servXcf['unid_factura']; ?></td>
             <td><?php echo $servXcf['oriDestino']; ?></td>
             <td><?php echo $servXcf['local_foranea']; ?></td>
             <td><?php echo $servXcf['sello']; ?></td>
             <td><?php echo $servXcf['Nombre_completo']; ?></td>
-            <td><?php echo $servXcf['cliente_solicita']; ?></td>
+            <td><?php echo $servXcf['ejecutivo']; ?></td>
             <td><?php echo $servXcf['referencia']; ?></td>
             <td><?php echo $servXcf['bultos']; ?></td>
             <td><?php echo $servXcf['doc_fiscal']; ?></td>
