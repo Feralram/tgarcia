@@ -165,6 +165,22 @@ if (isset($request)) {
             }
             break;
 
+            case 'terminarFactura':
+                $id = $request['id'];
+                $resultado = $usuario->terminarFactura($id);
+    
+                if ($resultado) {
+                    http_response_code(200);
+                    echo json_encode([
+                        'success' => true,
+                        '' => $resultado // Devolvemos el ID específico de la cotización
+                    ]);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['success' => false, 'message' => 'Error.']);
+                }
+                break;
+
             case 'eliminarFactura':
                 $id_factura = $request['id_factura'];
                 $comentario = isset($request['comentario']) ? $request['comentario'] : '';

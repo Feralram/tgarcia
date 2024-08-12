@@ -163,7 +163,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
 
 
 <?php $validacion = $usuario->validaFactura($servicio['id_servicio']);
- if ($validacion < 3): ?>
+ if ($validacion < 3 && !$servicio['factura_status']): ?>
   <td class="text-center">
             <a href="form-registroFact.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
                 <button type="button" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">
@@ -171,7 +171,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                 </button>
             </td>
             <?php else: ?>
-                <td>Límite de facturas alcanzado</td>
+                <td>Factura terminada.</td>
             <?php endif; ?>
             <td class="text-center">
             <a href="Inffactura.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
@@ -179,7 +179,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                 <i class="fas fa-file fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
             </td>
-            
+
         </tr>
         <?php endforeach; ?>
                               </tbody>
@@ -220,12 +220,13 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
-                                      <th scope="col">Factura</th>
+                                      <th scope="col">Generar factura</th>
+                                      <th scope="col">Ver facturas</th>
                                   </tr>
                               </thead>
                               <tbody>
                               <?php foreach ($serviciosXcf as $servXcf): ?>
-        <tr>
+                                <tr>
             <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
             <td><?php echo $servXcf['cliente']; ?></td>
             <td><?php echo $servXcf['unidad']; ?></td>
@@ -253,7 +254,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
 
 
 <?php $validacion = $usuario->validaFactura($servXcf['id_servicio']);
- if ($validacion < 3): ?>
+ if ($validacion < 3 && !$servXcf['factura_status']): ?>
   <td class="text-center">
             <a href="form-registroFact.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">
                 <button type="button" class="btn btn-info btn-icon btn-transparent" id="invoiceButton">

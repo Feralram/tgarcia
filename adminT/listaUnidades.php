@@ -6,7 +6,8 @@ include_once('../models/Usuario.php');
 $usuario = new Usuario();
 
 // Obtener las unidades desde el modelo
-$cotizaciones = $usuario->obtenerCotizacionesAdicionales();
+$unidades = $usuario->obtenerUnidades();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +44,7 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside
+<aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
     <div class="sidenav-header">
@@ -58,16 +59,15 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white" href="./perfil.php">
+            <a class="nav-link text-white active bg-gradient-info" href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
             </a>
         </li>
-        </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./form-altaCot.php">
+          <a class="nav-link text-white" href="form-altaCot.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -75,14 +75,13 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./cotizacionProceso.php">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
             <span class="nav-link-text ms-1">Cotización en proceso</span>
           </a>
         </li>
-
         <li class="nav-item">
           <a class="nav-link text-white" href="./listaCanceladas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -100,7 +99,15 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaUnidades.php">
+          <a class="nav-link text-white" href="./lista-adicionales.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista Adicionales</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white active bg-gradient-info" href="./listaUnidades.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -109,14 +116,6 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="./listaOperadores.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Lista Operadores</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="./lista-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -138,57 +137,72 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
       data-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Inicio</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Administracion</li>
+          </ol>
+          <h6 class="font-weight-bolder mb-0">Bienvenido</h6>
+        </nav>
+      </div>
     </nav>
     <div class="container-fluid px-2 px-md-4">
       <!-- End Navbar -->
        <!--Lista Operadores-->
+       <div class="container mt-5">
         <div class="row">
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Cotizaciones adicionales</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Lista Unidades</h6>
                 </div>
-                    <div class="card-header">
                     <div class="card-body">
-                      <div class="table-responsive">
-                          <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
-                              <thead class="thead-dark">
-                                  <tr>
-                                      <th scope="col">Cliente</th>
-                                      <th scope="col">Origen</th>
-                                      <th scope="col">Destino</th>
-                                      <th scope="col">Codigo Postal</th>
-                                      <th scope="col">Peso</th>
-                                      <th scope="col">Dimension</th>
-                                      <th scope="col">Precio</th>
-                                      <th scope="col">Numero de bultos</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <!-- Ejemplo de una fila de datos -->
-                                  <?php foreach ($cotizaciones as $cotizacion): ?>
-        <tr>        
-            <td><?php echo $cotizacion['cliente']; ?></td>
-            <td><?php echo $cotizacion['origen']; ?></td>
-            <td><?php echo $cotizacion['destino']; ?></td>
-            <td><?php echo $cotizacion['codigo_postal']; ?></td>
-            <td>$<?php echo $cotizacion['peso']; ?></td>
-            <td>$<?php echo $cotizacion['dimension']; ?></td>
-            <td>$<?php echo $cotizacion['precio']; ?></td>   
-            <td>$<?php echo $cotizacion['bultos']; ?></td>         
+                        <div class="table-responsive">
+                            <table id="tablaUnidades" class="table table-bordered table-striped table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                    <th scope="col">Eco</th>
+                                        <th scope="col">Placa</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Unidad</th>                                        
+                                        <th scope="col">Peso</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Modelo</th>
+                                        <th scope="col">No. Serie</th>
+                                        <th scope="col">Color</th>       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($unidades as $unidad): ?>
+        <tr>
+        <td><?php echo $unidad['Eco']; ?></td>
+            <td><?php echo $unidad['Placas']; ?></td>
+            <td><?php echo $unidad['Marca']; ?></td>
+            <td><?php echo $unidad['Unidad']; ?></td>
+            <td><?php echo $unidad['Peso']; ?></td>
+            <td><?php echo $unidad['Tipo']; ?></td>
+            <td><?php echo $unidad['Modelo']; ?></td>
+            <td><?php echo $unidad['No_Serie']; ?></td>
+            <td><?php echo $unidad['Color']; ?></td>  
         </tr>
         <?php endforeach; ?>
-                                  
-                                  <!-- Más filas de datos aquí -->
-                              </tbody>
-                          </table>
-                      </div>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
- </main>
+    </div>
+    </div>
+    </div>
+    <div id="notifications" class="alert container text-white fade show" role="alert"><strong></strong></div>
+    <footer class="footer py-4  ">
+      <div class="container-fluid">
+      </div>
+    </footer>
+  </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
@@ -199,9 +213,22 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
+
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  
 <script>
   $(document).ready(function() {
-      $('#tablaGenerales').DataTable({
+      $('#tablaUnidades').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -229,17 +256,41 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
       });
   });
 </script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+<script>
+$(document).ready(function() {
+    $('#tablaOperadores').DataTable({
+        "language": {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
+});
+</script>
+
+
+
+
+
 </body>
 
 </html>

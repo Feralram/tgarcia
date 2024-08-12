@@ -550,6 +550,19 @@ class Usuario extends Connect {
         }
     }
 
+    public function terminarFactura($id) {
+        $id = $this->conexion->real_escape_string($id);
+
+    
+        $query = "UPDATE servicios SET factura_status = 1 WHERE id_servicio='$id'";
+    
+        if ($this->conexion->query($query)) {
+            return $id;
+        } else {
+            return false;
+        }
+    }
+
     public function insertaServicio($datos) {
         $lista_reco = $this->conexion->real_escape_string($datos['lista_reco']);
         $fecha_recoleccion = $this->conexion->real_escape_string($datos['fecha_recoleccion']);
