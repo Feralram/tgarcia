@@ -43,7 +43,7 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside
+<aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
     id="sidenav-main">
     <div class="sidenav-header">
@@ -58,12 +58,29 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white" href="./perfil.php">
+            <a class="nav-link text-white " href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
             </a>
+        </li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="form-altaCot.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Alta Cotización</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="cotizacionProceso.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotización en proceso</span>
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="./listaServicios.php">
@@ -79,6 +96,22 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
               <span class="material-icons opacity-10">folder</span>
             </div>
             <span class="nav-link-text ms-1">Lista de facturas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./form-adicionales.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotización Adicional</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./lista-adicionales.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista Adicionales</span>
           </a>
         </li>
         <li class="nav-item mt-4">

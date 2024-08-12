@@ -174,6 +174,8 @@ if ($id) {
                 <option selected>Selecciona...</option>
                 <option>Lista general</option>
                 <option>Lista Xcf</option>
+                <option>Lista Proexi</option>
+                <option>Lista Nippon</option>
               </select>
             </div>
             <div class="col-md-4 mb-3">

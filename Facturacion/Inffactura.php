@@ -168,10 +168,11 @@ exit;
                             Registrar
                         </button>
                         <div class="container mt-4">
-                            <?php foreach ($facturas as $factura): ?>
+                            <?php $index = 1;
+                             foreach ($facturas as $factura): ?>
                                 <div class="invoice">
                                     <div class="invoice-header">
-                                        <h1>Factura <?php echo htmlspecialchars($factura['id_factura']);  ?> - S<?php echo htmlspecialchars($factura['id_servicio']); ?></h1>
+                                        <h1>Factura <?php echo htmlspecialchars($index);  ?> - S<?php echo htmlspecialchars($factura['id_servicio']); ?></h1>
                                         <div class="date">Fecha: <?php echo htmlspecialchars($factura['fecha']); ?></div>
                                     </div>
                                     <div class="invoice-details">
@@ -250,7 +251,9 @@ exit;
                                         </button>
                                     </div>
                                 </div>
-                            <?php endforeach; ?>
+                            <?php 
+                        $index++;
+                        endforeach; ?>
                         </div>
                     </div>
                 </div>

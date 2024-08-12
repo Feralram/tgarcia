@@ -205,7 +205,8 @@ exit;
                 <div class="card">
                     <div class="card-header">
                         <div class="container mt-4">
-                            <?php foreach ($facturas as $factura): ?>
+                            <?php $index = 1;
+                             foreach ($facturas as $factura): ?>
                                 <div class="invoice">
                                     <div class="invoice-header">
                                         <h1>Factura <?php echo htmlspecialchars($factura['id_factura']);  ?> - S<?php echo htmlspecialchars($factura['id_servicio']); ?></h1>

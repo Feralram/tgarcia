@@ -152,7 +152,7 @@ class Usuario extends Connect {
             INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
             INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
             INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
-            WHERE lista != 'Lista Proexi' $fechaCondicion
+            WHERE lista != 'Lista Xcf' $fechaCondicion
             ORDER BY id_servicio ASC";
         $resultado = $this->conexion->query($query);
     
@@ -176,7 +176,7 @@ class Usuario extends Connect {
             INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
             INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
             INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
-            WHERE lista = 'Lista Proexi' $fechaCondicion
+            WHERE lista = 'Lista Xcf' $fechaCondicion
             ORDER BY id_servicio ASC";
         $resultado = $this->conexion->query($query);
     

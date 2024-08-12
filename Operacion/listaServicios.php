@@ -178,7 +178,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
             <td><?php echo $servicio['local_foranea']; ?></td>
             <td><?php echo $servicio['sello']; ?></td>
             <td><?php echo $servicio['Nombre_completo']; ?></td>
-            <td><?php echo $servicio['cliente_solicita']; ?></td>
+            <td><?php echo $servicio['ejecutivo']; ?></td>
             <td><?php echo $servicio['referencia']; ?></td>
             <td><?php echo $servicio['bultos']; ?></td>
             <td><?php echo $servicio['doc_fiscal']; ?></td>

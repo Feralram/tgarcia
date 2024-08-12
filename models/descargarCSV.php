@@ -2,6 +2,9 @@
 session_start();
 include_once('../models/Usuario.php');
 
+// Limpiar el búfer de salida (evitar espacios o saltos de línea antes de enviar encabezados)
+ob_start();
+
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
@@ -17,11 +20,16 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
 $nombreArchivo = 'servicios_' . ($fechaInicio ? $fechaInicio : 'todos') . '_' . ($fechaFin ? $fechaFin : 'todos') . '.csv';
 
 // Encabezados para la descarga del archivo
-header('Content-Type: text/csv');
+header('Content-Type: text/csv; charset=UTF-8');
 header('Content-Disposition: attachment;filename="' . $nombreArchivo . '"');
+header('Pragma: no-cache');
+header('Expires: 0');
 
 // Abrir el archivo para escritura en modo de salida
 $salida = fopen('php://output', 'w');
+
+// Añadir BOM para soportar UTF-8
+fputs($salida, "\xEF\xBB\xBF");
 
 // Escribir encabezado y datos para Servicios Generales
 fputcsv($salida, ['Servicios Generales']);
@@ -59,8 +67,8 @@ foreach ($servicios as $servicio) {
 // Línea vacía para separación
 fputcsv($salida, []);
 
-// Escribir encabezado y datos para Servicios Proexi
-fputcsv($salida, ['Servicios Proexi']);
+// Escribir encabezado y datos para Servicios Xcf
+fputcsv($salida, ['Servicios Xcf']);
 $encabezadosXcf = [
     'Cliente', 'Fecha recoleccion', 'Cliente', 'Unidad', 'Placas', 'Econ', 
     'Unid-Factura', 'Origen y Destino', 'Local o Foranea', 'Sello', 'Operador', 
@@ -94,5 +102,8 @@ foreach ($serviciosXcf as $servXcf) {
 
 // Cerrar el archivo de salida
 fclose($salida);
+
+// Enviar salida al navegador y limpiar el búfer de salida
+ob_end_flush();
 exit();
 ?>
