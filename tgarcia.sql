@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-08-2024 a las 10:06:19
+-- Tiempo de generación: 20-08-2024 a las 05:59:55
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -32,6 +32,9 @@ CREATE TABLE `clientes` (
   `cliente` varchar(255) NOT NULL,
   `direccion` varchar(255) NOT NULL,
   `rfc` varchar(100) NOT NULL,
+  `cp` varchar(50) NOT NULL,
+  `metodo_pago` varchar(255) NOT NULL,
+  `regimen_fiscal` varchar(50) NOT NULL,
   `uso_factura` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -39,16 +42,71 @@ CREATE TABLE `clientes` (
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id_cliente`, `cliente`, `direccion`, `rfc`, `uso_factura`) VALUES
-(1, 'NIPPON EXPRESS DE MEXICO', 'INSURGENTES SUR No. 1271 No. Int 12, EXTREMADURA INSURGENTES, C.P. 03740, MEXICO, CIUDAD DE MEXICO, MEX', 'NEM901109BC2 ', 'G03 ‐ Gastos en general.'),
-(2, 'PALAZUELOS HERMANOS', 'ENTRONQUE AV. 602 S/N No. S/N, Peñón de los Baños, C.P. 15520, Ciudad de México, Ciudad de México, México', 'PHE660423MU1 ', 'G03 ‐ Gastos en general.'),
-(3, 'AIRMAR TRANSPORTES INTERNACIONALES', 'NORTE 174 No. 549, Pensador Mexicano, C.P. 15510, Ciudad de México, Ciudad de México, México', 'ATI9307029F8 ', 'G03 ‐ Gastos en general.'),
-(4, 'LOGISTICA LOGER', 'circuito del valle No. 105, Valle del Campanario, C.P. 20118, Aguascalientes, Aguascalientes, México', 'LLO180221I75 ', 'G03 ‐ Gastos en general.'),
-(5, 'PLO GLOBAL CARGO', 'GUTIERREZ No. 3430, Nuevo Laredo Centro, C.P. 88000, Nuevo Laredo, Tamaulipas, México', 'PGC1112308U6 ', 'G03 ‐ Gastos en general.'),
-(6, 'BODEGAS LA NEGRITA', 'lago hielmar No. 65, Cuauhtémoc Pensil, C.P. 11490, Ciudad de México, Ciudad de México, México', 'BNE8303291Y4 ', 'G03 ‐ Gastos en general.'),
-(7, 'ALOW FORWARDING MEXICO', 'Agustin Melgar No. 34, Niños Héroes, C.P. 76010, Querétaro, Querétaro, México', 'AFM161125D16 ', 'G03 ‐ Gastos en general.'),
-(8, 'NX TRANSPORT DE MEXICO', 'CUAUTLA No. 96, Condesa, C.P. 06140, Ciudad de México, Ciudad de México, México', 'NTM171005SE4 ', 'G03 ‐ Gastos en general.'),
-(9, 'COMPASS SOLUTIONS', 'Real Mayorazgo No. 130 No. Int Piso 17 No. 1707, Xoco, C.P. 03330, Ciudad de México, Ciudad de México, México', 'CSO1402051F9 ', 'G03 ‐ Gastos en general.');
+INSERT INTO `clientes` (`id_cliente`, `cliente`, `direccion`, `rfc`, `cp`, `metodo_pago`, `regimen_fiscal`, `uso_factura`) VALUES
+(1, 'VENTA AL PUBLICO', 'C. LAGO ANTARA 10, COL. INSURGENTES SAN BORJA, BENITO JUÁREZ, CIUDAD DE MÉXICO', 'XAXX010101000', '03100', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(2, 'NIPPON EXPRESS DE MEXICO', 'C. INSURGENTES SUR MZ. 1227 LT. 12, COL. EXTREMADURA INSURGENTES, CIUDAD DE MÉXICO', 'NEM901109BC2', '3740', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(3, 'PALAZUELOS HERMANOS', 'C. ENTROQUE AV. 602 S/N, COL. PEÑÓN DE LOS BAÑOS, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'PHE660423MU1', '15520', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(4, 'AIRMAR TRANSPORTES INTERNACIONALES', 'C. NORTE 174 MZ. 549, COL. PENSADOR MEXICANO, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'ATI9307029F8', '15510', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(5, 'SOLUCIONES LOGISTICAS M&B SA DE CV', 'C. AV. 613, COL. SAN JUAN DE ARAGÓN III SECCIÓN,GUSTAVO A. MADERO, CIUDAD DE MÉXICO', 'SML180709P84', '07970', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(6, 'ARTURO GARCIA GUERRERO', 'C. AV. 7, COL. EL BARCO PRIMERA SECCIÓN, NEZAHUALCÓYOLTL, ESTADO DE MÉXICO', 'GAGA7801209P75', '57400', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(7, 'BRISARE DE CUAUTLA', 'C. HOSPITAL CASASANO S/N, COL. CASASANO, CUAUTLA, MORELOS', 'BCU090225FL9', '62748', 'Pago en parcialidades o diferido', '622', 'Gastos en general'),
+(8, 'ROGELIO GUEVARA HERNANDEZ', 'C. HACIENDA DE EN MEDIO 99, COL. IMPULSORA POPULAR AVÍCOLA, NEZAHUALCÓYOTL, ESTADO DE MÉXICO', 'GUHR410124TM8', '57130', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(9, 'GUILMER ISRAEL ARAUJO CHIM', 'C. 33 MZ. 655E, COL. PIEDRA DE AGUA, UMÁN, YUCATÁN', 'AACG931025BU2', '97392', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(10, 'SERVICIOS ADUANALES Y LOGISTICOS CARBAJAL S.A. DE C.V.', 'C. NORTE 25 MZ. 12, COL. MOCTEZUMA 2A SECCIÓN, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'SAL1909246DA', '15530', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(11, 'GEFCO MEXICO S DE RL DE CV', 'C. MONTE ELBRUZ 132, COL. LOMAAS DE CHAPULTEPEC III SECCIÓN, MIGUEL HIDALGO, CIUDAD DE MÉXICO', 'GEF1303212S5', '11000', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(12, 'NX TRANSPORT DE MEXICO', 'C. CUAUTLA 96, COL. CONDESA, CUAUHTÉMOC, CIUDAD DE MÉXICO', 'NTM171005SE4', '06140', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(13, 'BE LOGISTICS SA DE CV', 'C. AV. 602 S/N, COL. MÉXICO (LIC. BENITO JÚAREZ), VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'BLO141218QS1', '15620', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(14, 'ROGELIO GUEVARA HERNANDEZ', 'C. HDA. DE EN MEDIO 99, COL. IMPULSORA POPULAR AVÍCOLA, NEZAHUALCÓYOLT, ESTADO DE MÉXICO', 'GUHR410124TM8', '57130', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(15, 'GENERA 3', 'C. ORIENTE 233 MZ. 479, COL. AGRÍCOLA ORIENTAL, IZTACALCO, CIUDAD DE MÉXICO', 'GTR1504153V9', '08500', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(16, 'TRANSPORTES ANAPURNA S.A DE C.V.', 'C. MATAMOROS 97, COL. PEÑÓN DE LOS BAÑOS, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'TAN971103JK1', '15520', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(17, 'SILVA-HERZOG CONSORCIO ADUANAL SC', 'C. AV. 601 MZ. 54, COL. SAN JUAN DE ARAGON III SECCION, GUSTAVO A. MADERO, CIUDAD DE MÉXICO', 'SCH960523FH1', '07970', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(18, 'SERVICIOS ADUANALES MADECAN', 'C. CABO FINISTERRE 6, COL. GABRIEL HERNANDEZ, GUSTAVO A. MADERO, CIUDAD DE MÉXICO', 'SAM140910NYA', '07080', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(19, 'JORGE PERALTA ANAYA', 'C. AV. MIGUEL HIDALGO MZ. 52 LT. 38, COL. AMPLIACIÓN GRANJAS LOMAS DE GUADALUPE, CUAUTITLÁN IZCALLI, ESTADO DE MÉXICO', 'PEAJ521123MV2', '54760', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(20, 'KONNEN SOLUCIONES DE LOGISTICA INTELIGENTE SA DE CV', 'C. PROGRESO 4, COL. LOS REYES, TLANEPANTLA DE BAZ, ESTADO DE MÉXICO', 'KSL140218398', '54073', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(21, 'BRIDGE GLOBAL TRANSPORTS', 'C. TAJIN MZ. 684 LT.202, COL. LETRÁN VALLE, BENITO JUÁREZ, CIUDAD DE MÉXICO', 'BGT040405NJ4', '03650', 'Pago en parcialidades o diferido', '622', 'Gastos en general'),
+(22, 'XCF', 'C. CARRETERA MONTERREY NUEVO LADERO KM. 12.9, COL. NUEVA CASTILLA, GENERAL ESCOBEDO, NUEVO LEÓN', 'XCF0308083V5', '66052', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(23, 'MAREL LOGISTIC', 'C. CTO. ECONOMISTAS 159, COL. CIUDAD SATÉLITE, NEUCALPA  DE JUÁREZ, ESTADO DE MÉXICO', 'MLO170421FM1', '53100', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(24, 'DIEGO ANTONIO CEDILLO RODRIGUEZ', 'C. AV. SOLES 62, COL. PENSADOR MEXICANO, VENISTIANO CARRANZA, CIUDAD DE MÉXICO', 'CERD910517TU1', '15510', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(25, 'ANA PAOLA DEL ROCIO GARCIA AYALA', 'C. CEDROS 12, COL. JARDINES DE SANTA CECILIA, TLALNEPATLA DE BAZ, ESTADO DE MÉXICO', 'GAAA9406081A6', '54134', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(26, 'LOGISTICA Y ASESORIA INTEGRAL', 'C. AV. 174 MZ.1-H, COL. MÉXICO NORTE, MÉRIDA, YUCATÁN', 'LAI0607315S5', '97128', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(27, 'PALAZUELOS ACEBAL PRIMATESTA SC', 'C. 33 248, COL. PROGRESO DE CASTRO CENTRO, PROGRESO, YUCATÁN', 'PAP001011B84', '97320', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(28, 'MANUEL ALEJANDRO ORTA GIL', 'C. MORELOS 28, COL. SEDUE, IXTLAHUACA, ESTADO DE MÉXICO', 'OAGM900611NH8', '50740', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(29, 'FM. GOLD LOGISTIC', 'C. 28 MZ. 20 LT. 2DO PISO, COL. FEDERAL, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'FGL081125HX3', '15700', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(30, 'TJ LOGISTICS', 'C. JOSE GUADALUPE MONTENEGRO 2304, COL. ARCOS VALLARTA, GUADALAJARA, JALISCO', 'TLO140221SW9', '44130', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(31, 'HL LOGISTICA ADUANAL', 'C. AV. TLALNEPANTLA TENAYUCA MZ. 300 LT. 6, COL. VALLE CAEYLÁN, TLALNEPANTLA DE BAZ, ESTADO DE MÉXICO', 'HLA171031KY6', '54150', 'Pago en parcialidades o diferido', '626', 'Gastos en general'),
+(32, 'DE GARO JA MAT', 'C. ABELARDO RODRIGUEZ 365, COL. EL SAUZAL, ENSENADA, BAJA CALIFORNIA', 'GJM141002AX9', '22760', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(33, 'LOGISTICA LOGER', 'C. CIRCUITO DEL VALLE 105, COL. VALLE DEL CAMPANARIO, AGUASCALIENTES, AGUASCALIENTES', 'LLO180221I75', '20118', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(34, 'MAIN TRADE', 'C. TAJIN MZ. 684 LT.202, COL. LETRÁN VALLE, BENITO JUÁREZ, CIUDAD DE MÉXICO', 'MTR120229BM3', '03650', 'Pago en parcialidades o diferido', '622', 'Gastos en general'),
+(35, 'JORGE ANTONIO ROSAS QUIROZ', 'C. ORIENTE 233 A 206, COL. AGRÍCOLA ORIENTAL, IZTACALCO, CIUDAD DE MÉXICO', 'ROQJ900207GV2', '08500', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(36, 'BODEGAS LA NEGRITA', 'C. LAGO HIELMAR 65, COL. CUAUHTÉMOC, MIGUEL HIDALGO, CIUDAD DE MÉXICO', 'BNE8303291Y4', '11490', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(37, 'PINSA COMERCIAL', 'C. PASEO DE LA REFORMA 295 PISO 11, COL. CUAUHTÉMOC, CUAUHTÉMOC, CIUDAD DE MÉXICO', 'PCO101220FC5', '06500', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(38, 'AMERICA LOGISTICS', 'C. PONIENTE 152 MZ. 679, COL. INDISTRIAL VALLEJO, AZCAPOTZALCO, CIUDAD DE MÉXICO', 'ALO010517BL4', '02300', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(39, 'DSV SOLUTIONS S.A. DE C.V.', 'C. ANILLO PERIFERICO SUR MZ. 7980 LT. 6, COL. SANTA ANITA, SAN PEDRO TLAQUEPAQUE, JALISCO', 'SME910509GJ0', '45600', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(40, 'SERVILAMINA SUMMIT MEXICANA S.A. DE C.V.', 'C. DE LAS NACIONES MZ. 524 LT. 616, COL. COMPLEJO INDISTRIAL SALAMANCA, GUANAJUATO', 'SSM9211259G6', '36875', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(41, 'PARTES AEREAS CONCORDE S.A.', 'C. SANTOS DUMONT 207, COL. AVIACÍON CIVIL, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'PAC750320G83', '15740', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(42, 'MARIA ISABEL LICEA GONZALEZ', 'C. NEVADO DE COLIMA 501, COL. LOMA BONITA, QUERÉTARO, QUERÉTARO', 'LIGI6107077C1', '76118', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(43, 'CONSULTORIA EN LOGISTICA RRB', 'C. BALCONES DE LA CORONA 5711, COL. BALCONES DE LAS MITRAS, MONTERREY, NUEVO LEÓN', 'CLR220607V28', '64117', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(44, 'SORT PORT', 'C. MEDANOS 169, COL. LAS ÁGUILAS, ÁLVARO OBREGÓN, CIUDAD DE MEXICO', 'SPO2208159LA', '01710', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(45, 'SMART SHIPPING COMPANY ', 'C. LAGO ABIERTO 375, COL. ANÁHUAC I SECCIÓN, MIGUEL HIDALGO, CIUDAD DE MÉXICO', 'SSH1911139L9', '11320', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(46, 'SHARK GL MEXICO', 'C. BENJAMIN FRANKLIN 235 PISO 6 (6-B), COL. HIPÓDROMO CONDESA, CUAUHTÉMOC, CIUDAD DE MÉXICO', 'SGM230519CU5', '06170', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(47, 'VIMA MEXICANA', 'C. CARRETERA FEDERAL CANCUN PUERTO MORELOS KM. 21 MZ. 1 LT. 1-11 EDIF. B, COL. SUPERMANZANA 47, BENITO JUÁREZ, CANCÚN, QUINTANA ROO', 'VME050125IC7', '77506', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(48, 'COMPASS SOLUTIONS', 'C. REAL MAYORAZGO 130 PISO 17 NO. 1707, COL. XOCO, BENITO JUÁREZ, CIUDAD DE MÉXICO', 'CSO1402051F9', '03330', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(49, 'TRATA', 'C. NORTE 188 MZ. 681, COL. PENSADOR MEXICANO, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO ', 'TRA990301A25', '15510', 'Pago en parcialidades o diferido', '624', 'Gastos en general'),
+(50, 'DEL CORONA & SCARDIGLI MEXICO', 'C. PATRICIO SANZ 1609 TORRE A PISO 8, COL. DEL VALLE DEL CENTRO, BENITO JUÁREZ, CIUDAD DE MÉXICO', 'CAS070910I3A', '03100', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(51, 'AFS TRANSPORTE Y LOGISTICA', 'C. REFORMA 520, COL. APODACA CENTRO, APODACA, NUEVO LEÓN', 'ATL090504IH6', '66600', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(52, 'ALOW FORWARDING MEXICO', 'C. AGUSTIN MELGAR 34, COL. NIÑOS HÉROES, QUERÉTARO, QUERÉTARO', 'AFM161125D16', '76010', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(53, 'CEVA FREIGHT MANAGMENT MEXICO', 'C. INSURGENTES SUR 1079 PISO 22 Y 23 OF. 02, COL. NOCHEBUENA, BENITO JUÁREZ, CIUDAD DE MÉXICO', 'CFM970129RG7', '03720', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(54, 'HECTOR OSWALDO BUENO TRUJILLO', 'C. CIRUS 91, COL. RINCÓN DEL BOSQUE, IXTAPALUCA, ESTADO DE MÉXICO', 'BUTH741122U92', '56569', 'Pago en parcialidades o diferido', '626', 'Gastos en general'),
+(55, 'PLO GLOBAL CARGO', 'C. GUTIERREZ 3430, COL. NUEVO LAREDO CENTRO, NUEVO LAREDO, TAMAULIPAS', 'PGC1112308U6', '88000', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(56, 'INTRA-MEXICO INTERNACIONAL', 'C. CERRO DE LAS CRUCES 21, COL. COLINAS DEL CIMATARIO, QUERÉTARO, QUERÉTARO', 'IGM121219883', '76090', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(57, 'TRANSLOGGAR LOGISTICS', 'C. INFONAVIT 246, COL. SANTA MARÍA GUADALUPE LAS TORRES 1A SECCIÓN, CUAUTITLÁN IZCALLI, ESTADO DE MÉXICO', 'TLO210115LJ5', '54743', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(58, 'SENDAN LOGISTICS', 'C. PRIVADA FRAMBUESA MZ. 8 LT. 6, COL. JARDINES DEL SUR, BENITO JUÁREZ, CANCÙN, QUINTANA ROO', 'SLO230914DK1', '77536', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(59, 'ABLE TRANSPORTE DE CARGA', 'C. SOLIDARIEDAD IBEROAMERICANA 145, COL. GUADALAJARA (MIGUEL HIDALGO Y COSTILLA), TLAJOMULCO DE ZÚÑIGA, JALISCO', 'ATC110117JE7', '45659', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(60, 'NUTS TRADING', 'C. CARRETERA CANCÚN AEROPUERTO MZ. 84 LT. 84, COL. SUPERMANZANA 301, BENITO JUÁREZ, CANCÚN, QUINTANA ROO', 'NTR021220LL1', '77560', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(61, 'COORDINARORA DEL SUR AL COMERCIO EXTERIOR', 'C. ORIENTE 5 MZ. 24 LT. 6, COL. CUCHILLA DEL TESORO, GUSTAVO A. MADERO, CIUDAD DE MÉXICO', 'CSC0404191J8', '07900', 'Pago en parcialidades o diferido', '601', 'Gastos en general'),
+(62, 'JORGE BENITEZ CORTEZ', 'C. MANUEL P MONTES 11, COL. SANTA CATARINA HUEYATZACOALCO, SAN MARTÍN TEXMELUCAN, PUEBLA', 'BECJ9006035G5', '74125', 'Pago en parcialidades o diferido', '612', 'Gastos en general'),
+(63, 'HELLMANN WORLDWIDE LOGISTICS SA DE CV', 'C. 28 MZ. 90, COL. FEDERAL, VENUSTIANO CARRANZA, CIUDAD DE MÉXICO', 'HWL010328I30', '15700', 'Pago en parcialidades o diferido', '', 'Gastos en general'),
+(64, 'CARLOS PEREZ HERNANDEZ', 'C. ALAMOMZ. 526 LT. 4, COL. ARENAL, AZCAPOTZALCO, CIUDAD DE MÉXICO', 'PEHC910527CJ1', '02980', 'Pago en parcialidades o diferido', '', 'Gastos en general');
 
 -- --------------------------------------------------------
 
@@ -82,7 +140,8 @@ CREATE TABLE `cotizaciones` (
 
 INSERT INTO `cotizaciones` (`id_cotizacion`, `id_especifico`, `cliente`, `tarifario`, `origen`, `codigo_postal`, `peso`, `dimension`, `precio`, `num_bultos`, `km_adicionales`, `fecha_creacion`, `comentarios`, `ultimaModificacion`, `status`, `usuario_registro`, `contador_modificaciones`) VALUES
 (1, 'C-1', 2, '4', 'AICM - TOLUCA EDO DE MEXICO', '57850', '50', 'Nissan', 2800.00, 15, 5000.00, '2024-08-09 04:46:25', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 1),
-(2, 'C-2', 3, '4', 'AICM - AREA METROPOLITANA', '57850', '50', 'Nissan', 2500.00, 15, 300.00, '2024-08-09 06:28:07', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 1);
+(2, 'C-2', 3, '4', 'AICM - AREA METROPOLITANA', '57850', '50', 'Nissan', 2500.00, 15, 300.00, '2024-08-09 06:28:07', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 1),
+(3, 'C-3', 3, '3', 'ADUANA AICM - PUEBLA', '57850', '10', '3.5 Ton Refrigerada', 10400.00, 0, 0.00, '2024-08-12 05:46:12', NULL, NULL, b'00000000001', 'Michell Palestina Barrios', 1);
 
 -- --------------------------------------------------------
 
@@ -146,7 +205,8 @@ CREATE TABLE `facturas` (
 
 INSERT INTO `facturas` (`id_factura`, `id_especifico`, `fecha`, `precio_base`, `iva`, `retencion`, `precio_final`, `razon_social`, `contacto_cliente`, `servicio`, `referencia`, `complemento`, `fecha_pago`, `observacion`, `fecha_envio`, `documento`, `portal_nippon`, `id_servicio`, `activa`, `comentario_eliminacion`) VALUES
 (4, 'factura', '2024-08-08 00:00:00', 11006.00, 1760.96, 440.24, 12326.72, 'razon socal', 'contacto cliente', 'servicio', 'referencia', 'complemento', '2024-08-08 00:00:00', 'observacion', '2024-08-08 00:00:00', 'Documento', 'Portal Nippon', '1', b'0', 'Ya me voy a dormir'),
-(5, 'factura', '2024-08-22 00:00:00', 2800.00, 448.00, 112.00, 3136.00, 'razon socal', 'contacto cliente', 'servicio', 'referencia', 'complemento', '2024-08-30 00:00:00', 'observacion', '2024-08-14 00:00:00', 'Documento', 'Portal Nippon', '1', b'1', '');
+(11, 'factura ejemplo', '2024-08-20 00:00:00', 2500.00, 0.00, 0.00, 2500.00, 'PALAZUELOS HERMANOS', 'ejecutivo', 'servicio', 'referencia', 'complemento', '2024-08-23 00:00:00', 'observacion', '2024-08-31 00:00:00', 'Documento', 'Portal Nippon', '2', b'0', 'porque si'),
+(12, 'factura ejemplo', '2024-08-20 00:00:00', 2500.00, 400.00, 100.00, 2800.00, 'PALAZUELOS HERMANOS', 'ejecutivo', 'servicio', 'referencia', 'complemento', '2024-08-21 00:00:00', 'observacion', '2024-08-22 00:00:00', 'Documento', 'Portal Nippon', '2', b'1', '');
 
 -- --------------------------------------------------------
 
@@ -884,7 +944,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `cotizacion_adicional`
@@ -896,7 +956,7 @@ ALTER TABLE `cotizacion_adicional`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `operadores`
