@@ -139,6 +139,48 @@ class Usuario extends Connect {
         return $operadores;
     }
 
+    public function obtenerFacturasfiltros($fechaInicio = null, $fechaFin = null) {
+        $fechaCondicion = "";
+        if ($fechaInicio && $fechaFin) {
+            $fechaCondicion = "AND fc.fecha >= '" . $this->conexion->real_escape_string($fechaInicio) . "' AND fc.fecha <= '" . $this->conexion->real_escape_string($fechaFin) . "'";
+        }
+
+        $query = "SELECT fc.*
+        FROM facturas fc  
+        INNER JOIN servicios sv ON sv.id_servicio = fc.id_servicio
+        WHERE sv.lista != 'Lista Xcf' AND activa = 1 $fechaCondicion
+        ORDER BY fc.id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+
+    public function obtenerFacturasOtrofiltros($fechaInicio = null, $fechaFin = null) {
+        $fechaCondicion = "";
+        if ($fechaInicio && $fechaFin) {
+            $fechaCondicion = "AND facturas.fecha >= '" . $this->conexion->real_escape_string($fechaInicio) . "' AND facturas.fecha <= '" . $this->conexion->real_escape_string($fechaFin) . "'";
+        }
+
+        $query = "SELECT *
+        FROM facturas  
+        INNER JOIN servicios ON servicios.id_servicio = facturas.id_servicio
+        WHERE servicios.lista = 'Lista Xcf' AND activa = 1 $fechaCondicion
+        ORDER BY facturas.id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+
     public function obtenerServicios($fechaInicio = null, $fechaFin = null) {
         $fechaCondicion = "";
         if ($fechaInicio && $fechaFin) {
@@ -146,14 +188,16 @@ class Usuario extends Connect {
         }
         
     
-        $query = "SELECT *
+        $query = "SELECT servicios.*,COALESCE(SUM(facturas.precio_final), 0) AS total_facturas,clientes.cliente,unidades.Placas,unidades.eco,operadores.Nombre_completo
             FROM servicios  
-            INNER JOIN operadores ON servicios.id_operador = operadores.id
-            INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
-            INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
-            INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
+            LEFT  JOIN operadores ON servicios.id_operador = operadores.id
+            LEFT  JOIN unidades ON servicios.unidad = unidades.Uni_id
+            LEFT  JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+            LEFT  JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
+            LEFT  JOIN facturas on servicios.id_servicio = facturas.id_servicio AND facturas.activa = 1
             WHERE lista != 'Lista Xcf' $fechaCondicion
-            ORDER BY id_servicio ASC";
+            GROUP BY servicios.id_servicio
+            ORDER BY servicios.id_servicio ASC";
         $resultado = $this->conexion->query($query);
     
         $servicios = array();
@@ -170,14 +214,16 @@ class Usuario extends Connect {
             $fechaCondicion = "AND servicios.fecha_creacion BETWEEN '" . $this->conexion->real_escape_string($fechaInicio) . "' AND '" . $this->conexion->real_escape_string($fechaFin) . "'";
         }
     
-        $query = "SELECT *
+        $query = "SELECT servicios.*,COALESCE(SUM(facturas.precio_final), 0) AS total_facturas,clientes.cliente,unidades.Placas,unidades.eco,operadores.Nombre_completo
             FROM servicios  
             INNER JOIN operadores ON servicios.id_operador = operadores.id
             INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
             INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
             INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
+            INNER JOIN facturas on servicios.id_servicio = facturas.id_servicio AND facturas.activa = 1
             WHERE lista = 'Lista Xcf' $fechaCondicion
-            ORDER BY id_servicio ASC";
+            GROUP BY servicios.id_servicio
+            ORDER BY servicios.id_servicio ASC";
         $resultado = $this->conexion->query($query);
     
         $servicios = array();
@@ -616,7 +662,7 @@ class Usuario extends Connect {
     
     
     function validaFactura($id_servicio) {
-        $sql = "SELECT COUNT(*) as count FROM facturas WHERE id_servicio = ?";
+        $sql = "SELECT COUNT(*) as count FROM facturas WHERE id_servicio = ? AND activa = 1";
         $stmt = $this->conexion->prepare($sql);
         $stmt->bind_param("i", $id_servicio);
         $stmt->execute();
@@ -650,6 +696,21 @@ class Usuario extends Connect {
     
     
     
+    public function obtenerFacturasEliminadas() {
+        $query = "SELECT fc.*
+        FROM facturas fc  
+        INNER JOIN servicios sv ON sv.id_servicio = fc.id_servicio
+        WHERE sv.lista != 'Lista Xcf' AND activa = 0
+        ORDER BY fc.id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
     
 
 }

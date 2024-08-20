@@ -125,6 +125,14 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <span class="nav-link-text ms-1">Lista Operadores</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaFacturas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista de facturas</span>
+          </a>
+        </li>
         <li class="nav-item mt-4">
           <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -190,6 +198,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Doc-Fiscal</th>                                      
                                       <th scope="col">Factura</th>
                                       <th scope="col">Costo</th>
+                                      <th scope="col">Costo factura</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>                                      
                                       <th scope="col">Ver facturas</th>
@@ -214,6 +223,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servicio['doc_fiscal']; ?></td>
             <td><?php echo $servicio['factura']; ?></td>
             <td><?php echo $servicio['costo']; ?></td>
+            <td><?php echo $servicio['total_facturas']; ?></td>
             <td><?php echo $servicio['observaciones']; ?></td>
             <td class="text-center">
             <a href="Infservicio.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
@@ -270,6 +280,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Doc-Fiscal</th>
                                       <th scope="col">Factura</th>
                                       <th scope="col">Costo</th>
+                                      <th scope="col">Costo factura</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
                                       <th scope="col">Factura</th>
@@ -294,6 +305,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servXcf['doc_fiscal']; ?></td>
             <td><?php echo $servXcf['factura']; ?></td>
             <td><?php echo $servXcf['costo']; ?></td>
+            <td><?php echo $servXcf['total_facturas']; ?></td>
             <td><?php echo $servXcf['observaciones']; ?></td>
             <td class="text-center">
             <a href="Infservicio.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">

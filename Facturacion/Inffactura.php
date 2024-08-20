@@ -6,11 +6,13 @@ $usuario = new Usuario();
 
 $id = $_GET['servicioId'] ?? null;
 
+$tot = 0;
+
 if ($id) {
     $stmt = $usuario->conexion->prepare(
         "SELECT id_factura, id_especifico, fecha, precio_base, iva, retencion, precio_final, razon_social, contacto_cliente, servicio, referencia, complemento, fecha_pago, observacion, fecha_envio, documento, portal_nippon, id_servicio
         FROM facturas
-        WHERE id_servicio = ?"
+        WHERE id_servicio = ? AND activa = 1"
     );
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -169,7 +171,8 @@ exit;
                         </button>
                         <div class="container mt-4">
                             <?php $index = 1;
-                             foreach ($facturas as $factura): ?>
+                             foreach ($facturas as $factura): 
+                                $tot += $factura['precio_final'];?>
                                 <div class="invoice">
                                     <div class="invoice-header">
                                         <h1>Factura <?php echo htmlspecialchars($index);  ?> - S<?php echo htmlspecialchars($factura['id_servicio']); ?></h1>
@@ -254,6 +257,9 @@ exit;
                             <?php 
                         $index++;
                         endforeach; ?>
+                        </div>
+                        <div class="invoice-footer">
+                            <label for="tot"><b>Total facturas: $<?php echo htmlspecialchars($tot); ?></b></label>
                         </div>
                     </div>
                 </div>

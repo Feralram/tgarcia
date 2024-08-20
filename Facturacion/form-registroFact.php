@@ -10,6 +10,8 @@ if ($id) {
   $stmt = $usuario->conexion->prepare(
   "SELECT *
   FROM servicios  
+  INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+  INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
   WHERE id_servicio = ?");
   $stmt->bind_param("i", $id);
   $stmt->execute();
@@ -121,7 +123,11 @@ if ($id) {
             </div>
             <div class="col-md-4 mb-3">
               <label for="precio_base" class="form-label">Precio Base</label>
-              <input type="number" class="form-control form-control-sm" id="precio_base" name="precio_base" value="<?php echo $servicio['costo']; ?>" readonly required>
+              <input type="number" class="form-control form-control-sm" id="precio_base" name="precio_base" value="<?php echo $servicio['costo']; ?>" required>
+            </div>
+            <div class="col-md-12 mb-3">
+              <input type="checkbox" id="sin_impuestos" name="sin_impuestos">
+              <label for="sin_impuestos" class="form-label">No aplicar IVA ni Retención</label>
             </div>
             <div class="col-md-4 mb-3">
               <label for="iva" class="form-label">Iva</label>
@@ -137,19 +143,19 @@ if ($id) {
             </div>
             <div class="col-md-4 mb-3">
               <label for="razonSocial" class="form-label">Razón social</label>
-              <input type="text" class="form-control form-control-sm" id="razonSocial" name="razonSocial" required>
+              <input type="text" class="form-control form-control-sm" id="razonSocial" name="razonSocial" value="<?php echo $servicio['cliente']; ?>"readonly required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="contact_cliente" class="form-label">Contacto cliente</label>
-              <input type="text" class="form-control form-control-sm" id="contact_cliente" name="contact_cliente" required>
+              <label for="contact_cliente" class="form-label">Ejecutivo</label>
+              <input type="text" class="form-control form-control-sm" id="contact_cliente" name="contact_cliente" value="<?php echo $servicio['ejecutivo']; ?>"readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="servicio" class="form-label">Servicio</label>
-              <input type="text" class="form-control form-control-sm" id="servicio" name="servicio" required>
+              <input type="text" class="form-control form-control-sm" id="servicio" name="servicio" value="<?php echo $servicio['servicio']; ?>"readonly  required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="referencia" class="form-label">Referencia</label>
-              <input type="text" class="form-control form-control-sm" id="referencia" name="referencia" required>
+              <input type="text" class="form-control form-control-sm" id="referencia" name="referencia" value="<?php echo $servicio['referencia']; ?>"readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="complemento" class="form-label">Complemento</label>
@@ -199,40 +205,48 @@ if ($id) {
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         // Obtener los elementos de los inputs
+        const sinImpuestosCheckbox = document.getElementById('sin_impuestos');
         const precioBaseInput = document.getElementById('precio_base');
         const ivaInput = document.getElementById('iva');
-        const retencionInput = document.getElementById('Retención');
+        const retencionInput = document.getElementById('Retención'); // Cambié 'Retención' a 'retencion'
         const precioFinalInput = document.getElementById('precio_final');
 
         // Función para calcular el IVA, la retención y el precio final
         function calcularValores() {
             const precioBase = parseFloat(precioBaseInput.value) || 0;
 
-            // Calcular el IVA (16%)
-            const iva = precioBase * 0.16;
+            // Si el checkbox está marcado, poner 0 en IVA y Retención
+            if (sinImpuestosCheckbox.checked) {
+                ivaInput.value = (0).toFixed(2);
+                retencionInput.value = (0).toFixed(2);
+                precioFinalInput.value = precioBase.toFixed(2); // El precio final es igual al precio base
+            } else {
+                // Calcular el IVA (16%) y la retención (4%)
+                const iva = precioBase * 0.16;
+                const retencion = precioBase * 0.04;
 
-            // Calcular la retención (4%)
-            const retencion = precioBase * 0.04;
+                // Calcular el precio final
+                const precioFinal = precioBase + iva - retencion;
 
-            // Calcular el precio final
-            const precioFinal = precioBase + iva - retencion;
-
-            // Asignar los valores a los campos correspondientes
-            ivaInput.value = iva.toFixed(2);
-            retencionInput.value = retencion.toFixed(2);
-            precioFinalInput.value = precioFinal.toFixed(2);
+                // Asignar los valores a los campos correspondientes
+                ivaInput.value = iva.toFixed(2);
+                retencionInput.value = retencion.toFixed(2);
+                precioFinalInput.value = precioFinal.toFixed(2);
+            }
         }
 
-        // Calcular valores al cargar la página
+        // Calcular los valores al cargar la página
         calcularValores();
 
-        // Agregar un evento para recalcular los valores cuando cambie el precio base
+        // Agregar eventos para recalcular los valores cuando cambie el precio base o el checkbox
         precioBaseInput.addEventListener('input', calcularValores);
+        sinImpuestosCheckbox.addEventListener('change', calcularValores);
     });
 </script>
+
 
 
 

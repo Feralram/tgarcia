@@ -105,7 +105,7 @@
     <div class="container mt-5">
       <div class="border border-danger rounded p-4" style="max-width: 1200px; margin: auto;">
         <h3 class="text-center mb-4">Registro Factura</h3>
-        <form id="servicioForm" onsubmit="agregarTextoAlFormulario()">
+        <form id="facturaform" method="POST" >
           <div class="row">
             <div class="col-md-4 mb-3">
               <label for="factura" class="form-label">Factura</label>
@@ -117,19 +117,23 @@
             </div>
             <div class="col-md-4 mb-3">
               <label for="precio_base" class="form-label">Precio Base</label>
-              <input type="text" class="form-control form-control-sm" id="precio_base" name="precio_base" required>
+              <input type="number" class="form-control form-control-sm" id="precio_base" name="precio_base" value="<?php echo $servicio['costo']; ?>" required>
+            </div>
+            <div class="col-md-12 mb-3">
+              <input type="checkbox" id="sin_impuestos" name="sin_impuestos">
+              <label for="sin_impuestos" class="form-label">No aplicar IVA ni Retención</label>
             </div>
             <div class="col-md-4 mb-3">
               <label for="iva" class="form-label">Iva</label>
-              <input type="text" class="form-control form-control-sm" id="iva" name="iva" required>
+              <input type="number" class="form-control form-control-sm" id="iva" name="iva" readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="Retención" class="form-label">Retención</label>
-              <input type="text" class="form-control form-control-sm" id="Retención" name="Retención" required>
+              <input type="number" class="form-control form-control-sm" id="Retención" name="Retención" readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="precio_final" class="form-label">Precio final</label>
-              <input type="text" class="form-control form-control-sm" id="precio_final" name="precio_final" required>
+              <input type="number" class="form-control form-control-sm" id="precio_final" name="precio_final" readonly required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="razonSocial" class="form-label">Razón social</label>
@@ -171,9 +175,10 @@
               <label for="portal_nip" class="form-label">Portal Nippon</label>
               <input type="text" class="form-control form-control-sm" id="portal_nip" name="portal_nip" required>
             </div>
-            <input type="hidden" name="idcoti" id="idcoti" value="<?php echo htmlspecialchars($id); ?>" required>
+            <input type="hidden" name="idservicio" id="idservicio" value="<?php echo htmlspecialchars($id); ?>" required>
           </div>
-          <button type="submit" class="btn btn-danger btn-sm w-100">Registrar</button>
+      
+          <button type="button" id="submitBtn" class="btn btn-danger btn-sm w-100">Registrar</button>
         </form>
       </div>
     </div>
@@ -194,7 +199,86 @@
   </script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <script src="altaServicio.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtener los elementos de los inputs
+        const sinImpuestosCheckbox = document.getElementById('sin_impuestos');
+        const precioBaseInput = document.getElementById('precio_base');
+        const ivaInput = document.getElementById('iva');
+        const retencionInput = document.getElementById('Retención'); // Cambié 'Retención' a 'retencion'
+        const precioFinalInput = document.getElementById('precio_final');
+
+        // Función para calcular el IVA, la retención y el precio final
+        function calcularValores() {
+            const precioBase = parseFloat(precioBaseInput.value) || 0;
+
+            // Si el checkbox está marcado, poner 0 en IVA y Retención
+            if (sinImpuestosCheckbox.checked) {
+                ivaInput.value = (0).toFixed(2);
+                retencionInput.value = (0).toFixed(2);
+                precioFinalInput.value = precioBase.toFixed(2); // El precio final es igual al precio base
+            } else {
+                // Calcular el IVA (16%) y la retención (4%)
+                const iva = precioBase * 0.16;
+                const retencion = precioBase * 0.04;
+
+                // Calcular el precio final
+                const precioFinal = precioBase + iva - retencion;
+
+                // Asignar los valores a los campos correspondientes
+                ivaInput.value = iva.toFixed(2);
+                retencionInput.value = retencion.toFixed(2);
+                precioFinalInput.value = precioFinal.toFixed(2);
+            }
+        }
+
+        // Calcular los valores al cargar la página
+        calcularValores();
+
+        // Agregar eventos para recalcular los valores cuando cambie el precio base o el checkbox
+        precioBaseInput.addEventListener('input', calcularValores);
+        sinImpuestosCheckbox.addEventListener('change', calcularValores);
+    });
+</script>
+
+
+
+
+  <script>
+document.getElementById('submitBtn').addEventListener('click', function() {
+    var form = document.getElementById('facturaform');
+    var formData = new FormData(form);
+
+    var data = {};
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+
+    fetch('../controllers/Usuario/controllerUsuario.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            accion: 'insertarFactura',
+            ...data
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            alert(result.message); // Alerta de éxito
+            window.location.href = 'listaServicios.php'; // Redirigir a la página de éxito
+        } else {
+            alert(result.message); // Alerta de éxito
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+</script>
+
 </body>
 
 </html>

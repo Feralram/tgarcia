@@ -6,11 +6,13 @@ $usuario = new Usuario();
 
 $id = $_GET['servicioId'] ?? null;
 
+$tot = 0;
+
 if ($id) {
     $stmt = $usuario->conexion->prepare(
         "SELECT id_factura, id_especifico, fecha, precio_base, iva, retencion, precio_final, razon_social, contacto_cliente, servicio, referencia, complemento, fecha_pago, observacion, fecha_envio, documento, portal_nippon, id_servicio
         FROM facturas
-        WHERE id_servicio = ?"
+        WHERE id_servicio = ? AND activa = 1"
     );
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -185,6 +187,14 @@ exit;
             <span class="nav-link-text ms-1">Lista Operadores</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaFacturas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista de facturas</span>
+          </a>
+        </li>
         <li class="nav-item mt-4">
           <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -206,10 +216,11 @@ exit;
                     <div class="card-header">
                         <div class="container mt-4">
                             <?php $index = 1;
-                             foreach ($facturas as $factura): ?>
+                             foreach ($facturas as $factura): 
+                              $tot += $factura['precio_final'];?>
                                 <div class="invoice">
                                     <div class="invoice-header">
-                                        <h1>Factura <?php echo htmlspecialchars($factura['id_factura']);  ?> - S<?php echo htmlspecialchars($factura['id_servicio']); ?></h1>
+                                        <h1>Factura <?php echo htmlspecialchars($index);  ?> - S<?php echo htmlspecialchars($factura['id_servicio']); ?></h1>
                                         <div class="date">Fecha: <?php echo htmlspecialchars($factura['fecha']); ?></div>
                                     </div>
                                     <div class="invoice-details">
@@ -288,7 +299,13 @@ exit;
                                         </button>
                                     </div>
                                 </div>
-                            <?php endforeach; ?>
+
+                            <?php 
+                            $index++;
+                             endforeach; ?>
+                        </div>
+                        <div class="invoice-footer">
+                            <label for="tot"><b>Total facturas: $<?php echo htmlspecialchars($tot); ?></b></label>
                         </div>
                     </div>
                 </div>
