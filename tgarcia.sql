@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-08-2024 a las 05:59:55
+-- Tiempo de generación: 28-08-2024 a las 03:46:22
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -126,22 +126,13 @@ CREATE TABLE `cotizaciones` (
   `precio` float(11,2) NOT NULL,
   `num_bultos` int(11) NOT NULL,
   `km_adicionales` float(11,2) NOT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `comentarios` varchar(255) DEFAULT NULL,
+  `fecha_creacion` date NOT NULL,
+  `comentarios` longtext DEFAULT NULL,
   `ultimaModificacion` varchar(255) DEFAULT NULL,
   `status` bit(11) NOT NULL DEFAULT b'1',
   `usuario_registro` varchar(255) NOT NULL,
   `contador_modificaciones` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `cotizaciones`
---
-
-INSERT INTO `cotizaciones` (`id_cotizacion`, `id_especifico`, `cliente`, `tarifario`, `origen`, `codigo_postal`, `peso`, `dimension`, `precio`, `num_bultos`, `km_adicionales`, `fecha_creacion`, `comentarios`, `ultimaModificacion`, `status`, `usuario_registro`, `contador_modificaciones`) VALUES
-(1, 'C-1', 2, '4', 'AICM - TOLUCA EDO DE MEXICO', '57850', '50', 'Nissan', 2800.00, 15, 5000.00, '2024-08-09 04:46:25', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 1),
-(2, 'C-2', 3, '4', 'AICM - AREA METROPOLITANA', '57850', '50', 'Nissan', 2500.00, 15, 300.00, '2024-08-09 06:28:07', NULL, NULL, b'00000000000', 'Michell Palestina Barrios', 1),
-(3, 'C-3', 3, '3', 'ADUANA AICM - PUEBLA', '57850', '10', '3.5 Ton Refrigerada', 10400.00, 0, 0.00, '2024-08-12 05:46:12', NULL, NULL, b'00000000001', 'Michell Palestina Barrios', 1);
 
 -- --------------------------------------------------------
 
@@ -161,15 +152,6 @@ CREATE TABLE `cotizacion_adicional` (
   `bultos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `cotizacion_adicional`
---
-
-INSERT INTO `cotizacion_adicional` (`id_cotadicional`, `cliente`, `origen`, `destino`, `codigo_postal`, `peso`, `dimension`, `precio`, `bultos`) VALUES
-(1, 'Cliente prueba', 'Origen prueba', 'Destino prueba', '57850', 50, '10x10', 20805.00, 15),
-(2, 'Cliente prueba', 'Origen prueba', 'Destino prueba', '57850', 50, '10x10', 20805.00, 15),
-(3, 'Michell', 'Origen prueba', 'Destino prueba', '57850', 50, '10x10', 20805.00, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -179,7 +161,7 @@ INSERT INTO `cotizacion_adicional` (`id_cotadicional`, `cliente`, `origen`, `des
 CREATE TABLE `facturas` (
   `id_factura` int(11) NOT NULL,
   `id_especifico` varchar(255) NOT NULL,
-  `fecha` datetime NOT NULL,
+  `fecha` date NOT NULL,
   `precio_base` float(11,2) NOT NULL,
   `iva` float(11,2) NOT NULL,
   `retencion` float(11,2) NOT NULL,
@@ -189,24 +171,16 @@ CREATE TABLE `facturas` (
   `servicio` varchar(255) NOT NULL,
   `referencia` varchar(255) NOT NULL,
   `complemento` varchar(255) NOT NULL,
-  `fecha_pago` datetime NOT NULL,
+  `fecha_pago` date NOT NULL,
   `observacion` varchar(255) NOT NULL,
-  `fecha_envio` datetime NOT NULL,
+  `fecha_envio` date NOT NULL,
   `documento` varchar(255) NOT NULL,
   `portal_nippon` varchar(255) NOT NULL,
   `id_servicio` varchar(255) NOT NULL,
   `activa` bit(1) NOT NULL DEFAULT b'1',
-  `comentario_eliminacion` varchar(255) NOT NULL
+  `comentario_eliminacion` varchar(255) NOT NULL,
+  `status` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `facturas`
---
-
-INSERT INTO `facturas` (`id_factura`, `id_especifico`, `fecha`, `precio_base`, `iva`, `retencion`, `precio_final`, `razon_social`, `contacto_cliente`, `servicio`, `referencia`, `complemento`, `fecha_pago`, `observacion`, `fecha_envio`, `documento`, `portal_nippon`, `id_servicio`, `activa`, `comentario_eliminacion`) VALUES
-(4, 'factura', '2024-08-08 00:00:00', 11006.00, 1760.96, 440.24, 12326.72, 'razon socal', 'contacto cliente', 'servicio', 'referencia', 'complemento', '2024-08-08 00:00:00', 'observacion', '2024-08-08 00:00:00', 'Documento', 'Portal Nippon', '1', b'0', 'Ya me voy a dormir'),
-(11, 'factura ejemplo', '2024-08-20 00:00:00', 2500.00, 0.00, 0.00, 2500.00, 'PALAZUELOS HERMANOS', 'ejecutivo', 'servicio', 'referencia', 'complemento', '2024-08-23 00:00:00', 'observacion', '2024-08-31 00:00:00', 'Documento', 'Portal Nippon', '2', b'0', 'porque si'),
-(12, 'factura ejemplo', '2024-08-20 00:00:00', 2500.00, 400.00, 100.00, 2800.00, 'PALAZUELOS HERMANOS', 'ejecutivo', 'servicio', 'referencia', 'complemento', '2024-08-21 00:00:00', 'observacion', '2024-08-22 00:00:00', 'Documento', 'Portal Nippon', '2', b'1', '');
 
 -- --------------------------------------------------------
 
@@ -372,7 +346,11 @@ INSERT INTO `registro_cotizaciones` (`id_cotizacion`, `id_especifico`, `cliente`
 (6, '', '', '', '', '', '', '', 9300.00, 0, 200.00, '2024-07-17 05:28:09', NULL),
 (7, '', '', '', '', '', '', '', 25300.00, 0, 0.00, '2024-07-17 05:56:13', NULL),
 (7, '', '', '', '', '', '', '', 25800.00, 0, 500.00, '2024-07-17 05:56:22', NULL),
-(2, 'C-2', 'Michell', '3', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '57850', '10', '1.5 Ton Refrigerada', 4400.00, 0, 0.00, '2024-07-17 05:24:53', NULL);
+(2, 'C-2', 'Michell', '3', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '57850', '10', '1.5 Ton Refrigerada', 4400.00, 0, 0.00, '2024-07-17 05:24:53', NULL),
+(6, 'C-6', '1', '2', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '30260-080', '10', '3.5 Ton', 4500.00, 15, 0.00, '2024-08-26 06:00:00', NULL),
+(6, 'C-6', '1', '2', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '30260-080', '10', '3.5 Ton', 4500.00, 15, 0.00, '2024-08-26 06:00:00', NULL),
+(6, 'C-6', '1', '2', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '30260-080', '10', '3.5 Ton', 4500.00, 15, 0.00, '2024-08-26 06:00:00', NULL),
+(6, 'C-6', '1', '2', 'ADUANA AICM - ESTADO DE MEXICO (AREA CONURVADA)', '30260-080', '10', '3.5 Ton', 4500.00, 15, 0.00, '2024-08-26 06:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -402,19 +380,12 @@ CREATE TABLE `servicios` (
   `costo` float(11,2) NOT NULL,
   `factura` varchar(255) NOT NULL,
   `observaciones` varchar(255) NOT NULL,
-  `fecha_creacion` datetime NOT NULL,
+  `fecha_creacion` date NOT NULL,
   `id_cotizacion` int(11) NOT NULL,
   `num_candados` int(11) NOT NULL,
-  `factura_status` bit(11) NOT NULL
+  `factura_status` bit(11) NOT NULL,
+  `fecha_ingreso` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `servicios`
---
-
-INSERT INTO `servicios` (`id_servicio`, `id_especifico`, `lista`, `fecha_recoleccion`, `servicio`, `unidad`, `placas`, `econ`, `oriDestino`, `unid_factura`, `local_foranea`, `sello`, `operador`, `id_operador`, `ejecutivo`, `referencia`, `bultos`, `doc_fiscal`, `costo`, `factura`, `observaciones`, `fecha_creacion`, `id_cotizacion`, `num_candados`, `factura_status`) VALUES
-(1, 'S-1', 'Lista XFC', '2024-08-30', 'servicio', 4, NULL, NULL, 'AICM - TOLUCA EDO DE MEXICO', 'uni factura', 'Foranea', 'sello', 'MEJIA ZUÑIGA LUCIA GUADALUPE', 2, 'ejecutivo', 'referencia', 15, 'doc fiscal', 2800.00, 'factura', 'asda', '2024-08-08 22:47:08', 1, 2, b'00000000000'),
-(2, 'S-2', 'Lista general', '2024-08-23', 'servicio', 3, NULL, NULL, 'AICM - AREA METROPOLITANA', 'uni factura', 'Local', 'sello', 'MARTINEZ BARRERA ALEJANDRO', 6, 'ejecutivo', 'referencia', 15, 'doc fiscal', 2500.00, 'factura', 'awd', '2024-08-09 00:29:28', 2, 0, b'00000000000');
 
 -- --------------------------------------------------------
 
@@ -956,7 +927,7 @@ ALTER TABLE `cotizacion_adicional`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `operadores`
