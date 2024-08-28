@@ -216,6 +216,10 @@ if ($result->num_rows > 0) {
               <label for="km_adicionales" class="form-label">Gastos adicionales:</label>
               <input type="text" class="form-control form-control-sm" name="km_adicionales" id="km_adicionales">
             </div>
+            <div class="col-md-4 mb-3">
+            <p><strong>Comentarios:</strong></p>
+            <textarea name="comentarios" id="comentarios" rows="5" cols="80"></textarea>
+            </div>
           </div>
           <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Generar cotización</button>
         </form>

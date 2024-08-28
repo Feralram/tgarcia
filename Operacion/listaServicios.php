@@ -5,8 +5,12 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-$servicios = $usuario->obtenerServicios();
-$serviciosXcf = $usuario->obtenerServiciosXcf();
+// Obtener las fechas de inicio y fin del rango, si están definidas
+$fechaInicio = isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : null;
+$fechaFin = isset($_GET['fechaFin']) ? $_GET['fechaFin'] : null;
+
+$servicios = $usuario->obtenerServicios($fechaInicio, $fechaFin);
+$serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,6 +135,24 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
       data-scroll="true">
     </nav>
     <div class="container-fluid px-2 px-md-4">
+    <form method="GET" action="listaServicios.php">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" value="<?php echo htmlspecialchars($fechaInicio); ?>">
+            </div>
+            <div class="col-md-4">
+                <label for="fechaFin" class="form-label">Fecha de Fin</label>
+                <input type="date" id="fechaFin" name="fechaFin" class="form-control" value="<?php echo htmlspecialchars($fechaFin); ?>">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary mt-4">Filtrar</button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <a href="../models/descargarCSV.php?fechaInicio=<?php echo urlencode($fechaInicio); ?>&fechaFin=<?php echo urlencode($fechaFin); ?>" class="btn btn-success">Descargar en CSV</a>
+        </div>
+    </form>
       <!-- End Navbar -->
        <!--Lista Operadores-->
         <div class="row">
@@ -163,6 +185,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
+                                      <th scope="col">Accion</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -189,6 +212,13 @@ $serviciosXcf = $usuario->obtenerServiciosXcf();
             <a href="Infservicio.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
               <button type="button" class="btn btn-success btn-icon btn-transparent">
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
+              </button>
+            
+            </td>
+            <td class="text-center">
+            <a href="edit-infServicio.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                Editar
               </button>
             
             </td>

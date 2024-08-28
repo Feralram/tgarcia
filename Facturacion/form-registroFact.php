@@ -73,7 +73,7 @@ if ($id) {
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-info" href="perfil.php">
+            <a class="nav-link text-white" href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
@@ -127,7 +127,7 @@ if ($id) {
             </div>
             <div class="col-md-12 mb-3">
               <input type="checkbox" id="sin_impuestos" name="sin_impuestos">
-              <label for="sin_impuestos" class="form-label">No aplicar IVA ni Retención</label>
+              <label for="sin_impuestos" class="form-label">No aplicar retención</label>
             </div>
             <div class="col-md-4 mb-3">
               <label for="iva" class="form-label">Iva</label>
@@ -178,7 +178,7 @@ if ($id) {
               <input type="text" class="form-control form-control-sm" id="documento" name="documento" required>
             </div>
             <div class="col-md-4 mb-3">
-              <label for="portal_nip" class="form-label">Portal Nippon</label>
+              <label for="portal_nip" class="form-label">Ingresado al portal</label>
               <input type="text" class="form-control form-control-sm" id="portal_nip" name="portal_nip" required>
             </div>
             <input type="hidden" name="idservicio" id="idservicio" value="<?php echo htmlspecialchars($id); ?>" required>
@@ -217,15 +217,15 @@ if ($id) {
         // Función para calcular el IVA, la retención y el precio final
         function calcularValores() {
             const precioBase = parseFloat(precioBaseInput.value) || 0;
-
+            const iva = precioBase * 0.16;
             // Si el checkbox está marcado, poner 0 en IVA y Retención
             if (sinImpuestosCheckbox.checked) {
-                ivaInput.value = (0).toFixed(2);
                 retencionInput.value = (0).toFixed(2);
-                precioFinalInput.value = precioBase.toFixed(2); // El precio final es igual al precio base
+                const preciosinRetencion = precioBase + iva;
+                precioFinalInput.value = preciosinRetencion.toFixed(2);   // El precio final es igual al precio base
             } else {
                 // Calcular el IVA (16%) y la retención (4%)
-                const iva = precioBase * 0.16;
+                
                 const retencion = precioBase * 0.04;
 
                 // Calcular el precio final

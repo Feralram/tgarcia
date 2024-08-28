@@ -37,3 +37,50 @@ function terminarFactura (){
         alert('Error en la solicitud');
     });
 }
+
+
+function updateFactura (){
+    // Obtener los valores del formulario
+    const complemento = document.getElementById('complemento').value;
+    const fecha_pago = document.getElementById('fecha_pago').value;
+    const id = document.getElementById('id').value;
+
+
+    // Construir el objeto JSON a enviar
+    const datos = {
+        accion: 'updateFactura',
+        complemento: complemento,
+        fecha_pago: fecha_pago,
+        id: id
+    };
+
+    // Enviar la solicitud POST usando fetch
+    fetch('../controllers/Usuario/controllerUsuario.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.message || 'Error en la solicitud');
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Manejar la respuesta del servidor
+        if (data.success) {
+            alert(data.message || 'Factura actualizada correctamente');
+            window.location.reload(); // Recargar la página
+        } else {
+            alert(data.message || 'Error al actualizar la factura');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.message || 'Error en la solicitud');
+    });
+}

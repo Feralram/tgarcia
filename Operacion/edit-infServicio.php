@@ -6,24 +6,47 @@ include_once ('../models/Usuario.php');
 $usuario = new Usuario();
 
 
-$id = $_GET['cotizacionId'] ?? null;
+$id = $_GET['servicioId'] ?? null;
 
 if ($id) {
-  $query = "SELECT * FROM cotizaciones WHERE id_cotizacion = '$id'";
+  $query = "SELECT * FROM servicios WHERE id_servicio = '$id'";
   $resultado = $usuario->conexion->query($query);
 
   if ($resultado && $resultado->num_rows > 0) {
-    $cotizacion = $resultado->fetch_assoc();
+    $servicio = $resultado->fetch_assoc();
   } else {
-    echo "Cotización no encontrada.";
+    echo "Servicio no encontrada.";
     exit;
   }
 } else {
-  echo "ID de cotización no proporcionado.";
+  echo "ID de Servicio no proporcionado.";
   exit;
 }
 
-$total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
+$queryOperadores = "SELECT id, nombre_completo FROM operadores WHERE Activo = 1";
+ $result = $usuario->conexion->query($queryOperadores);
+
+ $operadores = [];
+ if ($result->num_rows > 0) {
+     while($row = $result->fetch_assoc()) {
+         $operadores[] = $row;
+     }
+ } else {
+     echo "No se encontraron operadores.";
+ }
+
+$queryUnidades = "SELECT Uni_id, Unidad, Placas, candados FROM unidades";
+$result = $usuario->conexion->query($queryUnidades);
+
+$unidades = [];
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $unidades[] = $row;
+    }
+} else {
+    echo "No se encontraron unidades.";
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -101,19 +124,11 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaUnidades.php">
+          <a class="nav-link text-white" href="./listaServicios.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Lista Unidades</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="./listaOperadores.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <span class="material-icons opacity-10">folder</span>
-            </div>
-            <span class="nav-link-text ms-1">Lista Operadores</span>
+            <span class="nav-link-text ms-1">Lista de servicios</span>
           </a>
         </li>
         <li class="nav-item">
@@ -149,26 +164,36 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
             <div class="card-header">
               <div class="container mt-4">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                  <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la cotización
-                    <?php echo htmlspecialchars($cotizacion['id_especifico']); ?></h6>
+                  <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion del servicio
+                    <?php echo htmlspecialchars($servicio['id_especifico']); ?></h6>
                 </div>
-                <div class="border p-4">
-                  <p class="text-center">
-                  <p><strong>Origen y Destino:</strong> <?php echo htmlspecialchars($cotizacion['origen']); ?></p>
-                  <!--<p><strong>Código Postal:</strong></p>-->
-                  <p><strong>Peso:</strong> <?php echo htmlspecialchars($cotizacion['peso']); ?></p>
-                  <p><strong>Dimensión:</strong> <?php echo htmlspecialchars($cotizacion['dimension']); ?></p>
-                  <!--<p><strong>Número de Bultos:</strong></p>-->
-                  <p><strong>Costo por unidad asignada:</strong> <?php echo htmlspecialchars($cotizacion['precio']); ?>
-                  </p>
-                  <p><strong>Gastos adicionales:</strong> <input type="number" name="km_extras" id="km_extras"
-                      value="<?php echo htmlspecialchars($cotizacion['km_adicionales']); ?>"></p>
-                  <p><strong>Costo final:</strong> <input type="number" name="total" id="total"
-                      value="<?php echo htmlspecialchars($total); ?>"></p>
-                  <p><strong>Comentarios:</strong></p>
-                  <textarea name="comentarios" id="comentarios" rows="5" cols="80"><?php echo htmlspecialchars($cotizacion['comentarios']); ?></textarea>
-                  <input type="hidden" name="precio" id="precio" value="<?php echo htmlspecialchars($cotizacion['precio']); ?>">
-                  <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($cotizacion['id_cotizacion']); ?>">
+                <div class="border p-4">                  
+                <p><strong>Unidad:</strong> 
+                    <div class="col-md-4 mb-3">                
+                        <select id="unidad" name="unidad" class="form-select form-select-sm" required>
+                            <option value="">Selecciona...</option>
+                            <?php foreach ($unidades as $unidad): ?>
+                                <option value="<?php echo htmlspecialchars($unidad['Uni_id']); ?>"
+                                    <?php if ($unidad['Uni_id'] == $servicio['unidad']) echo 'selected'; ?>>
+                                    <?php echo htmlspecialchars($unidad['Placas'].' - '.$unidad['Unidad']); ?>
+                                </option>
+                            <?php endforeach; ?>              
+                        </select>
+                    </div>
+                </p>
+                <div class="col-md-4 mb-3">
+                    <label for="operador" class="form-label">Operador</label>
+                    <select id="operador" name="operador" class="form-select form-select-sm" required>
+                        <option value="">Elige...</option>
+                        <?php foreach ($operadores as $operador): ?>
+                            <option value="<?php echo htmlspecialchars($operador['id']); ?>"
+                                <?php if ($operador['id'] == $servicio['id_operador']) echo 'selected'; ?>>
+                                <?php echo htmlspecialchars($operador['nombre_completo']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                  <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($id); ?>">
                   <!-- Añade este botón donde desees -->
                 </div>
               </div>
@@ -177,16 +202,7 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
         </div>
       </div>
       <div class="text-center mt-3">
-        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="updateCotizacion()">Guardar</button>
-        <!--<button type="button" class="btn btn-secondary me-2">Editar</button>-->
-        <button type="button" class="btn btn-secondary me-2" onclick="copiarAlPortapapeles()">
-          <i class="fas fa-copy"></i> Copiar inf
-        </button>
-        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="registrar()">
-          Registrar
-        </button>
-
-
+        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="updateServicio()">Guardar</button>
       </div>
     </div>
   </main>
@@ -199,7 +215,7 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
   <script src="../admin/ajax/notifications.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-  <script src="editCotizacion.js"></script>
+  <script src="editServicio.js"></script>
 
 
   <script>

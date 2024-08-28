@@ -1,16 +1,29 @@
 <?php
 session_start();
-include_once('../models/Usuario.php');
+include_once ('../models/Usuario.php');
 
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-// Obtener las fechas de inicio y fin del rango, si están definidas
-$fechaInicio = isset($_GET['fechaInicio']) ? $_GET['fechaInicio'] : null;
-$fechaFin = isset($_GET['fechaFin']) ? $_GET['fechaFin'] : null;
 
-$facturas = $usuario->obtenerFacturasfiltros($fechaInicio, $fechaFin);
-$facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
+$id = $_GET['facturaId'] ?? null;
+
+if ($id) {
+  $query = "SELECT * FROM facturas WHERE id_factura = '$id'";
+  $resultado = $usuario->conexion->query($query);
+
+  if ($resultado && $resultado->num_rows > 0) {
+    $factura = $resultado->fetch_assoc();
+  } else {
+    echo "factura no encontrada.";
+    exit;
+  }
+} else {
+  echo "ID de factura no proporcionado.";
+  exit;
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +91,7 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./documentos.php">
+          <a class="nav-link text-white" href="./documentos.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -102,170 +115,46 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
       data-scroll="true">
     </nav>
     <div class="container-fluid px-2 px-md-4">
-    <form method="GET" action="listafacturas.php">
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-                <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" value="<?php echo htmlspecialchars($fechaInicio); ?>">
-            </div>
-            <div class="col-md-4">
-                <label for="fechaFin" class="form-label">Fecha de Fin</label>
-                <input type="date" id="fechaFin" name="fechaFin" class="form-control" value="<?php echo htmlspecialchars($fechaFin); ?>">
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary mt-4">Filtrar</button>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <a href="../models/descargarCSVfacturas.php?fechaInicio=<?php echo urlencode($fechaInicio); ?>&fechaFin=<?php echo urlencode($fechaFin); ?>" class="btn btn-success">Descargar en CSV</a>
-        </div>
-    </form>
       <!-- End Navbar -->
-       <!--Lista Operadores-->
-        <div class="row">
-            <div class="col">
-                <div class="card">
+      <!--Lista Operadores-->
+      <div class="row">
+        <div class="col" id="datos">
+          <div class="card">
+            <div class="card-header">
+              <div class="container mt-4">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Facturas Generales</h6>
+                  <h6 class="text-white text-capitalize ps-3 text-center h5">Informacion de la factura
+                    <?php echo htmlspecialchars($factura['id_especifico']); ?></h6>
                 </div>
-                    <div class="card-header">
-                    <div class="card-body">
-                      <div class="table-responsive">
-                          <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
-                          <thead class="thead-dark">
-                                  <tr>
-                                      <th scope="col">Factura</th>
-                                      <th scope="col">Fecha</th>
-                                      <th scope="col">Precio Base</th>
-                                      <th scope="col">Iva</th>
-                                      <th scope="col">Retención</th>
-                                      <th scope="col">Precio final</th>
-                                      <th scope="col">Razón social</th>
-                                      <th scope="col">Ejecutivo</th>
-                                      <th scope="col">Servicio</th>
-                                      <th scope="col">Referencia</th>
-                                      <th scope="col">Complemento</th>
-                                      <th scope="col">Fecha de pago</th>
-                                      <th scope="col">Observación</th>
-                                      <th scope="col">Fecha de envio</th>                                      
-                                      <th scope="col">Documento</th>
-                                      <th scope="col">Ingresado al portal</th>
-                                      <th scope="col">Eliminar</th>
-                                      <th scope="col">Editar</th>
-                                  </tr>
-                              </thead>
-                              </thead>
-                              <tbody>
-                              <?php foreach ($facturas as $factura): ?>
-        <tr>
-            <td><?php echo $factura['id_especifico']; ?></td>
-            <td><?php echo $factura['fecha']; ?></td>
-            <td><?php echo $factura['precio_base']; ?></td>
-            <td><?php echo $factura['iva']; ?></td>
-            <td><?php echo $factura['retencion']; ?></td>
-            <td><?php echo $factura['precio_final']; ?></td>
-            <td><?php echo $factura['razon_social']; ?></td>
-            <td><?php echo $factura['contacto_cliente']; ?></td>
-            <td><?php echo $factura['servicio']; ?></td>
-            <td><?php echo $factura['referencia']; ?></td>
-            <td><?php echo $factura['complemento']; ?></td>
-            <td><?php echo $factura['fecha_pago']; ?></td>
-            <td><?php echo $factura['observacion']; ?></td>
-            <td><?php echo $factura['fecha_envio']; ?></td>
-            <td><?php echo $factura['documento']; ?></td>
-            <td><?php echo $factura['portal_nippon']; ?></td>
-            <td class="text-center">
-                <form method="POST" onsubmit="return eliminarFactura(<?php echo $factura['id_factura']; ?>);">
-                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarFactura(<?php echo $factura['id_factura']; ?>)">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </form>
-            </td>
-            <td class="text-center">
-            <a href="edit-infFactura.php?facturaId=<?php echo $factura['id_factura']; ?>">
-              <button type="button" class="btn btn-success btn-icon btn-transparent">
-                Editar
-              </button>
-            
-            </td>
-        </tr>
-        <?php endforeach; ?>
-                              </tbody>
-                          </table>
-                      </div>
+                <div class="border p-4">                  
+                <div class="col-md-4 mb-3">
+                <p><strong>Complemento:</strong> 
+                    <div class="col-md-4 mb-3">                
+                        <input type="text"  id="complemento" name="complemento" value="<?php echo $factura['complemento']; ?>" required>
                     </div>
-                    </div>
+                </p>
                 </div>
+                <div class="col-md-4 mb-3">
+                <p><strong>Fecha de pago:</strong> 
+                    <div class="col-md-4 mb-3">                
+                        
+                        <input type="date"  id="fecha_pago" name="fecha_pago" value="<?php echo $factura['fecha_pago']; ?>" required>
+                    </div>
+                </p>
+                </div>
+                  <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($id); ?>">
+                  <!-- Añade este botón donde desees -->
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Facturas Xcf</h6>
-                </div>
-                    <div class="card-header">
-                    <div class="card-body">
-                      <div class="table-responsive">
-                          <table id="tablaXcf" class="table table-bordered table-striped table-hover">
-                              <thead class="thead-dark">
-                                  <tr>
-                                      <th scope="col">Factura</th>
-                                      <th scope="col">Fecha</th>
-                                      <th scope="col">Precio Base</th>
-                                      <th scope="col">Iva</th>
-                                      <th scope="col">Retención</th>
-                                      <th scope="col">Precio final</th>
-                                      <th scope="col">Razón social</th>
-                                      <th scope="col">Ejecutivo</th>
-                                      <th scope="col">Servicio</th>
-                                      <th scope="col">Referencia</th>
-                                      <th scope="col">Complemento</th>
-                                      <th scope="col">Fecha de pago</th>
-                                      <th scope="col">Observación</th>
-                                      <th scope="col">Fecha de envio</th>                                      
-                                      <th scope="col">Documento</th>
-                                      <th scope="col">Ingresado al portal</th>
-                                      <th scope="col">Eliminar</th>
-                                  </tr>
-                              </thead>
-                              <tbody> 
-                              <?php foreach ($facturasOtros as $factotros): ?>
-        <tr>
-            <td><?php echo $factotros['id_especifico']; ?></td>
-            <td><?php echo $factotros['fecha']; ?></td>
-            <td><?php echo $factotros['precio_base']; ?></td>
-            <td><?php echo $factotros['iva']; ?></td>
-            <td><?php echo $factotros['retencion']; ?></td>
-            <td><?php echo $factotros['precio_final']; ?></td>
-            <td><?php echo $factotros['razon_social']; ?></td>
-            <td><?php echo $factotros['contacto_cliente']; ?></td>
-            <td><?php echo $factotros['servicio']; ?></td>
-            <td><?php echo $factotros['referencia']; ?></td>
-            <td><?php echo $factotros['complemento']; ?></td>
-            <td><?php echo $factotros['fecha_pago']; ?></td>
-            <td><?php echo $factotros['observacion']; ?></td>
-            <td><?php echo $factotros['fecha_envio']; ?></td>
-            <td><?php echo $factotros['documento']; ?></td>
-            <td><?php echo $factotros['portal_nippon']; ?></td>
-            <td class="text-center">
-                <form method="POST" onsubmit="return eliminarFactura(<?php echo $factotros['id_factura']; ?>);">
-                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarFactura(<?php echo $factotros['id_factura']; ?>)">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-                              </tbody>
-                          </table>
-                      </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
- </main>
+      </div>
+      <div class="text-center mt-3">
+        <button type="button" class="btn btn-primary me-2 bg-gradient-info" onclick="updateFactura()">Guardar</button>
+      </div>
+    </div>
+  </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
@@ -275,6 +164,7 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
   <script src="../admin/ajax/notifications.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script src="factura.js"></script>
 
 <script>
   $(document).ready(function() {

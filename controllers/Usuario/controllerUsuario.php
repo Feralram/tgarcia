@@ -83,7 +83,8 @@ if (isset($request)) {
                 'num_bultos' => $datoscoti['num_bultos'],
                 'texto_dimension' => $datoscoti['texto_dimension'],
                 'texto_origen' => $datoscoti['texto_origen'],
-                'km_adicionales' => $datoscoti['km_adicionales']
+                'km_adicionales' => $datoscoti['km_adicionales'],
+                'comentarios' => $datoscoti['comentarios']
             ];
 
             $id = $usuario->insertarCotizacion($data);
@@ -139,7 +140,8 @@ if (isset($request)) {
             $km_extras = $request['km_extras'];
             $total = $request['total'];
             $id = $request['id'];
-            $resultado = $usuario->updateCotizacion($id, $km_extras, $total);
+            $comentarios = $request['comentarios'];
+            $resultado = $usuario->updateCotizacion($id, $km_extras, $total,$comentarios);
 
             if ($resultado['success']) {
                 http_response_code(200);
@@ -149,6 +151,35 @@ if (isset($request)) {
                 echo json_encode(['success' => false, 'message' => $resultado['message']]);
             }
             break;
+
+        case 'updateServicio':
+            $unidad = $request['unidad'];
+            $operador = $request['operador'];
+            $id = $request['id'];            
+            $resultado = $usuario->updateServicio($id, $unidad,$operador);
+
+            if ($resultado['success']) {
+                http_response_code(200);
+                echo json_encode(['success' => true, 'message' => $resultado['message']]);
+            } else {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'message' => $resultado['message']]);
+            }
+            break;
+            case 'updateFactura':
+                $complemento = $request['complemento'];
+                $fecha_pago = $request['fecha_pago'];
+                $id = $request['id'];            
+                $resultado = $usuario->updateFactura($id, $complemento,$fecha_pago);
+    
+                if ($resultado['success']) {
+                    http_response_code(200);
+                    echo json_encode(['success' => true, 'message' => $resultado['message']]);
+                } else {
+                    http_response_code(400);
+                    echo json_encode(['success' => false, 'message' => $resultado['message']]);
+                }
+                break;
         case 'terminarCotizacion':
             $id = $request['id'];
             $resultado = $usuario->terminarCotizacion($id);
@@ -164,6 +195,20 @@ if (isset($request)) {
                 echo json_encode(['success' => false, 'message' => 'Error.']);
             }
             break;
+
+            case 'procesarFactura':
+                $id_factura = $request['id_factura'];
+                $valorRespuesta = $request['valorRespuesta'];
+
+                // Llama al modelo para procesar la factura con la respuesta
+                $resultado = $usuario->procesarFactura($id_factura, $valorRespuesta);
+
+                if ($resultado) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+                break;
 
             case 'terminarFactura':
                 $id = $request['id'];
@@ -220,6 +265,7 @@ if (isset($request)) {
                 'costo' => $datosServi['costo'],
                 'factura' => $datosServi['factura'],
                 'candados' => $datosServi['candados'],
+                'fecha_ingreso' => $datosServi['fecha_ingreso'],
                 'observaciones' => $datosServi['observaciones'],
                 'idcoti' => $datosServi['idcoti'],
             ];

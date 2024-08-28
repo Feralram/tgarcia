@@ -19,13 +19,15 @@ function updateCotizacion (){
     const km_extras = document.getElementById('km_extras').value;
     const total = document.getElementById('total').value;
     const id = document.getElementById('id').value;
+    const comentarios = document.getElementById('comentarios').value;
 
     // Construir el objeto JSON a enviar
     const datos = {
         accion: 'updateCotizacion',
         km_extras: km_extras,
         total: total,
-        id: id
+        id: id,
+        comentarios: comentarios
     };
 
     // Enviar la solicitud POST usando fetch

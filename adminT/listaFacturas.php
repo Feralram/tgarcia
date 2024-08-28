@@ -190,7 +190,7 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
                                       <th scope="col">Retención</th>
                                       <th scope="col">Precio final</th>
                                       <th scope="col">Razón social</th>
-                                      <th scope="col">Contacto cliente</th>
+                                      <th scope="col">Ejecutivo</th>
                                       <th scope="col">Servicio</th>
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Complemento</th>
@@ -198,7 +198,7 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
                                       <th scope="col">Observación</th>
                                       <th scope="col">Fecha de envio</th>                                      
                                       <th scope="col">Documento</th>
-                                      <th scope="col">Portal Nippon</th>
+                                      <th scope="col">Ingresado al portal</th>
                                       <th scope="col">Eliminar</th>
                                   </tr>
                               </thead>
@@ -258,7 +258,7 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
                                       <th scope="col">Retención</th>
                                       <th scope="col">Precio final</th>
                                       <th scope="col">Razón social</th>
-                                      <th scope="col">Contacto cliente</th>
+                                      <th scope="col">Ejecutivo</th>
                                       <th scope="col">Servicio</th>
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Complemento</th>
@@ -266,7 +266,7 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
                                       <th scope="col">Observación</th>
                                       <th scope="col">Fecha de envio</th>                                      
                                       <th scope="col">Documento</th>
-                                      <th scope="col">Portal Nippon</th>
+                                      <th scope="col">Ingresado al portal</th>
                                   </tr>
                               </thead>
                               <tbody> 

@@ -8,7 +8,7 @@ $id = $_GET['servicioId'] ?? null;
 
 if ($id) {
   $stmt = $usuario->conexion->prepare(
-  "SELECT servicios.id_especifico, servicios.ejecutivo, servicios.operador, servicios.num_candados,
+  "SELECT servicios.servicio,servicios.id_especifico, servicios.ejecutivo, servicios.operador, servicios.num_candados,
   servicios.oriDestino, cotizaciones.dimension, operadores.rfc, operadores.celular
   , unidades.placas, unidades.modelo, unidades.unidad, unidades.eco
   FROM servicios  
@@ -99,7 +99,7 @@ if ($id) {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./documentos.php">
+          <a class="nav-link text-white" href="./listaFacturas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -144,7 +144,7 @@ if ($id) {
                       <tbody>
                         <tr>
                           <td>Cliente:</td>
-                          <td><?php echo htmlspecialchars($servicio['ejecutivo']); ?></td>
+                          <td><?php echo htmlspecialchars($servicio['servicio']); ?></td>
                         </tr>
                         <tr>
                           <td>ECO:</td>

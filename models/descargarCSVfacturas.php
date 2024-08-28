@@ -35,7 +35,7 @@ fputs($salida, "\xEF\xBB\xBF");
 fputcsv($salida, ['Facturas Generales']);
 $encabezadosGenerales = [
     'Factura', 'Fecha', 'Precio Base', 'Iva', 'Retención', 'Precio final', 
-    'Razón social', 'Contacto cliente', 'Servicio', 'Referencia', 'Complemento', 
+    'Razón social', 'Ejecutivo', 'Servicio', 'Referencia', 'Complemento', 
     'Fecha de pago', 'Observación', 'Fecha de envio', 'Documento', 'Portal Nippon'
 ];
 fputcsv($salida, $encabezadosGenerales);
@@ -68,7 +68,7 @@ fputcsv($salida, []);
 fputcsv($salida, ['Facturas Xcf']);
 $encabezadosXcf = [
     'Factura', 'Fecha', 'Precio Base', 'Iva', 'Retención', 'Precio final', 
-    'Razón social', 'Contacto cliente', 'Servicio', 'Referencia', 'Complemento', 
+    'Razón social', 'Ejecutivo', 'Servicio', 'Referencia', 'Complemento', 
     'Fecha de pago', 'Observación', 'Fecha de envio', 'Documento', 'Portal Nippon'
 ];
 fputcsv($salida, $encabezadosXcf);

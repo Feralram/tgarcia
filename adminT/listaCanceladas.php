@@ -177,7 +177,8 @@ $facturas = $usuario->obtenerFacturasEliminadas();
                                       <th scope="col">Fecha de envio</th>                                      
                                       <th scope="col">Documento</th>
                                       <th scope="col">Portal Nippon</th>
-                                      <th scope="col">Eliminar</th>
+                                      <th scope="col">Estado</th>
+                                      <th scope="col">Accion</th>
                                   </tr>
                               </thead>
                               </thead>
@@ -200,13 +201,27 @@ $facturas = $usuario->obtenerFacturasEliminadas();
             <td><?php echo $factura['fecha_envio']; ?></td>
             <td><?php echo $factura['documento']; ?></td>
             <td><?php echo $factura['portal_nippon']; ?></td>
-            <td class="text-center">
-                <form method="POST" onsubmit="return eliminarFactura(<?php echo $factura['id_factura']; ?>);">
-                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarFactura(<?php echo $factura['id_factura']; ?>)">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </form>
-            </td>
+            <td>
+              <?php 
+                // Controlar el estado según el valor de 'status'
+                if (is_null($factura['status'])): ?>
+                    <span style="color: orange;">Pendiente</span>
+                <?php elseif ($factura['status'] == 1): ?>
+                    <span style="color: green;">Aceptada</span>
+                <?php elseif ($factura['status'] == 0): ?>
+                    <span style="color: red;">Cancelada</span>
+                <?php endif; 
+              ?>
+                </td>
+                <td>
+                    <!-- Verificar si $factura['status'] es nulo -->
+                    <?php if (is_null($factura['status'])): ?>
+                      <button type="button" class="btn btn-primary" onclick="procesarFactura(<?php echo $factura['id_factura']; ?>)">
+                          Procesar
+                      </button>
+                    <?php endif; ?>
+                </td>
+
         </tr>
         <?php endforeach; ?>
                               </tbody>
@@ -301,39 +316,38 @@ $facturas = $usuario->obtenerFacturasEliminadas();
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
   <script>
-function eliminarFactura(id_factura) {
-    var comentario = prompt('Motivo por el que quiere cancelar la factura:');
-    if (comentario === null) {
-        return false; // Cancela la eliminación si no se ingresa comentario
-    }
+function procesarFactura(id_factura) {
+    // Pregunta si desea aceptar o cancelar
+    var decision = confirm('¿Desea cancelar o aceptar?');
+    
+    // Si el usuario cancela, se guarda 0; si acepta, se guarda 1
+    var valorRespuesta = decision ? 1 : 0;
 
-    if (confirm('¿Estás seguro de que deseas eliminar esta factura?')) {
-        fetch('../controllers/Usuario/controllerUsuario.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                accion: 'eliminarFactura',
-                id_factura: id_factura,
-                comentario: comentario
-            })
+    fetch('../controllers/Usuario/controllerUsuario.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            accion: 'procesarFactura',
+            id_factura: id_factura,
+            valorRespuesta: valorRespuesta
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Factura eliminada con éxito');
-                location.reload(); // Recarga la página para actualizar la lista de facturas
-            } else {
-                alert('Error al eliminar la factura');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-    return false; // Evita la recarga de la página
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Factura procesada con éxito');
+            location.reload(); // Recarga la página para actualizar la lista de facturas
+        } else {
+            alert('Error al procesar la factura');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
+
 </script>
 
 </body>

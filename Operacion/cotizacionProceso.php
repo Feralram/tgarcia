@@ -145,6 +145,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
                           <table id="tablaCotizaciones" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
+                                  <th scope="col">Fecha creación</th>
                                       <th scope="col">Id cotizacion</th>
                                       <th scope="col">cliente</th>
                                       <th scope="col">Origen y Destino</th>
@@ -153,6 +154,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
                                       <th scope="col">Costo unidad</th>
                                       <th scope="col">Gastos adicionales</th>
                                       <th scope="col">Usuario que Genero</th>
+                                      
                                       <th scope="col">Ver</th>
                                       <th scope="col">Editar</th>
                                   </tr>
@@ -161,6 +163,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
                                   <!-- Ejemplo de una fila de datos -->
                                   <?php foreach ($cotizaciones as $cotizacion): ?>
         <tr>
+          <td><?php echo $cotizacion['fecha_creacion']; ?></td>
             <td><?php echo $cotizacion['id_especifico']; ?></td>
             <td><?php echo $cotizacion['cliente']; ?></td>
             <td><?php echo $cotizacion['origen']; ?></td>
@@ -169,6 +172,7 @@ $cotizaciones = $usuario->obtenerCotizaciones();
             <td>$<?php echo $cotizacion['precio']; ?></td>
             <td>$<?php echo $cotizacion['km_adicionales']; ?></td>
             <td><?php echo ($cotizacion['usuario_registro'] ? $cotizacion['usuario_registro'] : 'Pendiente'); ?></td>
+            
             <td class="text-center">
             <a href="Infcotizacion.php?cotizacionId=<?php echo $cotizacion['id_cotizacion']; ?>">
               <button type="button" class="btn btn-success btn-icon btn-transparent">

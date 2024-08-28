@@ -176,6 +176,7 @@ $total = ($cotizacion['precio']+$cotizacion['km_adicionales']);
                             <p><strong>Costo por unidad asignada: </strong><?php echo htmlspecialchars($cotizacion['precio']); ?></p>
                             <p><strong>Costo por km extras: </strong><?php echo htmlspecialchars($cotizacion['km_adicionales']); ?></p>
                             <p><strong>Costo final: </strong><?php echo htmlspecialchars(number_format($total,2)); ?></p>
+                            <p><strong>Comentarios: </strong><?php echo htmlspecialchars($cotizacion['comentarios']); ?></p>
                             <!-- Añade este botón donde desees -->
             </div>
         </div>

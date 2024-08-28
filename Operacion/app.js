@@ -401,6 +401,7 @@ document.getElementById('cotizacionForm').addEventListener('submit', function(ev
     const texto_origen = document.getElementById('texto_origen').value;
     const num_bultos = document.getElementById('num_bultos').value;
     const km_adicionales = document.getElementById('km_adicionales').value;
+    const comentarios = document.getElementById('comentarios').value;
 
     // Construir el objeto JSON a enviar
     const datos = {
@@ -416,7 +417,8 @@ document.getElementById('cotizacionForm').addEventListener('submit', function(ev
             num_bultos: num_bultos,
             texto_dimension: texto_dimension,
             texto_origen: texto_origen,
-            km_adicionales: km_adicionales
+            km_adicionales: km_adicionales,
+            comentarios: comentarios
         }
     };
 

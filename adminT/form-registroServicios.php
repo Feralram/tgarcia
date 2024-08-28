@@ -180,7 +180,7 @@ if ($id) {
               <label for="lista-reco" class="form-label">Lista de registro</label>
               <select id="lista_reco" name="lista_reco" class="form-select form-select-sm">
                 <option selected>Selecciona...</option>
-                <option>Lista general</option>
+                <option>Lista General</option>
                 <option>Lista Xcf</option>
               </select>
             </div>
@@ -271,7 +271,10 @@ if ($id) {
               <label for="factura" class="form-label">Numero de candados</label>
               <input type="number" class="form-control form-control-sm" id="candados" name="candados" readonly required>
             </div>
-
+            <div class="col-md-4 mb-3">
+              <label for="fecha_ingreso" class="form-label">Fecha de ingreso</label>
+              <input type="date" class="form-control form-control-sm" id="fecha_ingreso" name="fecha_ingreso" required>
+            </div>
             <div class="col-md-4 mb-3">
               <label for="observaciones" class="form-label">Observaciones</label>
               <textarea class="form-control form-control-sm" id="observaciones" name="observaciones" rows="3" required></textarea>
