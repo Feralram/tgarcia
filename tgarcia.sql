@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-08-2024 a las 03:46:22
+-- Tiempo de generación: 30-08-2024 a las 09:17:50
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -131,8 +131,16 @@ CREATE TABLE `cotizaciones` (
   `ultimaModificacion` varchar(255) DEFAULT NULL,
   `status` bit(11) NOT NULL DEFAULT b'1',
   `usuario_registro` varchar(255) NOT NULL,
-  `contador_modificaciones` int(11) NOT NULL
+  `contador_modificaciones` int(11) NOT NULL,
+  `estado` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `cotizaciones`
+--
+
+INSERT INTO `cotizaciones` (`id_cotizacion`, `id_especifico`, `cliente`, `tarifario`, `origen`, `codigo_postal`, `peso`, `dimension`, `precio`, `num_bultos`, `km_adicionales`, `fecha_creacion`, `comentarios`, `ultimaModificacion`, `status`, `usuario_registro`, `contador_modificaciones`, `estado`) VALUES
+(1, 'C-1', 1, '1', 'CDMX - VENUSTIANO CARRANZA - BAJA CALIFORNIA - LOS CABOS', '57850', '50', 'Nissan16', 113203.29, 0, 0.00, '2024-08-29', 'asdw', NULL, b'00000000010', 'Michell Palestina Barrios', 1, b'0');
 
 -- --------------------------------------------------------
 
@@ -179,8 +187,16 @@ CREATE TABLE `facturas` (
   `id_servicio` varchar(255) NOT NULL,
   `activa` bit(1) NOT NULL DEFAULT b'1',
   `comentario_eliminacion` varchar(255) NOT NULL,
-  `status` bit(1) DEFAULT NULL
+  `status` bit(1) DEFAULT NULL,
+  `comentarios` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `facturas`
+--
+
+INSERT INTO `facturas` (`id_factura`, `id_especifico`, `fecha`, `precio_base`, `iva`, `retencion`, `precio_final`, `razon_social`, `contacto_cliente`, `servicio`, `referencia`, `complemento`, `fecha_pago`, `observacion`, `fecha_envio`, `documento`, `portal_nippon`, `id_servicio`, `activa`, `comentario_eliminacion`, `status`, `comentarios`) VALUES
+(15, 'factura ejemplo', '2024-08-29', 113203.29, 18112.53, 4528.13, 126787.68, 'VENTA AL PUBLICO', 'ejecutivo ejemplo', 'Servicio Ejemplo', 'referencia ejemplo', 'complemento', '2024-08-30', 'observacion', '2024-08-31', 'Documento', 'Portal Nippon', '2', b'1', '', NULL, 'dasdasd');
 
 -- --------------------------------------------------------
 
@@ -384,8 +400,18 @@ CREATE TABLE `servicios` (
   `id_cotizacion` int(11) NOT NULL,
   `num_candados` int(11) NOT NULL,
   `factura_status` bit(11) NOT NULL,
-  `fecha_ingreso` date NOT NULL
+  `fecha_ingreso` date NOT NULL,
+  `status` bit(11) NOT NULL DEFAULT b'1',
+  `estado` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`id_servicio`, `id_especifico`, `lista`, `fecha_recoleccion`, `servicio`, `unidad`, `placas`, `econ`, `oriDestino`, `unid_factura`, `local_foranea`, `sello`, `operador`, `id_operador`, `ejecutivo`, `referencia`, `bultos`, `doc_fiscal`, `costo`, `factura`, `observaciones`, `fecha_creacion`, `id_cotizacion`, `num_candados`, `factura_status`, `fecha_ingreso`, `status`, `estado`) VALUES
+(1, 'S-1', 'Lista General', '2024-08-29', 'Servicio Ejemplo', 1, NULL, NULL, 'CDMX - VENUSTIANO CARRANZA - BAJA CALIFORNIA - LOS CABOS', 'uni factura', 'Local', 'sello', 'ALVA IBARRA VICTOR MANUEL', 15, 'ejecutivo ejemplo', 'referencia ejemplo', 0, 'doc fiscal', 113203.29, 'factura ejemplo', 'testeo', '2024-08-29', 1, 2, b'00000000000', '2024-08-30', b'00000000000', b'1'),
+(2, 'S-2', 'Lista General', '2024-08-29', 'Servicio Ejemplo', 1, NULL, NULL, 'CDMX - VENUSTIANO CARRANZA - BAJA CALIFORNIA - LOS CABOS', 'uni factura ejemplo', 'Selecciona...', 'sello ejemplo', 'GARCIA NIETO MARTIN', 14, 'ejecutivo ejemplo', 'referencia ejemplo', 0, 'doc fiscal ejemplo', 113203.29, 'factura ejemplo', 'ihguhhjk', '2024-08-29', 1, 2, b'00000000000', '2024-08-30', b'00000000001', NULL);
 
 -- --------------------------------------------------------
 
@@ -927,7 +953,7 @@ ALTER TABLE `cotizacion_adicional`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `operadores`
