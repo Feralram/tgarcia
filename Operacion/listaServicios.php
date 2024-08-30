@@ -167,8 +167,10 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                           <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
+                                  <th scope="col">Cliente</th>
+                                  <th scope="col">Ejecutivo</th>
+                                  <th scope="col">Servicio</th>
                                       <th scope="col">Fecha recoleccion</th>
-                                      <th scope="col">Cliente</th>
                                       <th scope="col">Unidad</th>
                                       <th scope="col">Placas</th>
                                       <th scope="col">Econ</th>
@@ -177,7 +179,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Local o Foranea</th>
                                       <th scope="col">Sello</th>
                                       <th scope="col">Operador</th>
-                                      <th scope="col">Cliente que solicita</th>
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
                                       <th scope="col">Doc-Fiscal</th>                                      
@@ -186,13 +187,16 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
                                       <th scope="col">Accion</th>
+                                      <th scope="col">Eliminar</th>
                                   </tr>
                               </thead>
                               <tbody>
                               <?php foreach ($servicios as $servicio): ?>
         <tr>
+        <td><?php echo $servicio['cliente']; ?></td>
+        <td><?php echo $servicio['ejecutivo']; ?></td>
+        <td><?php echo $servicio['servicio']; ?></td>
           <td><?php echo $servicio['fecha_recoleccion']; ?></td>
-            <td><?php echo $servicio['cliente']; ?></td>
             <td><?php echo $servicio['unidad']; ?></td>
             <td><?php echo $servicio['Placas']; ?></td>
             <td><?php echo $servicio['eco']; ?></td>
@@ -201,7 +205,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servicio['local_foranea']; ?></td>
             <td><?php echo $servicio['sello']; ?></td>
             <td><?php echo $servicio['Nombre_completo']; ?></td>
-            <td><?php echo $servicio['ejecutivo']; ?></td>
             <td><?php echo $servicio['referencia']; ?></td>
             <td><?php echo $servicio['bultos']; ?></td>
             <td><?php echo $servicio['doc_fiscal']; ?></td>
@@ -222,6 +225,13 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
               </button>
             
             </td>
+            <td class="text-center">
+                <form method="POST" onsubmit="return eliminarServicio(<?php echo $servicio['id_servicio']; ?>);">
+                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarServicio(<?php echo $servicio['id_servicio']; ?>)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
+            </td>
         </tr>
         <?php endforeach; ?>
                                   
@@ -238,16 +248,18 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Proexi</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Xcf</h6>
                 </div>
                     <div class="card-header">
                     <div class="card-body">
                       <div class="table-responsive">
                           <table id="tablaXcf" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
-                                  <tr>
+                              <tr>
+                                  <th scope="col">Cliente</th>
+                                  <th scope="col">Ejecutivo</th>
+                                  <th scope="col">Servicio</th>
                                       <th scope="col">Fecha recoleccion</th>
-                                      <th scope="col">cliente</th>
                                       <th scope="col">Unidad</th>
                                       <th scope="col">Placas</th>
                                       <th scope="col">Econ</th>
@@ -256,21 +268,24 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Local o Foranea</th>
                                       <th scope="col">Sello</th>
                                       <th scope="col">Operador</th>
-                                      <th scope="col">Cliente que solicita</th>
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
-                                      <th scope="col">Doc-Fiscal</th>
+                                      <th scope="col">Doc-Fiscal</th>                                      
                                       <th scope="col">Factura</th>
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
                                       <th scope="col">Ver ficha</th>
+                                      <th scope="col">Accion</th>
+                                      <th scope="col">Eliminar</th>
                                   </tr>
                               </thead>
                               <tbody>
                               <?php foreach ($serviciosXcf as $servXcf): ?>
                                 <tr>
+        <td><?php echo $servXcf['cliente']; ?></td>
+        <td><?php echo $servXcf['ejecutivo']; ?></td>
+        <td><?php echo $servXcf['servicio']; ?></td>
           <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
-            <td><?php echo $servXcf['cliente']; ?></td>
             <td><?php echo $servXcf['unidad']; ?></td>
             <td><?php echo $servXcf['Placas']; ?></td>
             <td><?php echo $servXcf['eco']; ?></td>
@@ -279,7 +294,6 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servXcf['local_foranea']; ?></td>
             <td><?php echo $servXcf['sello']; ?></td>
             <td><?php echo $servXcf['Nombre_completo']; ?></td>
-            <td><?php echo $servXcf['ejecutivo']; ?></td>
             <td><?php echo $servXcf['referencia']; ?></td>
             <td><?php echo $servXcf['bultos']; ?></td>
             <td><?php echo $servXcf['doc_fiscal']; ?></td>
@@ -292,6 +306,20 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                 <i class="fas fa-eye fa-lg"></i> <!-- Ajusté fa-lg para hacer el ícono más grande -->
               </button>
             
+            </td>
+            <td class="text-center">
+            <a href="edit-infServicio.php?servicioId=<?php echo $servXcf['id_servicio']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                Editar
+              </button>
+            
+            </td>
+            <td class="text-center">
+                <form method="POST" onsubmit="return eliminarServicio(<?php echo $servXcf['id_servicio']; ?>);">
+                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarServicio(<?php echo $servXcf['id_servicio']; ?>)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
             </td>
         </tr>
         <?php endforeach; ?>
@@ -316,7 +344,37 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
   <script src="../admin/ajax/notifications.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script>
+function eliminarServicio(id_servicio) {
+  
 
+    if (confirm('¿Estás seguro de que deseas eliminar este servicio?')) {
+        fetch('../controllers/Usuario/controllerUsuario.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accion: 'eliminarServicio',
+                id_servicio: id_servicio
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Servicio eliminado con éxito');
+                location.reload(); // Recarga la página para actualizar la lista de facturas
+            } else {
+                alert('Error al eliminar el servicio');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    return false; // Evita la recarga de la página
+}
+</script>
 <script>
   $(document).ready(function() {
       $('#tablaGenerales').DataTable({

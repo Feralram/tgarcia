@@ -96,6 +96,14 @@ if ($id) {
             <span class="nav-link-text ms-1">Lista de facturas</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="./listaCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista Canceladas</span>
+          </a>
+        </li>
         <li class="nav-item mt-4">
           <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -180,6 +188,10 @@ if ($id) {
             <div class="col-md-4 mb-3">
               <label for="portal_nip" class="form-label">Ingresado al portal</label>
               <input type="text" class="form-control form-control-sm" id="portal_nip" name="portal_nip" required>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="comentarios" class="form-label">Comentarios</label>
+              <textarea class="form-control form-control-sm" id="comentarios" name="comentarios" rows="3" required></textarea>
             </div>
             <input type="hidden" name="idservicio" id="idservicio" value="<?php echo htmlspecialchars($id); ?>" required>
           </div>

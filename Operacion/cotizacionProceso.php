@@ -153,10 +153,10 @@ $cotizaciones = $usuario->obtenerCotizaciones();
                                       <th scope="col">Dimension</th>
                                       <th scope="col">Costo unidad</th>
                                       <th scope="col">Gastos adicionales</th>
-                                      <th scope="col">Usuario que Genero</th>
-                                      
+                                      <th scope="col">Usuario que Genero</th>                                      
                                       <th scope="col">Ver</th>
                                       <th scope="col">Editar</th>
+                                      <th scope="col">Eliminar</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -187,6 +187,13 @@ $cotizaciones = $usuario->obtenerCotizaciones();
               </button>
             </a>
             </td>
+            <td class="text-center">
+                <form method="POST" onsubmit="return eliminarCotizacion(<?php echo $cotizacion['id_cotizacion']; ?>);">
+                    <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarCotizacion(<?php echo $cotizacion['id_cotizacion']; ?>)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
+            </td>
         </tr>
         <?php endforeach; ?>
                                   
@@ -209,7 +216,37 @@ $cotizaciones = $usuario->obtenerCotizaciones();
   <script src="../admin/ajax/notifications.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script>
+function eliminarCotizacion(id_cotizacion) {
+  
 
+    if (confirm('¿Estás seguro de que deseas eliminar esta cotización?')) {
+        fetch('../controllers/Usuario/controllerUsuario.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                accion: 'eliminarCotizacion',
+                id_cotizacion: id_cotizacion
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Cotización eliminada con éxito');
+                location.reload(); // Recarga la página para actualizar la lista de facturas
+            } else {
+                alert('Error al eliminar la Cotización');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    return false; // Evita la recarga de la página
+}
+</script>
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

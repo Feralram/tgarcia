@@ -23,7 +23,7 @@ if ($id) {
   if ($resultado && $resultado->num_rows > 0) {
     $servicio = $resultado->fetch_assoc();
   } else {
-    echo "Servicio no encontrada.";
+    echo "Servicio no encontrado.";
     exit;
   }
 } else {

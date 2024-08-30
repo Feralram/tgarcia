@@ -85,6 +85,22 @@ error_reporting(E_ALL);
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white" href="./listaCotCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotizaciónes canceladas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaServCancelados.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Servicios Cancelados</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white active bg-gradient-info" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>

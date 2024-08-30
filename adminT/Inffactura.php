@@ -147,14 +147,29 @@ exit;
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaServicios.php">
+          <a class="nav-link text-white" href="./listaCanceladas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
-            <span class="nav-link-text ms-1">Lista de servicios</span>
+            <span class="nav-link-text ms-1">Facturas canceladas</span>
           </a>
         </li>
-
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaCotCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotizaciónes canceladas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaServCancelados.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Servicios Cancelados</span>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -206,18 +221,22 @@ exit;
       </ul>
     </div>
   </aside>
-<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <div class="container-fluid px-2 px-md-4">
         <!-- End Navbar -->
-        <!-- Factura -->
+        <!-- Factura -->        
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header">                        
+                        <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($id); ?>">
+                        <!-- <button type="button" class="btn bg-gradient-success me-2" onclick="registrar()">
+                            Registrar
+                        </button> -->
                         <div class="container mt-4">
                             <?php $index = 1;
                              foreach ($facturas as $factura): 
-                              $tot += $factura['precio_final'];?>
+                                $tot += $factura['precio_final'];?>
                                 <div class="invoice">
                                     <div class="invoice-header">
                                         <h1>Factura <?php echo htmlspecialchars($index);  ?> - S<?php echo htmlspecialchars($factura['id_servicio']); ?></h1>
@@ -299,10 +318,9 @@ exit;
                                         </button>
                                     </div>
                                 </div>
-
                             <?php 
-                            $index++;
-                             endforeach; ?>
+                        $index++;
+                        endforeach; ?>
                         </div>
                         <div class="invoice-footer">
                             <label for="tot"><b>Total facturas: $<?php echo htmlspecialchars($tot); ?></b></label>
@@ -324,7 +342,7 @@ exit;
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-
+<script src="factura.js"></script>
 <script>
 document.querySelectorAll('.invoice-footer button').forEach(button => {
     button.addEventListener('click', function() {
@@ -341,6 +359,21 @@ document.querySelectorAll('.invoice-footer button').forEach(button => {
         html2pdf().from(element).set(opt).save();
     });
 });
+
+
+// Función para mostrar alerta al guardar
+function mostrarAlerta() {
+      alert('La factura se ha guardado correctamente. Puede visualizarla en el apartado de "Cotizaciones en proceso".');
+    }
+    function registrar() {
+      // Mostrar alerta de confirmación
+      if (confirm("¿Estás seguro de querer registrar? No podrás editar después.")) {
+        // Aquí puedes agregar la lógica para registrar
+        // Por ejemplo, enviar datos al servidor, etc.
+        terminarFactura();
+      }
+      // No hay necesidad de un else aquí, ya que no se hace nada si el usuario cancela
+    }
 
 </script>
 </body>

@@ -124,9 +124,10 @@ if (isset($request)) {
             $documento = $data['documento'];
             $portal_nip = $data['portal_nip'];
             $idservicio = $data['idservicio'];
+            $comentarios = $data['comentarios'];
 
 
-            $resultado  = $usuario->insertarFactura($factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio);
+            $resultado  = $usuario->insertarFactura($factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio,$comentarios);
 
             if ($resultado) {
                 echo json_encode(['success' => true, 'message' => 'Factura insertada con éxito']);
@@ -210,6 +211,34 @@ if (isset($request)) {
                 }
                 break;
 
+                case 'procesarServicio':
+                    $id_servicio = $request['id_servicio'];
+                    $valorRespuesta = $request['valorRespuesta'];
+    
+                    // Llama al modelo para procesar la factura con la respuesta
+                    $resultado = $usuario->procesarServicio($id_servicio, $valorRespuesta);
+    
+                    if ($resultado) {
+                        echo json_encode(['success' => true]);
+                    } else {
+                        echo json_encode(['success' => false]);
+                    }
+                    break;
+
+                    case 'procesarCotizacion':
+                        $id_cotizacion = $request['id_cotizacion'];
+                        $valorRespuesta = $request['valorRespuesta'];
+        
+                        // Llama al modelo para procesar la factura con la respuesta
+                        $resultado = $usuario->procesarCotizacion($id_cotizacion, $valorRespuesta);
+        
+                        if ($resultado) {
+                            echo json_encode(['success' => true]);
+                        } else {
+                            echo json_encode(['success' => false]);
+                        }
+                        break;
+
             case 'terminarFactura':
                 $id = $request['id'];
                 $resultado = $usuario->terminarFactura($id);
@@ -242,6 +271,36 @@ if (isset($request)) {
                 }
             
                 break;
+
+                  case 'eliminarCotizacion':
+                    $id_cotizacion = $request['id_cotizacion'];
+                    // Llamada al método del modelo para eliminar la factura con comentario
+                    $resultado = $usuario->eliminarCotizacion($id_cotizacion);
+                
+                    if ($resultado) {
+                        http_response_code(200);
+                        echo json_encode(['success' => true, 'message' => 'Cotización eliminada con éxito']);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(['success' => false, 'message' => 'Error al eliminar la Cotización']);
+                    }
+                
+                    break;
+                    
+                    case 'eliminarServicio':
+                        $id_servicio = $request['id_servicio'];
+                        // Llamada al método del modelo para eliminar la factura con comentario
+                        $resultado = $usuario->eliminarServicio($id_servicio);
+                    
+                        if ($resultado) {
+                            http_response_code(200);
+                            echo json_encode(['success' => true, 'message' => 'Servicio eliminada con éxito']);
+                        } else {
+                            http_response_code(500);
+                            echo json_encode(['success' => false, 'message' => 'Error al eliminar el servicio']);
+                        }
+                    
+                        break;
             
 
         case 'altaservicio':

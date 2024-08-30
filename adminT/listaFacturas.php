@@ -95,6 +95,22 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white" href="./listaCotCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotizaciónes canceladas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaServCancelados.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Servicios Cancelados</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
@@ -151,7 +167,7 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
       data-scroll="true">
     </nav>
     <div class="container-fluid px-2 px-md-4">
-    <form method="GET" action="listafacturas.php">
+    <form method="GET" action="listaFacturas.php">
         <div class="row mb-3">
             <div class="col-md-4">
                 <label for="fechaInicio" class="form-label">Fecha de Inicio</label>

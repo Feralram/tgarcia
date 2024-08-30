@@ -91,6 +91,22 @@ $facturas = $usuario->obtenerFacturasEliminadas();
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white" href="./listaCotCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotizaciónes canceladas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaServCancelados.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Servicios Cancelados</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
@@ -153,7 +169,7 @@ $facturas = $usuario->obtenerFacturasEliminadas();
             <div class="col">
                 <div class="card">
                 <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Facturas Generales</h6>
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Facturas Eliminadas</h6>
                 </div>
                     <div class="card-header">
                     <div class="card-body">

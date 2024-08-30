@@ -105,6 +105,20 @@ class Usuario extends Connect {
     
         return $stmt->execute();
     }
+
+    public function eliminarCotizacion($id_cotizacion) {
+        $query = "UPDATE cotizaciones SET status = 0 WHERE id_cotizacion = ?";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param('i', $id_cotizacion);
+        return $stmt->execute();
+    }
+
+    public function eliminarServicio($id_servicio) {
+        $query = "UPDATE servicios SET status = 0 WHERE id_servicio = ?";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bind_param('i', $id_servicio);
+        return $stmt->execute();
+    }
     
 
     public function obtenerFacturas() {
@@ -195,7 +209,7 @@ class Usuario extends Connect {
             LEFT  JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
             LEFT  JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
             LEFT  JOIN facturas on servicios.id_servicio = facturas.id_servicio AND facturas.activa = 1
-            WHERE lista != 'Lista Xcf' $fechaCondicion
+            WHERE lista != 'Lista Xcf' AND servicios.status = 1 $fechaCondicion
             GROUP BY servicios.id_servicio
             ORDER BY servicios.id_servicio ASC";
         $resultado = $this->conexion->query($query);
@@ -221,7 +235,7 @@ class Usuario extends Connect {
             INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
             INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
             INNER JOIN facturas on servicios.id_servicio = facturas.id_servicio AND facturas.activa = 1
-            WHERE lista = 'Lista Xcf' $fechaCondicion
+            WHERE lista = 'Lista Xcf' AND servicios.status $fechaCondicion
             GROUP BY servicios.id_servicio
             ORDER BY servicios.id_servicio ASC";
         $resultado = $this->conexion->query($query);
@@ -589,7 +603,7 @@ class Usuario extends Connect {
         $id = $this->conexion->real_escape_string($id);
 
     
-        $query = "UPDATE cotizaciones SET status=0 WHERE id_cotizacion='$id'";
+        $query = "UPDATE cotizaciones SET status=2 WHERE id_cotizacion='$id'";
     
         if ($this->conexion->query($query)) {
             return $id;
@@ -649,12 +663,12 @@ class Usuario extends Connect {
         }
     }
 
-    public function insertarFactura($factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio) {
-        $query = "INSERT INTO facturas (id_especifico, fecha, precio_base, iva, retencion, precio_final, razon_social, contacto_cliente, servicio, referencia, complemento, fecha_pago, observacion, fecha_envio, documento, portal_nippon, id_servicio)
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public function insertarFactura($factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio,$comentarios) {
+        $query = "INSERT INTO facturas (id_especifico, fecha, precio_base, iva, retencion, precio_final, razon_social, contacto_cliente, servicio, referencia, complemento, fecha_pago, observacion, fecha_envio, documento, portal_nippon, id_servicio,comentarios)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
         $statement = $this->conexion->prepare($query);
-        $statement->bind_param('sssssssssssssssss', $factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio);
+        $statement->bind_param('ssssssssssssssssss', $factura, $fecha_fac, $precio_base, $iva, $retencion, $precio_final, $razonSocial, $contact_cliente, $servicio, $referencia, $complemento, $fecha_pag, $observacion, $fecha_envio, $documento, $portal_nip, $idservicio,$comentarios);
     
         if ($statement->execute()) {
             return true;
@@ -703,8 +717,44 @@ class Usuario extends Connect {
         $query = "SELECT fc.*
         FROM facturas fc  
         INNER JOIN servicios sv ON sv.id_servicio = fc.id_servicio
-        WHERE sv.lista != 'Lista Xcf' AND activa = 0
+        WHERE activa = 0
         ORDER BY fc.id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+
+    public function obtenerServiciosEliminados() {
+        $query = "SELECT servicios.*,COALESCE(SUM(facturas.precio_final), 0) AS total_facturas,clientes.cliente,unidades.Placas,unidades.eco,operadores.Nombre_completo
+            FROM servicios  
+            LEFT  JOIN operadores ON servicios.id_operador = operadores.id
+            LEFT  JOIN unidades ON servicios.unidad = unidades.Uni_id
+            LEFT  JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+            LEFT  JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
+            LEFT  JOIN facturas on servicios.id_servicio = facturas.id_servicio AND facturas.activa = 1
+            WHERE lista != 'Lista Xcf' AND servicios.status = 0 
+            GROUP BY servicios.id_servicio
+            ORDER BY servicios.id_servicio ASC";
+        $resultado = $this->conexion->query($query);
+
+        $operadores = array();
+        while ($fila = $resultado->fetch_assoc()) {
+            $operadores[] = $fila;
+        }
+
+        return $operadores;
+    }
+
+    public function obtenerCotizacioensEliminadas() {
+        $query = "SELECT *
+        FROM cotizaciones
+        WHERE status = 0
+        ORDER BY id_cotizacion ASC";
         $resultado = $this->conexion->query($query);
 
         $operadores = array();
@@ -719,6 +769,22 @@ class Usuario extends Connect {
         $sql = "UPDATE facturas SET status = ? WHERE id_factura = ?";
         $stmt = $this->conexion->prepare($sql);
         $stmt->bind_param('ii', $valorRespuesta, $id_factura);
+        return $stmt->execute();
+        
+    }
+
+    public function procesarServicio($id_servicio, $valorRespuesta) {
+        $sql = "UPDATE servicios SET estado = ? WHERE id_servicio = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param('ii', $valorRespuesta, $id_servicio);
+        return $stmt->execute();
+        
+    }
+
+    public function procesarCotizacion($id_cotizacion, $valorRespuesta) {
+        $sql = "UPDATE cotizaciones SET estado = ? WHERE id_cotizacion = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->bind_param('ii', $valorRespuesta, $id_cotizacion);
         return $stmt->execute();
         
     }

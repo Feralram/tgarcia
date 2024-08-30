@@ -94,6 +94,22 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white" href="./listaCotCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Cotizaciónes canceladas</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./listaServCancelados.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Servicios Cancelados</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white" href="./form-adicionales.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
@@ -182,8 +198,10 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                           <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
-                                      <th scope="col">Fecha recoleccion</th>
-                                      <th scope="col">Cliente</th>
+                                  <th scope="col">Cliente</th>
+                                  <th scope="col">Ejecutivo</th>
+                                  <th scope="col">Servicio</th>
+                                      <th scope="col">Fecha recoleccion</th>                                    
                                       <th scope="col">Unidad</th>
                                       <th scope="col">Placas</th>
                                       <th scope="col">Econ</th>
@@ -191,8 +209,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Origen y Destino</th>
                                       <th scope="col">Local o Foranea</th>
                                       <th scope="col">Sello</th>
-                                      <th scope="col">Operador</th>
-                                      <th scope="col">Cliente que solicita</th>
+                                      <th scope="col">Operador</th>                                      
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
                                       <th scope="col">Doc-Fiscal</th>                                      
@@ -207,8 +224,10 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                               <tbody>
                               <?php foreach ($servicios as $servicio): ?>
         <tr>
-            <td><?php echo $servicio['fecha_recoleccion']; ?></td>
-            <td><?php echo $servicio['cliente']; ?></td>
+        <td><?php echo $servicio['cliente']; ?></td>
+        <td><?php echo $servicio['ejecutivo']; ?></td>
+        <td><?php echo $servicio['servicio']; ?></td>
+            <td><?php echo $servicio['fecha_recoleccion']; ?></td>            
             <td><?php echo $servicio['unidad']; ?></td>
             <td><?php echo $servicio['Placas']; ?></td>
             <td><?php echo $servicio['eco']; ?></td>
@@ -216,8 +235,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servicio['oriDestino']; ?></td>
             <td><?php echo $servicio['local_foranea']; ?></td>
             <td><?php echo $servicio['sello']; ?></td>
-            <td><?php echo $servicio['Nombre_completo']; ?></td>
-            <td><?php echo $servicio['ejecutivo']; ?></td>
+            <td><?php echo $servicio['Nombre_completo']; ?></td>            
             <td><?php echo $servicio['referencia']; ?></td>
             <td><?php echo $servicio['bultos']; ?></td>
             <td><?php echo $servicio['doc_fiscal']; ?></td>
@@ -263,9 +281,11 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                       <div class="table-responsive">
                           <table id="tablaXcf" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
-                                  <tr>
-                                      <th scope="col">Fecha recoleccion</th>
-                                      <th scope="col">cliente</th>
+                              <tr>
+                                  <th scope="col">Cliente</th>
+                                  <th scope="col">Ejecutivo</th>
+                                  <th scope="col">Servicio</th>
+                                      <th scope="col">Fecha recoleccion</th>                                    
                                       <th scope="col">Unidad</th>
                                       <th scope="col">Placas</th>
                                       <th scope="col">Econ</th>
@@ -273,24 +293,25 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Origen y Destino</th>
                                       <th scope="col">Local o Foranea</th>
                                       <th scope="col">Sello</th>
-                                      <th scope="col">Operador</th>
-                                      <th scope="col">Cliente que solicita</th>
+                                      <th scope="col">Operador</th>                                      
                                       <th scope="col">Referencia</th>
                                       <th scope="col">Bultos</th>
-                                      <th scope="col">Doc-Fiscal</th>
+                                      <th scope="col">Doc-Fiscal</th>                                      
                                       <th scope="col">Factura</th>
                                       <th scope="col">Costo</th>
                                       <th scope="col">Costo factura</th>
                                       <th scope="col">Observaciones</th>
-                                      <th scope="col">Ver ficha</th>
-                                      <th scope="col">Factura</th>
+                                      <th scope="col">Ver ficha</th>                                      
+                                      <th scope="col">Ver facturas</th>
                                   </tr>
                               </thead>
                               <tbody>
                               <?php foreach ($serviciosXcf as $servXcf): ?>
-        <tr>
-            <td><?php echo $servXcf['fecha_recoleccion']; ?></td>
-            <td><?php echo $servXcf['cliente']; ?></td>
+                                <tr>
+        <td><?php echo $servXcf['cliente']; ?></td>
+        <td><?php echo $servXcf['ejecutivo']; ?></td>
+        <td><?php echo $servXcf['servicio']; ?></td>
+            <td><?php echo $servXcf['fecha_recoleccion']; ?></td>            
             <td><?php echo $servXcf['unidad']; ?></td>
             <td><?php echo $servXcf['Placas']; ?></td>
             <td><?php echo $servXcf['eco']; ?></td>
@@ -298,8 +319,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servXcf['oriDestino']; ?></td>
             <td><?php echo $servXcf['local_foranea']; ?></td>
             <td><?php echo $servXcf['sello']; ?></td>
-            <td><?php echo $servXcf['Nombre_completo']; ?></td>
-            <td><?php echo $servXcf['ejecutivo']; ?></td>
+            <td><?php echo $servXcf['Nombre_completo']; ?></td>            
             <td><?php echo $servXcf['referencia']; ?></td>
             <td><?php echo $servXcf['bultos']; ?></td>
             <td><?php echo $servXcf['doc_fiscal']; ?></td>

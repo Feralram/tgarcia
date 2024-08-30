@@ -5,9 +5,8 @@ include_once('../models/Usuario.php');
 // Crear una instancia del objeto Usuario
 $usuario = new Usuario();
 
-// Obtener las unidades desde el modelo
-$unidades = $usuario->obtenerUnidades();
-$operadores = $usuario->obtenerOperadores();
+
+$servicios = $usuario->obtenerServiciosEliminados();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,12 +58,13 @@ $operadores = $usuario->obtenerOperadores();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link text-white " href="perfil.php">
+            <a class="nav-link text-white" href="perfil.php">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <span class="material-icons opacity-10">badge</span>
               </div>
               <span class="nav-link-text ms-1">Inicio</span>
             </a>
+        </li>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="form-altaCot.php">
@@ -83,7 +83,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaCanceladas.php">
+          <a class="nav-link text-white " href="./listaCanceladas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -99,7 +99,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="./listaServCancelados.php">
+          <a class="nav-link text-white active bg-gradient-info" href="./listaServCancelados.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -131,7 +131,7 @@ $operadores = $usuario->obtenerOperadores();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-info" href="./listaOperadores.php">
+          <a class="nav-link text-white" href="./listaOperadores.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <span class="material-icons opacity-10">folder</span>
             </div>
@@ -161,112 +161,101 @@ $operadores = $usuario->obtenerOperadores();
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
       data-scroll="true">
-      <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Inicio</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Administracion</li>
-          </ol>
-          <h6 class="font-weight-bolder mb-0">Bienvenido</h6>
-        </nav>
-      </div>
     </nav>
     <div class="container-fluid px-2 px-md-4">
       <!-- End Navbar -->
-    <div class="container mt-5">
-      <div class="row">
-          <div class="col">
-              <div class="card">
-              <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3 text-center h5">Lista Operadores</h6>
+       <!--Lista Operadores-->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 class="text-white text-capitalize ps-3 text-center h5">Servicios Eliminados</h6>
                 </div>
-                  <div class="card-body">
+                    <div class="card-header">
+                    <div class="card-body">
                       <div class="table-responsive">
-                      <table id="tablaOperadores" class="table table-bordered table-striped table-hover">
-
-                                <thead class="thead-dark">
-                                    <tr>
-                                      <th scope="col">Num Trab</th>
-                                      <th scope="col">Nombre Completo</th>
-                                      <th scope="col">Nacionalidad</th>
-                                      <th scope="col">Edad</th>
-                                      <th scope="col">Sexo</th>
-                                      <th scope="col">Estado Civil</th>
-                                      <th scope="col">Licencia</th>
-                                      <th scope="col">Vigencia</th>
-                                      <th scope="col">Tipo</th>
-                                      <th scope="col">Celular</th>
-                                      <th scope="col">CURP</th>
-                                      <th scope="col">RFC</th>
-                                      <th scope="col">Domicilio</th>
-                                      <th scope="col">Domicilio de Constancia</th>
-                                      <th scope="col">Delegación</th>
-                                      <th scope="col">CP</th>
-                                      <th scope="col">Tipo de Trabajador</th>
-                                      <th scope="col">Fecha de ingreso</th>
-                                      <th scope="col">Puesto</th>
-                                      <th scope="col">Descripción</th>
-                                      <th scope="col">Lugar de Trabajo</th>
-                                      <th scope="col">Duración de la Jornada</th>
-                                      <th scope="col">Forma de Pago</th>
-                                      <th scope="col">Días de Pago</th>
-                                      <th scope="col">Días de Descanso</th>
-                                      <th scope="col">Beneficiarios</th>
-                                      <th scope="col">NSS</th>
-                                      <th scope="col">Fecha de Nacimiento</th>
-                                      <th scope="col">Activo o inactivo</th>
+                          <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
+                          <thead class="thead-dark">
+                                  <tr>
+                                  <th scope="col">ID</th>
+                                        <th scope="col">Fecha recoleccion</th>
+                                      <th scope="col">Cliente</th>
+                                      <th scope="col">Unidad</th>
+                                      <th scope="col">Placas</th>
+                                      <th scope="col">Econ</th>
+                                      <th scope="col">Unid-Factura</th>
+                                      <th scope="col">Origen y Destino</th>
+                                      <th scope="col">Local o Foranea</th>
+                                      <th scope="col">Sello</th>
+                                      <th scope="col">Operador</th>
+                                      <th scope="col">Cliente que solicita</th>
+                                      <th scope="col">Referencia</th>
+                                      <th scope="col">Bultos</th>
+                                      <th scope="col">Doc-Fiscal</th>                                      
+                                      <th scope="col">Factura</th>
+                                      <th scope="col">Costo</th>
+                                      <th scope="col">Costo factura</th>
+                                      <th scope="col">Observaciones</th>
+                                      <th scope="col">Estado</th>
+                                      <th scope="col">Acción</th>
                                   </tr>
                               </thead>
+                              </thead>
                               <tbody>
-                              <?php foreach ($operadores as $operador): ?>
+                              <?php foreach ($servicios as $servicio): ?>
         <tr>
-            <td><?php echo $operador['Id']; ?></td>
-            <td><?php echo $operador['Nombre_completo']; ?></td>
-            <td><?php echo $operador['Nacionalidad']; ?></td>
-            <td><?php echo $operador['Edad']; ?></td>
-            <td><?php echo $operador['Sexo']; ?></td>
-            <td><?php echo $operador['EstadoCivil']; ?></td>
-            <td><?php echo $operador['Licencia']; ?></td>
-            <td><?php echo $operador['Vigencia']; ?></td>
-            <td><?php echo $operador['Tipo']; ?></td>
-            <td><?php echo $operador['Celular']; ?></td>
-            <td><?php echo $operador['Curp']; ?></td>
-            <td><?php echo $operador['Rfc']; ?></td>
-            <td><?php echo $operador['Domicilio_actual']; ?></td>
-            <td><?php echo $operador['Domicilio_constancia']; ?></td>
-            <td><?php echo $operador['Delegacion']; ?></td>
-            <td><?php echo $operador['CP']; ?></td>
-            <td><?php echo $operador['TipoTrabajador']; ?></td>
-            <td><?php echo $operador['Fecha_ingreso']; ?></td>
-            <td><?php echo $operador['Puesto']; ?></td>
-            <td><?php echo $operador['Descripcion']; ?></td>
-            <td><?php echo $operador['LugardeTrabajo']; ?></td>
-            <td><?php echo $operador['DuraciondelaJornada']; ?></td>
-            <td><?php echo $operador['Forma_pago']; ?></td>
-            <td><?php echo $operador['DiasPago']; ?></td>
-            <td><?php echo $operador['DiasDescanso']; ?></td>
-            <td><?php echo $operador['Beneficiarios']; ?></td>
-            <td><?php echo $operador['NSS']; ?></td>
-            <td><?php echo $operador['FechaNacimiento']; ?></td>
-            <td><?php echo $operador['Eactivo']; ?></td>
+        <td><?php echo $servicio['id_servicio']; ?></td>
+        <td><?php echo $servicio['fecha_recoleccion']; ?></td>
+            <td><?php echo $servicio['cliente']; ?></td>
+            <td><?php echo $servicio['unidad']; ?></td>
+            <td><?php echo $servicio['Placas']; ?></td>
+            <td><?php echo $servicio['eco']; ?></td>
+            <td><?php echo $servicio['unid_factura']; ?></td>
+            <td><?php echo $servicio['oriDestino']; ?></td>
+            <td><?php echo $servicio['local_foranea']; ?></td>
+            <td><?php echo $servicio['sello']; ?></td>
+            <td><?php echo $servicio['Nombre_completo']; ?></td>
+            <td><?php echo $servicio['ejecutivo']; ?></td>
+            <td><?php echo $servicio['referencia']; ?></td>
+            <td><?php echo $servicio['bultos']; ?></td>
+            <td><?php echo $servicio['doc_fiscal']; ?></td>
+            <td><?php echo $servicio['factura']; ?></td>
+            <td><?php echo $servicio['costo']; ?></td>
+            <td><?php echo $servicio['total_facturas']; ?></td>
+            <td><?php echo $servicio['observaciones']; ?></td>
+            <td>
+              <?php 
+                // Controlar el estado según el valor de 'status'
+                if (is_null($servicio['estado'])): ?>
+                    <span style="color: orange;">Pendiente</span>
+                <?php elseif ($servicio['estado'] == 1): ?>
+                    <span style="color: green;">Aceptada</span>
+                <?php elseif ($servicio['estado'] == 0): ?>
+                    <span style="color: red;">Cancelada</span>
+                <?php endif; 
+              ?>
+                </td>
+                <td>
+                    <!-- Verificar si $servicio['estado'] es nulo -->
+                    <?php if (is_null($servicio['estado'])): ?>
+                      <button type="button" class="btn btn-primary" onclick="procesarServicio(<?php echo $servicio['id_servicio']; ?>)">
+                          Procesar
+                      </button>
+                    <?php endif; ?>
+                </td>
+
         </tr>
         <?php endforeach; ?>
                               </tbody>
                           </table>
                       </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-    </div>
-    </div>
-    <div id="notifications" class="alert container text-white fade show" role="alert"><strong></strong></div>
-    <footer class="footer py-4  ">
-      <div class="container-fluid">
-      </div>
-    </footer>
-  </main>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ </main>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
@@ -277,22 +266,9 @@ $operadores = $usuario->obtenerOperadores();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
-
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  
 <script>
   $(document).ready(function() {
-      $('#tablaUnidades').DataTable({
+      $('#tablaGenerales').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -321,39 +297,80 @@ $operadores = $usuario->obtenerOperadores();
   });
 </script>
 <script>
-$(document).ready(function() {
-    $('#tablaOperadores').DataTable({
-        "language": {
-            "sProcessing":     "Procesando...",
-            "sLengthMenu":     "Mostrar _MENU_ registros",
-            "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "Ningún dato disponible en esta tabla",
-            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":    "",
-            "sSearch":         "Buscar:",
-            "sUrl":            "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Último",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        }
-    });
-});
+  $(document).ready(function() {
+      $('#tablaXcf').DataTable({
+          "language": {
+              "sProcessing":     "Procesando...",
+              "sLengthMenu":     "Mostrar _MENU_ registros",
+              "sZeroRecords":    "No se encontraron resultados",
+              "sEmptyTable":     "Ningún dato disponible en esta tabla",
+              "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+              "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+              "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+              "sInfoPostFix":    "",
+              "sSearch":         "Buscar:",
+              "sUrl":            "",
+              "sInfoThousands":  ",",
+              "sLoadingRecords": "Cargando...",
+              "oPaginate": {
+                  "sFirst":    "Primero",
+                  "sLast":     "Último",
+                  "sNext":     "Siguiente",
+                  "sPrevious": "Anterior"
+              },
+              "oAria": {
+                  "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+              }
+          }
+      });
+  });
 </script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+  <script>
+function procesarServicio(id_servicio) {
+    // Pregunta si desea aceptar o cancelar
+    var decision = confirm('¿Desea cancelar o aceptar?');
+    
+    // Si el usuario cancela, se guarda 0; si acepta, se guarda 1
+    var valorRespuesta = decision ? 1 : 0;
 
+    fetch('../controllers/Usuario/controllerUsuario.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            accion: 'procesarServicio',
+            id_servicio: id_servicio,
+            valorRespuesta: valorRespuesta
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Servicio procesado con éxito');
+            location.reload(); // Recarga la página para actualizar la lista de facturas
+        } else {
+            alert('Error al procesar el servicio');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
-
-
+</script>
 
 </body>
 

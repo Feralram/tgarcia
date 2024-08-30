@@ -146,6 +146,14 @@ exit;
             <span class="nav-link-text ms-1">Lista de facturas</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="./listaCanceladas.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons opacity-10">folder</span>
+            </div>
+            <span class="nav-link-text ms-1">Lista Canceladas</span>
+          </a>
+        </li>
         <li class="nav-item mt-4">
           <a class="nav-link text-white " href="../controllers/Usuario/controllerUsuario.php?accion=cerrarSesion">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -166,9 +174,9 @@ exit;
                 <div class="card">
                     <div class="card-header">                        
                         <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($id); ?>">
-                        <button type="button" class="btn bg-gradient-success me-2" onclick="registrar()">
+                        <!-- <button type="button" class="btn bg-gradient-success me-2" onclick="registrar()">
                             Registrar
-                        </button>
+                        </button> -->
                         <div class="container mt-4">
                             <?php $index = 1;
                              foreach ($facturas as $factura): 
