@@ -86,6 +86,7 @@ class Usuario extends Connect {
     public function obtenerCotizaciones() {
         $query = "SELECT *
         FROM cotizaciones
+        INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
         WHERE status = 1
         ORDER BY id_cotizacion ASC";
         $resultado = $this->conexion->query($query);
