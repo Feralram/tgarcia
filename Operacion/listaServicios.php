@@ -167,6 +167,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                           <table id="tablaGenerales" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                                   <tr>
+                                  <th scope="col">ID</th>
                                   <th scope="col">Cliente</th>
                                   <th scope="col">Ejecutivo</th>
                                   <th scope="col">Servicio</th>
@@ -193,6 +194,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                               <tbody>
                               <?php foreach ($servicios as $servicio): ?>
         <tr>
+        <td><?php echo $servicio['id_especifico']; ?></td>
         <td><?php echo $servicio['cliente']; ?></td>
         <td><?php echo $servicio['ejecutivo']; ?></td>
         <td><?php echo $servicio['servicio']; ?></td>
@@ -256,6 +258,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                           <table id="tablaXcf" class="table table-bordered table-striped table-hover">
                               <thead class="thead-dark">
                               <tr>
+                              <th scope="col">ID</th>
                                   <th scope="col">Cliente</th>
                                   <th scope="col">Ejecutivo</th>
                                   <th scope="col">Servicio</th>
@@ -282,6 +285,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                               <tbody>
                               <?php foreach ($serviciosXcf as $servXcf): ?>
                                 <tr>
+                                <td><?php echo $servXcf['id_especifico']; ?></td>
         <td><?php echo $servXcf['cliente']; ?></td>
         <td><?php echo $servXcf['ejecutivo']; ?></td>
         <td><?php echo $servXcf['servicio']; ?></td>
@@ -407,7 +411,7 @@ function eliminarServicio(id_servicio) {
 </script>
 <script>
   $(document).ready(function() {
-      $('#servXcf').DataTable({
+      $('#tablaXcf').DataTable({
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

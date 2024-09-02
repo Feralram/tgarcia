@@ -466,7 +466,7 @@ class Usuario extends Connect {
     }
 
     public function contarCotizaciones() {
-        $query = "SELECT COUNT(*) as total FROM cotizaciones";
+        $query = "SELECT MAX(id_cotizacion) as total FROM cotizaciones";
         $resultado = $this->conexion->query($query);
 
         if ($resultado) {
@@ -483,7 +483,7 @@ class Usuario extends Connect {
         }
     }
     public function contarServicios() {
-        $query = "SELECT COUNT(*) as total FROM servicios";
+        $query = "SELECT MAX(id_servicio) as total FROM servicios";
         $resultado = $this->conexion->query($query);
 
         if ($resultado) {

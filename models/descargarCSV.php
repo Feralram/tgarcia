@@ -34,18 +34,19 @@ fputs($salida, "\xEF\xBB\xBF");
 // Escribir encabezado y datos para Servicios Generales
 fputcsv($salida, ['Servicios Generales']);
 $encabezadosGenerales = [
-    'Cliente', 'Fecha recoleccion', 'Servicio', 'Unidad', 'Placas', 'Econ', 
+    'ID','Cliente', 'Ejecutivo', 'Servicio', 'Fecha recoleccion', 'Unidad', 'Placas', 'Econ', 
     'Unid-Factura', 'Origen y Destino', 'Local o Foranea', 'Sello', 'Operador', 
-    'Ejecutivo', 'Referencia', 'Bultos', 'Doc-Fiscal', 'Factura', 'Costo', 
-    'Observaciones'
+    'Referencia', 'Bultos', 'Doc-Fiscal', 'Factura', 'Costo', 'Observaciones'
 ];
 fputcsv($salida, $encabezadosGenerales);
 
 foreach ($servicios as $servicio) {
     fputcsv($salida, [
+        $servicio['id_especifico'],
         $servicio['cliente'], 
-        $servicio['fecha_recoleccion'], 
+        $servicio['ejecutivo'], 
         $servicio['servicio'], 
+        $servicio['fecha_recoleccion'],         
         $servicio['unidad'], 
         $servicio['Placas'], 
         $servicio['eco'], 
@@ -53,8 +54,7 @@ foreach ($servicios as $servicio) {
         $servicio['oriDestino'], 
         $servicio['local_foranea'], 
         $servicio['sello'], 
-        $servicio['Nombre_completo'], 
-        $servicio['ejecutivo'], 
+        $servicio['Nombre_completo'],         
         $servicio['referencia'], 
         $servicio['bultos'], 
         $servicio['doc_fiscal'], 
@@ -70,27 +70,27 @@ fputcsv($salida, []);
 // Escribir encabezado y datos para Servicios Xcf
 fputcsv($salida, ['Servicios Xcf']);
 $encabezadosXcf = [
-    'Cliente', 'Fecha recoleccion', 'Cliente', 'Unidad', 'Placas', 'Econ', 
+    'ID','Cliente', 'Ejecutivo', 'Servicio', 'Fecha recoleccion', 'Unidad', 'Placas', 'Econ', 
     'Unid-Factura', 'Origen y Destino', 'Local o Foranea', 'Sello', 'Operador', 
-    'Cliente que solicita', 'Referencia', 'Bultos', 'Doc-Fiscal', 'Factura', 
-    'Costo', 'Observaciones'
+    'Referencia', 'Bultos', 'Doc-Fiscal', 'Factura', 'Costo', 'Observaciones'
 ];
 fputcsv($salida, $encabezadosXcf);
 
 foreach ($serviciosXcf as $servXcf) {
     fputcsv($salida, [
+        $servXcf['id_especifico'],
         $servXcf['cliente'], 
-        $servXcf['fecha_recoleccion'], 
-        $servXcf['cliente'], 
+        $servXcf['ejecutivo'], 
+        $servXcf['servicio'], 
+        $servXcf['fecha_recoleccion'],         
         $servXcf['unidad'], 
-        $servXcf['placas'], 
+        $servXcf['Placas'], 
         $servXcf['eco'], 
         $servXcf['unid_factura'], 
         $servXcf['oriDestino'], 
         $servXcf['local_foranea'], 
         $servXcf['sello'], 
-        $servXcf['Nombre_completo'], 
-        $servXcf['cliente_solicita'], 
+        $servXcf['Nombre_completo'],         
         $servXcf['referencia'], 
         $servXcf['bultos'], 
         $servXcf['doc_fiscal'], 

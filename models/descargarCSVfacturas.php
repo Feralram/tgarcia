@@ -36,7 +36,7 @@ fputcsv($salida, ['Facturas Generales']);
 $encabezadosGenerales = [
     'Factura', 'Fecha', 'Precio Base', 'Iva', 'Retención', 'Precio final', 
     'Razón social', 'Ejecutivo', 'Servicio', 'Referencia', 'Complemento', 
-    'Fecha de pago', 'Observación', 'Fecha de envio', 'Documento', 'Portal Nippon'
+    'Fecha de pago', 'Observación', 'Fecha de envio', 'Documento', 'Portal Nippon', 'Comentarios'
 ];
 fputcsv($salida, $encabezadosGenerales);
 
@@ -57,7 +57,8 @@ foreach ($facturas as $factura) {
         $factura['observacion'], 
         $factura['fecha_envio'], 
         $factura['documento'], 
-        $factura['portal_nippon']
+        $factura['portal_nippon'],
+        $factura['comentarios']
     ]);
 }
 
@@ -69,7 +70,7 @@ fputcsv($salida, ['Facturas Xcf']);
 $encabezadosXcf = [
     'Factura', 'Fecha', 'Precio Base', 'Iva', 'Retención', 'Precio final', 
     'Razón social', 'Ejecutivo', 'Servicio', 'Referencia', 'Complemento', 
-    'Fecha de pago', 'Observación', 'Fecha de envio', 'Documento', 'Portal Nippon'
+    'Fecha de pago', 'Observación', 'Fecha de envio', 'Documento', 'Portal Nippon', 'Comentarios'
 ];
 fputcsv($salida, $encabezadosXcf);
 
@@ -90,7 +91,8 @@ foreach ($facturasXcf as $facturaXcf) {
         $facturaXcf['observacion'], 
         $facturaXcf['fecha_envio'], 
         $facturaXcf['documento'], 
-        $facturaXcf['portal_nippon']
+        $facturaXcf['portal_nippon'],
+        $facturaXcf['comentarios']
     ]);
 }
 
