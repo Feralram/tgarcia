@@ -193,6 +193,11 @@ if ($result->num_rows > 0) {
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <div class="col-md-4 mb-3">
+                    <label for="fecha_ingreso" class="form-label">Fecha de ingreso: </label>
+                    <input type="date" class="form-control form-control-sm" id="fecha_ingreso" name="fecha_ingreso" value="<?php echo $servicio['fecha_ingreso']; ?>" required>
+                </div>
+                
                   <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($id); ?>">
                   <!-- Añade este botón donde desees -->
                 </div>

@@ -156,8 +156,9 @@ if (isset($request)) {
         case 'updateServicio':
             $unidad = $request['unidad'];
             $operador = $request['operador'];
+            $fecha_ingreso = $request['fecha_ingreso'];
             $id = $request['id'];            
-            $resultado = $usuario->updateServicio($id, $unidad,$operador);
+            $resultado = $usuario->updateServicio($id, $unidad,$operador,$fecha_ingreso);
 
             if ($resultado['success']) {
                 http_response_code(200);
@@ -326,6 +327,7 @@ if (isset($request)) {
                 'candados' => $datosServi['candados'],
                 'fecha_ingreso' => $datosServi['fecha_ingreso'],
                 'observaciones' => $datosServi['observaciones'],
+                'placa_caja' => $datosServi['placa_caja'],
                 'idcoti' => $datosServi['idcoti'],
             ];
 

@@ -21,7 +21,8 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
     const factura = document.getElementById('factura').value;
     const candados = document.getElementById('candados').value;
     const fecha_ingreso = document.getElementById('fecha_ingreso').value;
-    const observaciones = document.getElementById('observaciones').value;
+    const observaciones = document.getElementById('observaciones').value; 
+    const placa_caja = document.getElementById('placa_caja').value; 
     const idcoti = document.getElementById('idcoti').value;
 
     // Construir el objeto JSON a enviar
@@ -47,6 +48,7 @@ document.getElementById('servicioForm').addEventListener('submit', function(even
             candados: candados,      
             fecha_ingreso: fecha_ingreso,      
             observaciones: observaciones,
+            placa_caja: placa_caja,
             idcoti: idcoti
         }
     };

@@ -246,7 +246,7 @@ if ($id) {
                         </tr>
                         <tr>
                           <td>CAAT:</td>
-                          <td>12DT</td>
+                          <td>3GOD</td>
                         </tr>
                         <tr>
                           <td>RFC:</td>

@@ -2,6 +2,7 @@ function updateServicio (){
     // Obtener los valores del formulario
     const unidad = document.getElementById('unidad').value;
     const operador = document.getElementById('operador').value;
+    const fecha_ingreso = document.getElementById('fecha_ingreso').value;
     const id = document.getElementById('id').value;
 
 
@@ -10,6 +11,7 @@ function updateServicio (){
         accion: 'updateServicio',
         unidad: unidad,
         operador: operador,
+        fecha_ingreso: fecha_ingreso,
         id: id
     };
 

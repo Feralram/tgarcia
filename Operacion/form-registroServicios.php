@@ -260,9 +260,14 @@ if ($id) {
               <input type="date" class="form-control form-control-sm" id="fecha_ingreso" name="fecha_ingreso" required>
             </div>
             <div class="col-md-4 mb-3">
+              <label for="placa_caja" class="form-label">Placa Caja</label>
+              <input type="text" class="form-control form-control-sm" id="placa_caja" name="placa_caja" required>
+            </div>
+            <div class="col-md-4 mb-3">
               <label for="observaciones" class="form-label">Observaciones</label>
               <textarea class="form-control form-control-sm" id="observaciones" name="observaciones" rows="3" required></textarea>
             </div>
+            
             <input type="hidden" name="idcoti" id="idcoti" value="<?php echo htmlspecialchars($id); ?>" required>
           </div>
           <button type="submit" class="btn btn-danger btn-sm w-100">Registrar</button>
