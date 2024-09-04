@@ -231,12 +231,12 @@ class Usuario extends Connect {
     
         $query = "SELECT servicios.*,COALESCE(SUM(facturas.precio_final), 0) AS total_facturas,clientes.cliente,unidades.Placas,unidades.eco,operadores.Nombre_completo
             FROM servicios  
-            INNER JOIN operadores ON servicios.id_operador = operadores.id
-            INNER JOIN unidades ON servicios.unidad = unidades.Uni_id
-            INNER JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
-            INNER JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
-            INNER JOIN facturas on servicios.id_servicio = facturas.id_servicio AND facturas.activa = 1
-            WHERE lista = 'Lista Xcf' AND servicios.status $fechaCondicion
+            LEFT JOIN operadores ON servicios.id_operador = operadores.id
+            LEFT JOIN unidades ON servicios.unidad = unidades.Uni_id
+            LEFT JOIN cotizaciones ON servicios.id_cotizacion = cotizaciones.id_cotizacion
+            LEFT JOIN clientes ON cotizaciones.cliente = clientes.id_cliente
+            LEFT JOIN facturas on servicios.id_servicio = facturas.id_servicio AND facturas.activa = 1
+            WHERE lista = 'Lista Xcf' AND servicios.status = 1 $fechaCondicion
             GROUP BY servicios.id_servicio
             ORDER BY servicios.id_servicio ASC";
         $resultado = $this->conexion->query($query);
