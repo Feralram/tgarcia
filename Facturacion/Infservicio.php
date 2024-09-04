@@ -9,7 +9,7 @@ $id = $_GET['servicioId'] ?? null;
 if ($id) {
   $stmt = $usuario->conexion->prepare(
   "SELECT servicios.servicio,servicios.id_especifico, servicios.ejecutivo, servicios.operador, servicios.num_candados,
-  servicios.oriDestino, cotizaciones.dimension, operadores.rfc, operadores.celular
+  servicios.oriDestino, servicios.placa_caja, cotizaciones.dimension, operadores.rfc, operadores.celular
   , unidades.placas, unidades.modelo, unidades.unidad, unidades.eco
   FROM servicios  
   INNER JOIN operadores ON servicios.id_operador = operadores.id
@@ -178,6 +178,10 @@ if ($id) {
                           <td>Placas:</td>
                           <td><?php echo htmlspecialchars($servicio['placas']); ?></td>
                         </tr>
+                        <tr>
+                          <td>Placas:</td>
+                          <td><?php echo htmlspecialchars($servicio['placa_caja']); ?></td>
+                        </tr> 
                         <tr>
                           <td>Coordinador:</td>
                           <td>Palestina Cordova Juan Carlos</td>
