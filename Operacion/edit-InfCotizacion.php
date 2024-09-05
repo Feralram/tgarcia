@@ -158,7 +158,7 @@ $total = ($cotizacion['precio'] + $cotizacion['km_adicionales']);
                   <p><strong>Costo final:</strong> <input type="number" name="total" id="total"
                       value="<?php echo htmlspecialchars($total); ?>"></p>
                   <p><strong>Comentarios:</strong></p>
-                  <textarea name="comentarios" id="comentarios"></textarea>
+                  <textarea name="comentarios" id="comentarios" rows="5" cols="80"><?php echo htmlspecialchars($cotizacion['comentarios']); ?></textarea>
                   <input type="hidden" name="precio" id="precio" value="<?php echo htmlspecialchars($cotizacion['precio']); ?>">
                   <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($cotizacion['id_cotizacion']); ?>">
                   <!-- Añade este botón donde desees -->

@@ -193,6 +193,7 @@ $facturas = $usuario->obtenerFacturasEliminadas();
                                       <th scope="col">Fecha de envio</th>                                      
                                       <th scope="col">Documento</th>
                                       <th scope="col">Portal Nippon</th>
+                                      <th scope="col">Motivo de cancelación</th>
                                       <th scope="col">Estado</th>
                                       <th scope="col">Accion</th>
                                   </tr>
@@ -217,6 +218,7 @@ $facturas = $usuario->obtenerFacturasEliminadas();
             <td><?php echo $factura['fecha_envio']; ?></td>
             <td><?php echo $factura['documento']; ?></td>
             <td><?php echo $factura['portal_nippon']; ?></td>
+            <td><?php echo $factura['comentario_eliminacion']; ?></td>
             <td>
               <?php 
                 // Controlar el estado según el valor de 'status'

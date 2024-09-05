@@ -203,7 +203,8 @@ class Usuario extends Connect {
         }
         
     
-        $query = "SELECT servicios.*,COALESCE(SUM(facturas.precio_final), 0) AS total_facturas,clientes.cliente,unidades.Placas,unidades.eco,operadores.Nombre_completo
+        $query = "SELECT servicios.*,COALESCE(SUM(facturas.precio_final), 0) AS total_facturas,clientes.cliente,unidades.Placas,unidades.eco,operadores.Nombre_completo,
+        cotizaciones.comentarios
             FROM servicios  
             LEFT  JOIN operadores ON servicios.id_operador = operadores.id
             LEFT  JOIN unidades ON servicios.unidad = unidades.Uni_id

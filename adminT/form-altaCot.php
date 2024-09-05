@@ -176,7 +176,7 @@ if ($result->num_rows > 0) {
           <div class="col-md-4 mb-3">
               <label for="cliente" class="form-label">Cliente</label>
               <select id="cliente" name="cliente" class="form-select form-select-sm" required>
-                <option selected>Elige...</option>
+                <option value="" selected>Elige...</option>
                 <?php foreach ($clientes as $cliente): ?>
                     <option value="<?php echo htmlspecialchars($cliente['id_cliente']); ?>">
                         <?php echo htmlspecialchars($cliente['cliente']); ?>
@@ -186,8 +186,8 @@ if ($result->num_rows > 0) {
             </div>
             <div class="col-md-4 mb-3">
               <label for="tarifario" class="form-label">Tarifario</label>
-              <select id="tarifario" name="tarifario" class="form-select form-select-sm">
-                <option selected>Selecciona...</option>
+              <select id="tarifario" name="tarifario" class="form-select form-select-sm" required>
+                <option value="" selected>Selecciona...</option>
                 <option value="1">Tarifario General</option>
                 <option value="2">Tarifario Comunes</option>
                 <option value="3">Tarifario Comunes Refrigerados</option>
@@ -196,45 +196,42 @@ if ($result->num_rows > 0) {
             </div>
             <div class="col-md-4 mb-3">
               <label for="origen" class="form-label">Origen Y Destino</label>
-              <select id="origen" name="origen" class="form-select form-select-sm">
-              <option selected>Selecciona...</option>
+              <select id="origen" name="origen" class="form-select form-select-sm" required>
+              <option value="" selected>Selecciona...</option>
                 <!-- Este select se llenará dinámicamente según la selección en tarifario -->
               </select>
               <input type="hidden" name="texto_origen" id="texto_origen">
             </div>
             <div class="col-md-4 mb-3">
               <label for="codigo_postal" class="form-label">Código Postal</label>
-              <input type="text" class="form-control form-control-sm" name="codigo_postal" id="codigo_postal">
+              <input type="text" class="form-control form-control-sm" name="codigo_postal" id="codigo_postal" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="peso" class="form-label">Peso</label>
-              <input type="text" class="form-control form-control-sm" name="peso" id="peso">
+              <input type="text" class="form-control form-control-sm" name="peso" id="peso" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="dimension" class="form-label">Dimensión</label>
-              <select id="dimension" name="dimension" class="form-select form-select-sm">
-                <option selected>Selecciona...</option>
-                <option>Opcion 1</option>
-                <option>Opcion 2</option>
-                <option>Opcion 3</option>
+              <select id="dimension" name="dimension" class="form-select form-select-sm" required>
+                <option value="" selected>Selecciona...</option>
               </select>
               <input type="hidden" name="texto_dimension" id="texto_dimension">
             </div>
             <div class="col-md-4 mb-3">
             <label for="precio" class="form-label">Precio</label>
-            <input type="text" id="precio" name="precio" class="form-control" readonly step="any">
+            <input type="text" id="precio" name="precio" class="form-control" readonly step="any" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="num_bultos" class="form-label">Número de Bultos</label>
-              <input type="text" class="form-control form-control-sm" name="num_bultos" id="num_bultos">
+              <input type="text" class="form-control form-control-sm" name="num_bultos" id="num_bultos" required>
             </div>
             <div class="col-md-4 mb-3">
               <label for="km_adicionales" class="form-label">Gastos adicionales:</label>
-              <input type="text" class="form-control form-control-sm" name="km_adicionales" id="km_adicionales">
+              <input type="text" class="form-control form-control-sm" name="km_adicionales" id="km_adicionales" required>
             </div>
             <div class="col-md-4 mb-3">
             <p><strong>Comentarios:</strong></p>
-            <textarea name="comentarios" id="comentarios" rows="5" cols="80"></textarea>
+            <textarea name="comentarios" id="comentarios" rows="5" cols="80" required></textarea>
             </div>
           </div>
           <button type="submit" class="btn btn-danger btn-sm w-100 bg-gradient-info">Generar cotización</button>

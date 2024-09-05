@@ -179,7 +179,7 @@ if ($id) {
                           <td><?php echo htmlspecialchars($servicio['placas']); ?></td>
                         </tr>
                         <tr>
-                          <td>Placas:</td>
+                          <td>Placa caja:</td>
                           <td><?php echo htmlspecialchars($servicio['placa_caja']); ?></td>
                         </tr> 
                         <tr>

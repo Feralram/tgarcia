@@ -186,7 +186,7 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
                                       <th scope="col">Factura</th>
                                       <th scope="col">Costo</th>
                                       <th scope="col">Observaciones</th>
-                                      <th scope="col">Ver ficha</th>
+                                      <th scope="col">Ver ficha</th>                                      
                                       <th scope="col">Accion</th>
                                       <th scope="col">Eliminar</th>
                                   </tr>
@@ -212,7 +212,11 @@ $serviciosXcf = $usuario->obtenerServiciosXcf($fechaInicio, $fechaFin);
             <td><?php echo $servicio['doc_fiscal']; ?></td>
             <td><?php echo $servicio['factura']; ?></td>
             <td><?php echo $servicio['costo']; ?></td>
-            <td><?php echo $servicio['observaciones']; ?></td>
+            <td> 
+    <?php echo nl2br(htmlspecialchars($servicio['comentarios'])); ?>
+    <br>
+    <?php echo nl2br(htmlspecialchars($servicio['observaciones'])); ?>
+</td>       
             <td class="text-center">
             <a href="Infservicio.php?servicioId=<?php echo $servicio['id_servicio']; ?>">
               <button type="button" class="btn btn-success btn-icon btn-transparent">

@@ -237,13 +237,15 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
                                       <th scope="col">Fecha de envio</th>                                      
                                       <th scope="col">Documento</th>
                                       <th scope="col">Ingresado al portal</th>
+                                      <th scope="col">Comentarios</th>
                                       <th scope="col">Eliminar</th>
+                                      <th scope="col">Editar</th>
                                   </tr>
                               </thead>
                               <tbody> 
                               <?php foreach ($facturasOtros as $factotros): ?>
         <tr>
-            <td><?php echo $factotros['id_especifico']; ?></td>
+        <td><?php echo $factotros['id_especifico']; ?></td>
             <td><?php echo $factotros['fecha']; ?></td>
             <td><?php echo $factotros['precio_base']; ?></td>
             <td><?php echo $factotros['iva']; ?></td>
@@ -259,12 +261,20 @@ $facturasOtros = $usuario->obtenerFacturasOtrofiltros($fechaInicio, $fechaFin);
             <td><?php echo $factotros['fecha_envio']; ?></td>
             <td><?php echo $factotros['documento']; ?></td>
             <td><?php echo $factotros['portal_nippon']; ?></td>
+            <td><?php echo $factotros['comentarios']; ?></td>
             <td class="text-center">
                 <form method="POST" onsubmit="return eliminarFactura(<?php echo $factotros['id_factura']; ?>);">
                     <button type="button" class="btn btn-danger btn-icon btn-transparent" onclick="eliminarFactura(<?php echo $factotros['id_factura']; ?>)">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </form>
+            </td>
+            <td class="text-center">
+            <a href="edit-infFactura.php?facturaId=<?php echo $factotros['id_factura']; ?>">
+              <button type="button" class="btn btn-success btn-icon btn-transparent">
+                Editar
+              </button>
+            
             </td>
         </tr>
         <?php endforeach; ?>
