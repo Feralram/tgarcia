@@ -242,7 +242,7 @@ if ($id) {
                         </tr>
                         <tr>
                           <td>Coordinador:</td>
-                          <td>Palestina Cordova Juan Carlos</td>
+                          <td>Jorge Rosas</td>
                         </tr>
                         <tr>
                           <td>Tel:</td>
