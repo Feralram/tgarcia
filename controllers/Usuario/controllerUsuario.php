@@ -171,8 +171,9 @@ if (isset($request)) {
             case 'updateFactura':
                 $complemento = $request['complemento'];
                 $fecha_pago = $request['fecha_pago'];
+                $referencia = $request['referencia'];
                 $id = $request['id'];            
-                $resultado = $usuario->updateFactura($id, $complemento,$fecha_pago);
+                $resultado = $usuario->updateFactura($id, $complemento,$fecha_pago,$referencia);
     
                 if ($resultado['success']) {
                     http_response_code(200);

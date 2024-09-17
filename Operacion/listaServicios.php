@@ -386,6 +386,7 @@ function eliminarServicio(id_servicio) {
 <script>
   $(document).ready(function() {
       $('#tablaGenerales').DataTable({
+          "ordering": false, // Desactiva la ordenación
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -413,9 +414,11 @@ function eliminarServicio(id_servicio) {
       });
   });
 </script>
+
 <script>
   $(document).ready(function() {
       $('#tablaXcf').DataTable({
+          "ordering": false, // Desactiva la ordenación
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

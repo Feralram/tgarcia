@@ -143,6 +143,13 @@ if ($id) {
                 </p>
                 </div>
                 <div class="col-md-4 mb-3">
+                <p><strong>Referencia:</strong> 
+                    <div class="col-md-4 mb-3">                
+                        <input type="text"  id="referencia" name="referencia" value="<?php echo $factura['referencia']; ?>" required>
+                    </div>
+                </p>
+                </div>
+                <div class="col-md-4 mb-3">
                 <p><strong>Fecha de pago:</strong> 
                     <div class="col-md-4 mb-3">                
                         

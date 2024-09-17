@@ -262,6 +262,7 @@ function eliminarCotizacion(id_cotizacion) {
   <script>
   $(document).ready(function() {
       $('#tablaCotizaciones').DataTable({
+          "ordering": false, // Desactiva la ordenación
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

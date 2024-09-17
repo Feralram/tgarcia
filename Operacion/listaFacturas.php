@@ -273,6 +273,7 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
 <script>
   $(document).ready(function() {
       $('#tablaGenerales').DataTable({
+          "ordering": false, // Desactiva la ordenación
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -303,6 +304,7 @@ $facturasOtros = $usuario->obtenerFacturasOtro();
 <script>
   $(document).ready(function() {
       $('#tablaXcf').DataTable({
+          "ordering": false, // Desactiva la ordenación
           "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

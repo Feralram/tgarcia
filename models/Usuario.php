@@ -11,36 +11,51 @@ class Usuario extends Connect {
 
     // Método para validar el inicio de sesión
     public function validarInicioSesion($usu, $psw) {
-        $usu = $this->conexion->real_escape_string($usu); // Evita SQL Injection
-        $psw = $this->conexion->real_escape_string($psw); // Evita SQL Injection
-
+        // Evitar inyecciones SQL
+        $usu = $this->conexion->real_escape_string($usu);
+        $psw = $this->conexion->real_escape_string($psw);
+    
+        // Consulta para verificar el usuario
         $query = "SELECT usuario.Nombre, usuario.ApellidoP, usuario.ApellidoM, usuario.Usu_id, usuario.Puesto_id, puestos.Nombre as Puesto
-        FROM usuario 
-        INNER JOIN puestos 
-        ON usuario.Puesto_id = puestos.Puesto_id
-        WHERE Usuario = '$usu' 
-        AND psw = '$psw' 
-        ";
-
+                  FROM usuario 
+                  INNER JOIN puestos 
+                  ON usuario.Puesto_id = puestos.Puesto_id
+                  WHERE Usuario = '$usu' 
+                  AND psw = '$psw'";
+    
         $resultado = $this->conexion->query($query);
-
+    
         if ($resultado->num_rows > 0) {
+            // Obtener los datos del usuario
             $fila = $resultado->fetch_assoc();
-
-            $this->almacenarDatosEnSesion($fila);
-            // $this->validarAccesoDocumentos($fila['Id']);
-            // Usuario válido
+    
+            // Iniciar la sesión si no está iniciada
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+    
+            // Concatenar nombre completo
+            $nombreCompleto = $fila['Nombre'] . ' ' . $fila['ApellidoP'] . ' ' . $fila['ApellidoM'];
+    
+            // Almacenar los datos del usuario en variables de sesión
+            $_SESSION['usuario_id'] = $fila['Usu_id'];
+            $_SESSION['nombre_completo'] = $nombreCompleto;  // Guardar el nombre completo en la sesión
+            $_SESSION['puesto_id'] = $fila['Puesto_id'];
+            $_SESSION['puesto'] = $fila['Puesto'];
+    
+            // Retornar datos de éxito
             return [
                 'success' => true,
                 'data' => $fila['Puesto_id']
             ];
         } else {
-            // Usuario inválido
+            // Retornar fallo en caso de credenciales inválidas
             return [
                 'success' => false               
             ];
         }
     }
+    
 
     private function almacenarDatosEnSesion($fila) {
         $ncompleto = $fila['Nombre'].' '.$fila['ApellidoP'].' '.$fila['ApellidoM'];
@@ -199,7 +214,7 @@ class Usuario extends Connect {
     public function obtenerServicios($fechaInicio = null, $fechaFin = null) {
         $fechaCondicion = "";
         if ($fechaInicio && $fechaFin) {
-            $fechaCondicion = "AND servicios.fecha_creacion >= '" . $this->conexion->real_escape_string($fechaInicio) . "' AND servicios.fecha_creacion <= '" . $this->conexion->real_escape_string($fechaFin) . "'";
+            $fechaCondicion = "AND servicios.fecha_recoleccion >= '" . $this->conexion->real_escape_string($fechaInicio) . "' AND servicios.fecha_ingreso<= '" . $this->conexion->real_escape_string($fechaFin) . "'";
         }
         
     
@@ -227,7 +242,7 @@ class Usuario extends Connect {
     public function obtenerServiciosXcf($fechaInicio = null, $fechaFin = null) {
         $fechaCondicion = "";
         if ($fechaInicio && $fechaFin) {
-            $fechaCondicion = "AND servicios.fecha_creacion BETWEEN '" . $this->conexion->real_escape_string($fechaInicio) . "' AND '" . $this->conexion->real_escape_string($fechaFin) . "'";
+            $fechaCondicion = "AND servicios.fecha_ingreso >= '" . $this->conexion->real_escape_string($fechaInicio) . "' AND servicios.fecha_ingreso<= '" . $this->conexion->real_escape_string($fechaFin) . "'";
         }
     
         $query = "SELECT servicios.*,COALESCE(SUM(facturas.precio_final), 0) AS total_facturas,clientes.cliente,unidades.Placas,unidades.eco,operadores.Nombre_completo
@@ -518,7 +533,7 @@ class Usuario extends Connect {
         $num_bultos = $this->conexion->real_escape_string($datos['num_bultos']);
         $km_adicionales = $this->conexion->real_escape_string($datos['km_adicionales']);
         $comentarios = $this->conexion->real_escape_string($datos['comentarios']);
-        $usuario_registro = $_SESSION['NombreUsu'];
+        $usuario_registro = $_SESSION['nombre_completo'];
 
         $id = $this->contarCotizaciones();
         $id_especifico = 'C-'.$id;
@@ -833,17 +848,18 @@ class Usuario extends Connect {
         }
     }
 
-    public function updateFactura($id, $complemento, $fecha_pago) {
+    public function updateFactura($id, $complemento, $fecha_pago,$referencia) {
 
         // Escapar los valores
         $complemento = $this->conexion->real_escape_string($complemento);
         $fecha_pago = $this->conexion->real_escape_string($fecha_pago);
+        $referencia = $this->conexion->real_escape_string($referencia);
 
         // Actualizar la cotización
-        $query = "UPDATE facturas SET complemento='$complemento', fecha_pago='$fecha_pago' WHERE id_factura='$id'";
+        $query = "UPDATE facturas SET complemento='$complemento', fecha_pago='$fecha_pago', referencia='$referencia' WHERE id_factura='$id'";
 
         if ($this->conexion->query($query)) {
-            return ['success' => true, 'message' => 'Servicio actualizado correctamente'];
+            return ['success' => true, 'message' => 'Factura actualizado correctamente'];
         } else {
             return ['success' => false, 'message' => 'Error al actualizar el servicio'];
         }

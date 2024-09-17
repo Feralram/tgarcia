@@ -43,6 +43,7 @@ function updateFactura (){
     // Obtener los valores del formulario
     const complemento = document.getElementById('complemento').value;
     const fecha_pago = document.getElementById('fecha_pago').value;
+    const referencia = document.getElementById('referencia').value;
     const id = document.getElementById('id').value;
 
 
@@ -51,6 +52,7 @@ function updateFactura (){
         accion: 'updateFactura',
         complemento: complemento,
         fecha_pago: fecha_pago,
+        referencia: referencia,
         id: id
     };
 

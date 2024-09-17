@@ -228,6 +228,7 @@ $cotizaciones = $usuario->obtenerCotizacionesAdicionales();
   $(document).ready(function() {
       $('#tablaGenerales').DataTable({
           "language": {
+              "ordering": false, // Desactiva la ordenación
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
               "sZeroRecords":    "No se encontraron resultados",

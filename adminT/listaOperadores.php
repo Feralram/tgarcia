@@ -294,6 +294,7 @@ $operadores = $usuario->obtenerOperadores();
   $(document).ready(function() {
       $('#tablaUnidades').DataTable({
           "language": {
+              "ordering": false, // Desactiva la ordenación
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
               "sZeroRecords":    "No se encontraron resultados",
@@ -324,6 +325,7 @@ $operadores = $usuario->obtenerOperadores();
 $(document).ready(function() {
     $('#tablaOperadores').DataTable({
         "language": {
+            "ordering": false, // Desactiva la ordenación
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
             "sZeroRecords":    "No se encontraron resultados",

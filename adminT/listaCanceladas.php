@@ -266,6 +266,7 @@ $facturas = $usuario->obtenerFacturasEliminadas();
   $(document).ready(function() {
       $('#tablaGenerales').DataTable({
           "language": {
+              "ordering": false, // Desactiva la ordenación
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
               "sZeroRecords":    "No se encontraron resultados",
@@ -296,6 +297,7 @@ $facturas = $usuario->obtenerFacturasEliminadas();
   $(document).ready(function() {
       $('#tablaXcf').DataTable({
           "language": {
+              "ordering": false, // Desactiva la ordenación
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",
               "sZeroRecords":    "No se encontraron resultados",
