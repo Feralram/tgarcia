@@ -517,9 +517,6 @@ class Usuario extends Connect {
     }
 
     public function insertarCotizacion($datos) {
-
-        // Iniciar la sesión para asegurarse de que las variables de sesión estén disponibles
-        session_start();
         
         $cliente = $this->conexion->real_escape_string($datos['cliente']);
         $tarifario = $this->conexion->real_escape_string($datos['tarifario']);

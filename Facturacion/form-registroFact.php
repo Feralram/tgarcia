@@ -1,6 +1,7 @@
 <?php
-include_once ('../models/Usuario.php');
 session_start();
+include_once('../models/Usuario.php');
+require '../models/middleware.php';
 
 $usuario = new Usuario();
 

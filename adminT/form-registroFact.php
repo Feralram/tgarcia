@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once('../models/Usuario.php');
+require '../models/middleware.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">

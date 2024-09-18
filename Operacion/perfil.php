@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+require '../models/middleware.php';
 include_once('../models/Usuario.php');
 
 // Crear una instancia del objeto Usuario

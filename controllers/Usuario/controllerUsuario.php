@@ -1,8 +1,6 @@
 <?php
-
-include_once('../../models/Usuario.php');
 session_start();
-
+include_once('../../models/Usuario.php');
 // $accion = $_POST['accion'];
 $request = json_decode(file_get_contents('php://input'), true);
 $usuario = new Usuario();
